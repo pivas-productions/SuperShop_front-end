@@ -1,0 +1,16 @@
+
+.open-hamburger-menu-main:checked ~ .main-nav-items {
+    transform: translateX(0);
+}
+  
+.open-hamburger-menu-main:checked ~ .hamburger-lines .line1 {
+    transform: rotate(45deg);
+}
+  
+.open-hamburger-menu-main:checked ~ .hamburger-lines .line2 {
+    transform: scaleY(0);
+}
+  
+.open-hamburger-menu-main:checked ~ .hamburger-lines .line3 {
+    transform: rotate(-45deg);
+}
