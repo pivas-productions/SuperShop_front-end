@@ -1,5 +1,11 @@
 import React from 'react'
 import Link from 'next/link';
+import { FaFacebook, FaInstagram, FaViber, FaWhatsapp } from 'react-icons/fa';
+import { SlSocialVkontakte } from "react-icons/sl";
+import { RiMastercardFill, RiVisaLine } from "react-icons/ri";
+
+import './footer.css'
+import Image from 'next/image';
 const FooterMain = () => {
     return (
         <footer className='footer w-full border-t-black border-t bg-main-bg-to-white flex flex-col justify-around items-center'>
@@ -47,8 +53,43 @@ const FooterMain = () => {
                     </div>
                 </div>
             </div>
+            <div className="w-screen py-9 border-b-black bg-black border-b flex flex-col md:grid md:grid-cols-12 gap-y-8">
+                <div className="footer_icons flex gap-x-6 py-1 px-8 col-span-8 justify-center md:justify-normal">
+                    <Link href="https://instagram.com/" target="_blank" title="Instagram" rel="noopener noreferrer">
+                        <div className="footer_icon inline-flex w-16 h-16 rounded-full outline-white outline-2 transition-all duration-[0.25s] text-white hover:outline-offset-4">
+                            <FaInstagram className='footer_icon_svg m-auto text-[1.7em]' />
+                        </div>
+                    </Link>
 
+                    <Link href="https://wa.me/" target="_blank" title="Facebook" rel="noopener noreferrer">
+                        <div className="footer_icon inline-flex w-16 h-16 rounded-full outline-white outline-2 transition-all duration-[0.25s] text-white hover:outline-offset-4">
+                            <FaFacebook className='footer_icon_svg m-auto text-[1.7em]' />
+                        </div>
+                    </Link>
 
+                    <Link href="https://msng.link/" target="_blank" title="Viber" rel="noopener noreferrer">
+                        <div className="footer_icon inline-flex w-16 h-16 rounded-full outline-white outline-2 transition-all duration-[0.25s] text-white hover:outline-offset-4">
+                            <FaViber className='footer_icon_svg m-auto text-[1.7em]' />
+                        </div>
+                    </Link>
+                    <Link href="https://wa.me/" target="_blank" title="WhatsApp" rel="noopener noreferrer">
+                        <div className="footer_icon inline-flex w-16 h-16 rounded-full outline-white outline-2 transition-all duration-[0.25s] text-white hover:outline-offset-4">
+                            <FaWhatsapp className='footer_icon_svg m-auto text-[1.7em]' />
+                        </div>
+                    </Link>
+                    <Link href="https://vk.com/" target="_blank" title="Vkontakte" rel="noopener noreferrer">
+                        <div className="footer_icon inline-flex w-16 h-16 rounded-full outline-white outline-2 transition-all duration-[0.25s] text-white hover:outline-offset-4">
+                            <SlSocialVkontakte className='footer_icon_svg m-auto text-[1.7em]' />
+                        </div>
+                    </Link>
+                </div>
+                <div className="footer_icons flex py-1 px-8 col-span-4 text-gray-200">
+                    <RiVisaLine className='footer_icon_svg m-auto w-10 h-10' />
+                    <RiMastercardFill className='footer_icon_svg m-auto w-10 h-10' />
+                    <Image width={'40'} height={'40'} src={'./mir-card.svg'} alt='payment variant MIR' className='footer_icon_svg m-auto w-10 h-10' />
+
+                </div>
+            </div>
         </footer>
     )
 }

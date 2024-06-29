@@ -1,0 +1,114 @@
+.footer_icon:hover .footer_icon_svg{
+    animation: shake 0.25s;
+}
+
+.footer_contact{
+    font-family: 'Montserrat', sans-serif;
+}
+
+@keyframes shake{
+    10%{
+        transform: rotate(15deg);
+    }
+
+    20%{
+        transform: rotate(-15deg);
+    }
+
+    30% {
+        transform: rotate(15deg);
+    }
+
+    40% {
+        transform: rotate(-15deg);
+    }
+}
+
+.footer_icons a:nth-child(1) .footer_icon:hover{
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+    animation: blink_icon1 0.25s forwards;
+}
+
+@keyframes blink_icon1 {
+    0%{
+        background: none;
+    }
+    50%{
+        outline: 4px solid #920967b1;
+
+    }
+    100%{
+        outline: 2px solid #920967b1;
+    }
+}
+.footer_icons a:nth-child(2) .footer_icon:hover{
+    background:linear-gradient(120deg, #3b5998, #FFFFFF);
+    animation: blink_icon2 0.25s forwards;
+}
+
+@keyframes blink_icon2 {
+    0%{
+        background: none;
+    }
+    50%{
+        outline: 4px solid #3b5998;
+
+    }
+    100%{
+        outline: 2px solid #3b5998;
+    }
+}
+
+.footer_icons a:nth-child(3) .footer_icon:hover{
+    background: linear-gradient(120deg, #59267c, #8f5db7, #8A83B3, #e2d4e7);
+    animation: blink_icon3 0.25s forwards;
+}
+
+@keyframes blink_icon3 {
+    0%{
+        background: none;
+    }
+    50%{
+        outline: 4px solid #8f5db7;
+
+    }
+    100%{
+        outline: 2px solid #8f5db7;
+    }
+}
+
+.footer_icons a:nth-child(4) .footer_icon:hover{
+    background: linear-gradient(45deg, #E5FFCC, #1EBEA5, #00E676, #D0E9EA);
+    animation: blink_icon4 0.25s forwards;
+}
+
+@keyframes blink_icon4 {
+    0%{
+        background: none;
+    }
+    50%{
+        outline: 4px solid #1EBEA5;
+
+    }
+    100%{
+        outline: 2px solid #1EBEA5;
+    }
+}
+
+.footer_icons a:nth-child(5) .footer_icon:hover{
+    background: linear-gradient(45deg, #6DC7FFFF, #E6ABFF, #1A6DFF, #C822FF);
+    animation: blink_icon5 0.25s forwards;
+}
+
+@keyframes blink_icon5 {
+    0%{
+        background: none;
+    }
+    50%{
+        outline: 4px solid #0026fc;
+
+    }
+    100%{
+        outline: 2px solid #0026fc;
+    }
+}

@@ -5,7 +5,7 @@ import { Input } from './ui/input';
 import UserButton from './auth/user-button';
 import Link from 'next/link';
 import Image from 'next/image';
-import './vrem.css'
+import './header.css'
 const HeaderMain = () => {
     return (
         <header className='Header z-30 w-full h-16 border-b-fuchsia-800 border-b flex flex-row gap-6 md:gap-0 justify-center md:justify-around items-center'>
