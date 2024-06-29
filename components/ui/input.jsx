@@ -1,9 +1,9 @@
 import * as React from "react";
 import { cva } from "class-variance-authority";
-const InputVariants = cva("rounded-md bg-transparent text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50", {
+const InputVariants = cva("rounded-md text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50", {
     variants: {
         variant: {
-            default: "flex border border-input focus-visible:ring-1 focus-visible:ring-ring",
+            default: "flex border border-input focus-visible:ring-1 focus-visible:ring-ring bg-black/5 ",
             search: "grow shrink basis-0 text-zinc-500 text-base font-normal font-['Inter'] leading-normal border-none",
             destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
             outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",

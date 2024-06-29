@@ -34,8 +34,8 @@ body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
+      rgba(var(--background-end-rgb), 0.2),
+      rgb(var(--background-end-rgb)) 20%
     )
     rgb(var(--background-start-rgb));
   min-height: 100vh;

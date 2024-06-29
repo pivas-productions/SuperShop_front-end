@@ -14,6 +14,12 @@ module.exports = {
         "main-bg-to-white":
           "linear-gradient(to bottom, transparent 2%, rgb(var(--background-end-rgb)) 0%, rgb(255, 255, 255) 99% )"
       },
+      colors: {
+        'button-bg': '#C0392B',
+        'button-text': '#FFFFFF',
+        'text-color-primary': '#000000',
+        'text-color-additation': '#333333',
+      },
     },
   },
   plugins: [],
