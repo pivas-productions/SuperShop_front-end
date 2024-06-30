@@ -8,7 +8,7 @@ import Image from 'next/image';
 import './header.css'
 const HeaderMain = () => {
     return (
-        <header className='Header z-30 w-full h-16 border-b-fuchsia-800 border-b flex flex-row gap-6 md:gap-0 justify-center md:justify-around items-center'>
+        <header className='Header fixed z-30 w-full h-16 border-b-fuchsia-800 border-b flex flex-row gap-6 md:gap-0 justify-center md:justify-around items-center'>
             <div className="Logo w-16 h-16 justify-center items-center inline-flex relative order-2 md:-order-none" >
                 <Image fill className="Logo_shop object-contain" src="/57x55.png" alt='Logo shop' />
             </div>

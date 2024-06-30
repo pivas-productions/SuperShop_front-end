@@ -81,4 +81,12 @@ html,body{
   .text-balance {
     text-wrap: balance;
   }
+  .text-shadow{
+    --text-shadow-color: #000;
+    text-shadow: 1px 1px 1px var(--text-shadow-color);
+  }
+  .text-shadow-2{
+    --text-shadow-color: #000;
+    text-shadow: 2px 2px 2px var(--text-shadow-color);
+  }
 }

@@ -1,19 +1,31 @@
 import Image from "next/image";
-
+import mainPhoto from '@/public/main_page/main_photo.jpg'
+import { FaChevronDown } from "react-icons/fa";
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
 
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
+      <div className="header-photo flex justify-center items-center">
         <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
+          className="relative pointer-events-none "
+          src={mainPhoto}
           alt="Next.js Logo"
-          width={180}
-          height={37}
+          fill
+          sizes="100vw"
+          placeholder="blur"
           priority
         />
+
+        <div className="absolute top-1/2 -translate-y-1/2 py-6  justify-center items-center inline-flex flex-col">
+          <span className="text-shadow-2 text-center text-neutral-300 text-[50px] font-normal font-['Montaga'] leading-[110px] tracking-widest">Welcome to Super Shop</span>
+
+        </div>
+        <div className="arrow-down m-8 absolute bottom-20 ">
+            <FaChevronDown  className="block absolute w-10 h-10 left-1/2 -translate-x-1/2 animate-arrow_down"/>
+            <FaChevronDown  className="block absolute w-10 h-10 left-1/2 -translate-x-1/2 animate-arrow_down animate-delay-[-0.2s]"/>
+            <FaChevronDown  className="block absolute w-10 h-10 left-1/2 -translate-x-1/2 animate-arrow_down animate-delay-[-0.1s]"/>
+        </div>
       </div>
 
 

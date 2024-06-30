@@ -1,3 +1,5 @@
+import plugin from 'tailwindcss/plugin'
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -9,10 +11,8 @@ module.exports = {
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "main-bg-to-white":
-          "linear-gradient(to bottom, transparent 2%, rgb(var(--background-end-rgb)) 0%, rgb(255, 255, 255) 99% )"
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "main-bg-to-white": "linear-gradient(to bottom, transparent 2%, rgb(var(--background-end-rgb)) 0%, rgb(255, 255, 255) 99% )"
       },
       colors: {
         'button-bg': '#C0392B',
@@ -20,7 +20,33 @@ module.exports = {
         'text-color-primary': '#000000',
         'text-color-additation': '#333333',
       },
+      animation: {
+        'arrow_down': 'arrow-down 2s infinite',
+      },
+      keyframes: {
+        'arrow-down': {
+          '0%': {
+            opacity: 0,
+            transform: 'translate(-50%,-20px)'
+          },
+          '50%': { opacity: 1 },
+          '100%': {
+            opacity: 0,
+            transform: 'translate(-50%, 3.75rem)'
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'animate-delay': (value) => ({
+            animationDelay: value,
+          }),
+        },
+        { values: theme('transitionDelay') }
+      )
+    }),],
 };
