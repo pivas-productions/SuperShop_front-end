@@ -4,6 +4,7 @@ import { ImExit } from "react-icons/im";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import LogoutButton from "@/components/auth/logout-button";
 import Link from "next/link";
+// TODO: fix scroll
 const UserButton = () => {
     return (<DropdownMenu>
       <DropdownMenuTrigger className=" hover:shadow-black hover:shadow-inner">

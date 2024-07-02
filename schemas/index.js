@@ -1,31 +1,32 @@
+import validator from "validator";
 import * as z from "zod";
 
 export const NewPasswordSchema = z
     .object({
     password: z.string().min(6, {
-        message: "Пожалуйста, введите новый пароль, содержащий не менее 6 символов",
+        message: "Please enter a new password containing at least 6 characters",
     }),
     passwordConfirmation: z.string().min(6, {
-        message: "Пожалуйста, подтвердите свой пароль, используя не менее 6 символов.",
+        message: "Please confirm your password using at least 6 characters.",
     }),
 })
     .refine((data) => data.password === data.passwordConfirmation, {
-    message: "Пароли не совпадают.",
+    message: "Password mismatch.",
     path: ["passwordConfirmation"],
 });
 export const ResetSchema = z.object({
-    email: z.string().email({
-        message: "Пожалуйста, введите действительный адрес электронной почты.",
+    telNo: z.string().refine((data) => validator.isMobilePhone(data), {
+        message: "Invalid Phone number"
     }),
 });
 
 
 export const LoginSchema = z.object({
-    email: z.string().email({
-        message: "Пожалуйста, введите действительный адрес электронной почты. Поле не должно быть пустым.",
+    telNo: z.string().refine((data) => validator.isMobilePhone(data), {
+        message: "Invalid Phone number"
     }),
     password: z.string().min(1, {
-        message: "Пожалуйста, введите пароль. Поле не должно быть пустым.",
+        message: "Please enter the password.The field should not be empty.",
     }),
     code: z.optional(z.string()),
 });
@@ -34,19 +35,19 @@ export const LoginSchema = z.object({
 export const RegisterSchema = z
     .object({
     name: z.string().min(2, {
-        message: "Имя не должно состоять менее чем из 2 букв.",
+        message: "The name should not consist of less than 2 letters.",
     }),
-    email: z.string().email({
-        message: "Пожалуйста, введите действительный адрес электронной почты.",
+    telNo: z.string().refine((data) => validator.isMobilePhone(data), {
+        message: "Invalid Phone number"
     }),
     password: z.string().min(6, {
-        message: "Пожалуйста, введите пароль, состоящий не менее чем из 6 символов.",
+        message: "Please enter a password consisting of at least 6 characters.",
     }),
     passwordConfirmation: z.string().min(6, {
-        message: "Пожалуйста, подтвердите свой пароль.",
+        message: "Please confirm your password.",
     }),
 })
     .refine((data) => data.password === data.passwordConfirmation, {
-    message: "Пароли не совпадают.",
+    message: "Password mismatch.",
     path: ["passwordConfirmation"],
 });

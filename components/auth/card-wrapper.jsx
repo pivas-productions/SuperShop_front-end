@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import Header from "./headerauth";
 const CardWrapper = ({ children, headerLabel, headerTitle, }) => {
   return (
-    <Card className="w-[800px] h-96 shadow-md">
+    <Card className="w-[800px] h-fit shadow-md">
       <CardHeader>
         <Header title={headerTitle} label={headerLabel} />
       </CardHeader>
