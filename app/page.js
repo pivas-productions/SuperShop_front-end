@@ -1,12 +1,16 @@
 import Image from "next/image";
 import mainPhoto from '@/public/main_page/main_photo.jpg'
 import { FaChevronDown } from "react-icons/fa";
+import { PopularProducts } from "@/components/main_page/popular-products";
+import { MayBeInteresting } from "@/components/main_page/may-be-interesting";
+import { Stocks } from "@/components/main_page/stocks";
+import { NewItems } from "@/components/main_page/new-items";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
 
 
-      <div className="header-photo flex justify-center items-center">
+      <div className="header-photo h-screen flex justify-center items-center">
         <Image
           className="relative pointer-events-none "
           src={mainPhoto}
@@ -27,7 +31,12 @@ export default function Home() {
             <FaChevronDown  className="block absolute w-10 h-10 left-1/2 -translate-x-1/2 animate-arrow_down animate-delay-[-0.1s]"/>
         </div>
       </div>
-
+      <section className="flex flex-col gap-48">
+        <PopularProducts/>
+        <Stocks/>
+        <NewItems/>
+        <MayBeInteresting/>
+      </section>
 
     </main>
   );
