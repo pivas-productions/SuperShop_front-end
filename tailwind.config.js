@@ -19,6 +19,12 @@ module.exports = {
         'button-text': '#FFFFFF',
         'text-color-primary': '#000000',
         'text-color-additation': '#333333',
+        'yellow': {
+          500: '#FFC107', // ваш желтый цвет
+        },
+      },
+      strokeWidth: {
+        20: '20',
       },
       animation: {
         'arrow_down': 'arrow-down 2s infinite',

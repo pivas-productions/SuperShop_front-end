@@ -24,6 +24,7 @@ const NewPasswordForm = () => {
             password: "",
             passwordConfirmation: "",
         },
+        mode: 'onTouched'
     });
     const onSubmit = (values) => {
         startTransition(() => {

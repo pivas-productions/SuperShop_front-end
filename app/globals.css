@@ -90,3 +90,18 @@ html,body{
     text-shadow: 2px 2px 2px var(--text-shadow-color);
   }
 }
+
+
+@keyframes bar-fill {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@layer components {
+  .animate-bar-fill {
+    stroke-dasharray: 410;
+    stroke-dashoffset: 410;
+    animation: bar-fill 8s linear forwards infinite;
+  }
+}

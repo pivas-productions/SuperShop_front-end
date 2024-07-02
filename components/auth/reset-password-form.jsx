@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 // import { reset } from "@/actions/reset";
 import { useRouter } from "next/navigation";
 import NotifyMessage from "../messages/notify-message";
+import Link from "next/link";
 
 const ResetPasswordForm = () => {
     const router = useRouter();
@@ -23,8 +24,9 @@ const ResetPasswordForm = () => {
     const form = useForm({
         resolver: zodResolver(ResetSchema),
         defaultValues: {
-            email: "",
-        }
+            telNo: "",
+        },
+        mode: 'onTouched'
     })
     const onSubmit = (values) => {
         setNotifyMes("");
@@ -50,11 +52,11 @@ const ResetPasswordForm = () => {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-4">
-                        <FormField control={form.control} name="email" render={({ field }) => (
+                        <FormField control={form.control} name="telNo" render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Email</FormLabel>
+                                <FormLabel>Телефонный номер</FormLabel>
                                 <FormControl>
-                                    <Input {...field} disabled={isPending} placeholder="your.email@example.com" type="email"/>
+                                    <Input {...field} disabled={isPending} placeholder="+79000000000" type="tel"/>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -65,8 +67,8 @@ const ResetPasswordForm = () => {
                     <Button disabled={isPending} type="submit" className="w-full hover:bg-sky-400">
                         Send a letter to reset the password
                     </Button>
-                    <Button href={"/auth/login"} disabled={isPending} type="button" variant="link" className="w-full">
-                        Return to authorization
+                    <Button variant="link" asChild className="px-0 text-muted-foreground">
+                        <Link href="/auth/login">Return to authorization</Link>
                     </Button>
                 </form>
             </Form>
