@@ -5,7 +5,9 @@ import { PopularProducts } from "@/components/main_page/popular-products";
 import { MayBeInteresting } from "@/components/main_page/may-be-interesting";
 import { Stocks } from "@/components/main_page/stocks";
 import { NewItems } from "@/components/main_page/new-items";
-export default function Home() {
+export default async function Home() {
+  const items = await fetch('http://localhost:8000/api/items?format=json', {cache: "no-store"});
+  const items_data = await items.json();
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
 
@@ -32,10 +34,10 @@ export default function Home() {
         </div>
       </div>
       <section className="flex flex-col gap-48">
-        <PopularProducts/>
-        <Stocks/>
-        <NewItems/>
-        <MayBeInteresting/>
+        <PopularProducts items={items_data}/>
+        <Stocks items={items_data}/>
+        <NewItems items={items_data}/>
+        <MayBeInteresting items={items_data}/>
       </section>
 
     </main>
