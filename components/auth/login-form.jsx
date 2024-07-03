@@ -39,7 +39,7 @@ import NotifyMessage from "../messages/notify-message";
 // import { login } from "@/actions/login";
 
 
-const LoginForm = () => {
+const LoginForm = ({fetch_route}) => {
     const searchParams = useSearchParams()
     const callbackUrl = searchParams.get("callbackUrl");
     const [notifyMes, setNotifyMes] = useState("");
@@ -57,24 +57,40 @@ const LoginForm = () => {
     const onSubmit = (values) => {
         startTransition(() => {
             try {
-                // login(values, callbackUrl).then((data) => {
-                //     if(data?.error){
-                //         form.reset();
-                //         setNotifyMes(data.error);
-                //         setStateNotify('error');
-                //     }
-                //     if(data?.success){
-                //         form.reset();
-                //         setNotifyMes(data.success);
-                //         setStateNotify('success');
-                // });
+                let response = fetch(`${fetch_route}/api/login`, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        ...values,
+                        callbackUrl: callbackUrl
+                    }),
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+                response.then((res) => {
+                    if (res) {
+                        res.json().then((data) => {
+                            if (data?.error) {
+                                form.reset();
+                                setNotifyMes(data.error);
+                                setStateNotify('error');
+                            }
+                            if (data?.success) {
+                                form.reset();
+                                setNotifyMes(data.success);
+                                setStateNotify('success');
+                            }
+                        })
+                    }
+                })
             }
             catch (err) {
-                setError(`Что-то пошло не так! Ошибка: ${err}`);
+                setNotifyMes(`Что-то пошло не так! Ошибка: ${err}`);
+                setStateNotify('error');
             }
             finally {
-                setSuccess("");
-                setError("");
+                setNotifyMes("");
+                setStateNotify("");
             }
         });
     };

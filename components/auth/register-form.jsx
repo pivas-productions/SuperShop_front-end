@@ -19,7 +19,7 @@ import NotifyMessage from "../messages/notify-message";
 // import { register } from "@/actions/register";
 import { useRouter } from "next/navigation";
 
-const RegisterForm = () => {
+const RegisterForm = ({fetch_route}) => {
     const router = useRouter()
     const isClient = useIsClient();
     const [notifyMes, setNotifyMes] = useState("");
@@ -40,14 +40,16 @@ const RegisterForm = () => {
     });
 
     const onSubmit = (values) => {
+        console.log(fetch_route,fetch_route);
         startTransition(() => {
-            let response = fetch('http://localhost:8000/register', {
+            let response = fetch(`${fetch_route}/api/register`, {
                 method: "POST",
                 body: JSON.stringify(values),
                 headers: {
                     'Content-type': 'application/json'
                 }
             })
+            console.log('response',response)
             response.then((res) => {
                 if (res) {
                     res.json().then((data) => {
