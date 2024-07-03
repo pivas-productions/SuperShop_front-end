@@ -41,22 +41,33 @@ const RegisterForm = () => {
 
     const onSubmit = (values) => {
         startTransition(() => {
-            // register(values).then((data) => {
-            //     //     if(data?.error){
-            //     //         form.reset();
-            //     //         setNotifyMes(data.error);
-            //     //         setStateNotify('error');
-            //     //     }
-            //     //     if(data?.success){
-            //     //         form.reset();
-            //     //         setNotifyMes(data.success);
-            //     //         setStateNotify('success');
-            //     // });
-            // });
+            let response = fetch('http://localhost:8000/register', {
+                method: "POST",
+                body: JSON.stringify(values),
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            response.then((res) => {
+                if (res) {
+                    res.json().then((data) => {
+                        if (data?.error) {
+                            form.reset();
+                            setNotifyMes(data.error);
+                            setStateNotify('error');
+                        }
+                        if (data?.success) {
+                            form.reset();
+                            setNotifyMes(data.success);
+                            setStateNotify('success');
+                        }
+                    })
+                }
+            })
         });
         form.reset();
-        setSuccess("");
-        setError("");
+        setNotifyMes('');
+        setStateNotify('');
     };
     if (!isClient)
         return <Loading />;
@@ -83,11 +94,11 @@ const RegisterForm = () => {
                             <FormItem>
                                 <FormLabel>Телефонный номер</FormLabel>
                                 <FormControl>
-                                    <Input {...field} disabled={isPending} placeholder="+79000000000" type="tel"/>
+                                    <Input {...field} disabled={isPending} placeholder="+79000000000" type="tel" />
                                 </FormControl>
-                                <FormMessage/>
+                                <FormMessage />
                             </FormItem>
-                        )}/>
+                        )} />
 
                         <FormField control={form.control} name="password" render={({ field }) => (
                             <FormItem>
