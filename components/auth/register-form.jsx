@@ -19,7 +19,7 @@ import NotifyMessage from "../messages/notify-message";
 // import { register } from "@/actions/register";
 import { useRouter } from "next/navigation";
 
-const RegisterForm = () => {
+const RegisterForm = ({fetch_route}) => {
     const router = useRouter()
     const isClient = useIsClient();
     const [notifyMes, setNotifyMes] = useState("");
@@ -40,23 +40,36 @@ const RegisterForm = () => {
     });
 
     const onSubmit = (values) => {
+        console.log(fetch_route,fetch_route);
         startTransition(() => {
-            // register(values).then((data) => {
-            //     //     if(data?.error){
-            //     //         form.reset();
-            //     //         setNotifyMes(data.error);
-            //     //         setStateNotify('error');
-            //     //     }
-            //     //     if(data?.success){
-            //     //         form.reset();
-            //     //         setNotifyMes(data.success);
-            //     //         setStateNotify('success');
-            //     // });
-            // });
+            let response = fetch(`${fetch_route}/api/register`, {
+                method: "POST",
+                body: JSON.stringify(values),
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            console.log('response',response)
+            response.then((res) => {
+                if (res) {
+                    res.json().then((data) => {
+                        if (data?.error) {
+                            form.reset();
+                            setNotifyMes(data.error);
+                            setStateNotify('error');
+                        }
+                        if (data?.success) {
+                            form.reset();
+                            setNotifyMes(data.success);
+                            setStateNotify('success');
+                        }
+                    })
+                }
+            })
         });
         form.reset();
-        setSuccess("");
-        setError("");
+        setNotifyMes('');
+        setStateNotify('');
     };
     if (!isClient)
         return <Loading />;
@@ -83,11 +96,11 @@ const RegisterForm = () => {
                             <FormItem>
                                 <FormLabel>Телефонный номер</FormLabel>
                                 <FormControl>
-                                    <Input {...field} disabled={isPending} placeholder="+79000000000" type="tel"/>
+                                    <Input {...field} disabled={isPending} placeholder="+79000000000" type="tel" />
                                 </FormControl>
-                                <FormMessage/>
+                                <FormMessage />
                             </FormItem>
-                        )}/>
+                        )} />
 
                         <FormField control={form.control} name="password" render={({ field }) => (
                             <FormItem>
