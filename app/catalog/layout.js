@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import Loading from '@/components/Loading';
 import SidebarCatalog from '@/components/catalog/sidebar-catalog';
 import { HeaderCatalog } from '@/components/catalog/header-catalog';
+import ToolbarCatalog from '@/components/catalog/toolbar-catalog';
 export default async function CatalogPage({
     children, // will be a page or nested layout
 }) {
@@ -11,6 +12,7 @@ export default async function CatalogPage({
                 <Suspense fallback={<Loading />}>
                     <HeaderCatalog className='w-full min-h-96' />
                 </Suspense>
+                <ToolbarCatalog />
                 <section className="catalog_main col-span-full grid grid-cols-12 mt-4 py-2 px-10">
                     <Suspense fallback={<Loading />}>
                         <SidebarCatalog className='col-span-2'/>
