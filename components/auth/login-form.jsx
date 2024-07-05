@@ -55,37 +55,36 @@ const LoginForm = ({fetch_route}) => {
         mode: 'onTouched',
     });
     const onSubmit = (values) => {
-        startTransition(() => {
+        startTransition(async () => {
             try {
-                let response = fetch(`${fetch_route}/api/login`, {
+                let response = await fetch(`http://localhost:8000/api/register/`, {
                     method: "POST",
-                    body: JSON.stringify({
-                        ...values,
-                        callbackUrl: callbackUrl
-                    }),
+                    body: JSON.stringify(values),
                     headers: {
                         'Content-type': 'application/json'
                     }
                 })
-                response.then((res) => {
-                    if (res) {
-                        res.json().then((data) => {
-                            if (data?.error) {
-                                form.reset();
-                                setNotifyMes(data.error);
-                                setStateNotify('error');
-                            }
-                            if (data?.success) {
-                                form.reset();
-                                setNotifyMes(data.success);
-                                setStateNotify('success');
-                            }
-                        })
-                    }
-                })
-            }
-            catch (err) {
-                setNotifyMes(`Что-то пошло не так! Ошибка: ${err}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                console.log('response',response)
+                const data = await response.json();
+                console.log('response.data', data)
+                if (data?.error) {
+                    form.reset();
+                    setNotifyMes(data.message);
+                    setStateNotify('error');
+                }
+                if (data?.success) {
+                    form.reset();
+                    setNotifyMes(data.message);
+                    setStateNotify('success');
+                }
+            }catch (error){
+                console.error('Error:', error);
+                // Обработка ошибки
+                // Например, отображение уведомления об ошибке
+                setNotifyMes('Registration failed! Error on server');
                 setStateNotify('error');
             }
             finally {

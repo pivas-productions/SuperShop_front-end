@@ -54,7 +54,7 @@ const styleSelect = {
         position: 'absolute',
         width: '100%',
         zIndex: '1',
-        backgroundColor: 'rgba(0, 0, 0, 60%)',
+        backgroundColor: 'rgba(255, 255, 255, 60%)',
         borderRadius: '4px',
         boxShadow: '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)',
         marginBottom: '8px',
@@ -95,7 +95,7 @@ const Select = React.forwardRef(({ items, disabled, className,variant, size, typ
                   ...theme.colors,
                   primary25: 'gray', // то на что навели в select 
                   primary: 'black',  // то что выбрали в select
-                  neutral80: 'white' // текст и наведение 
+                  neutral80: 'black' // текст и наведение 
                 //   primary50: 'red' // то на что нажали
                 //   neutral0: 'pink' // выбранный в select
                 //   neutral50: 'red' // placeholder
