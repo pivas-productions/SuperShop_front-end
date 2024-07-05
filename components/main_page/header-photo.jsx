@@ -7,7 +7,7 @@ const HeaderPhoto = () => {
   return (
     <div className="header-photo h-screen flex justify-center items-center">
         <Image
-          className="relative pointer-events-none "
+          className="relative pointer-events-none object-cover"
           src={mainPhoto}
           alt="Next.js Logo"
           fill
