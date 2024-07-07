@@ -2,7 +2,10 @@ import { Suspense } from 'react'
 import Loading from '@/components/Loading';
 import SidebarCatalog from '@/components/catalog/sidebar-catalog';
 import { HeaderCatalog } from '@/components/catalog/header-catalog';
-import ToolbarCatalog from '@/components/catalog/toolbar-catalog';
+// import ToolbarCatalog from '@/components/catalog/toolbar-catalog';
+import dynamic from 'next/dynamic';
+
+const ToolbarCatalog = dynamic(() => import('@/components/catalog/toolbar-catalog'), { ssr: false });
 export default async function CatalogPage({
     children, // will be a page or nested layout
 }) {

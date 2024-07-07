@@ -15,7 +15,6 @@ const sorting_type = [
 ]
 
 const ToolbarCatalog = () => {
-    const [expressDelivery, setExpressDelivery] = useState(false);
     const [catalogView, setCatalogView] = useState('list');
     const [filtersView, setFiltersView] = useState(false);
     const [isPending, startTransition] = useTransition();
@@ -47,7 +46,7 @@ const ToolbarCatalog = () => {
         // Автоматически отправляем форму при изменении любого поля
         console.log(watchedFields)
         if(watchedFields){
-        form.handleSubmit(onSubmit);
+            form.handleSubmit(onSubmit);
         }
     }, [watchedFields, form]);
 
@@ -92,8 +91,6 @@ const ToolbarCatalog = () => {
                                                     {...field}
                                                     value={field.value}
                                                     disabled={isPending}
-                                                    checked={expressDelivery}
-                                                    onChange={() => setExpressDelivery(!expressDelivery)}
                                                     className="toggle-checkbox appearance-none w-10 bg-gray-400/20 rounded-full h-6 after:border-black after:rounded-full relative after:border-2 after:h-6 after:w-6 after:block outline-none cursor-pointer transition-all after:transition-all checked:after:border-8 checked:after:translate-x-5"
                                                 />
                                             </FormControl>
