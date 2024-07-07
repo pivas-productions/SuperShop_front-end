@@ -30,7 +30,7 @@ ProductCard.displayName = "ProductCard";
 
 const ProductCardPhoto = React.forwardRef(({ className, src, ...props }, ref) => {
     return (
-        <div className={"CardPhoto relative w-full h-4/5 " + className} ref={ref} {...props}>
+        <div className={"CardPhoto relative w-full h-4/5 " + (className ? className : "")} ref={ref} {...props}>
             <Image fill className="Image w-96 h-96 rounded-lg" src={src} alt='' />
         </div>
     );
@@ -39,7 +39,7 @@ ProductCardPhoto.displayName = "ProductCardPhoto";
 
 const ProductCardContent = React.forwardRef(({ className, item, ...props }, ref) => {
     return (
-        <div className={"Copy self-stretch h-24 flex-col justify-center items-start gap-1 flex p-2" + className} ref={ref} {...props}>
+        <div className={"Copy self-stretch h-24 flex-col justify-center items-start gap-1 flex p-2" + (className ? className : "")} ref={ref} {...props}>
             <div className="FeaturedProduct self-stretch  text-black text-xl font-medium font-['Inter'] leading-loose">{item.name}</div>
             <div className="DescriptionOfFeaturedProduct self-stretch text-black text-xl font-medium font-['Inter'] leading-loose">{item.description}</div>
             <div className="XxYy self-stretch text-black text-xl font-medium font-['Inter'] leading-loose">${item.price}</div>
