@@ -1,7 +1,6 @@
 import React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Cross1Icon } from '@radix-ui/react-icons';
-
+import { RxCross1 } from "react-icons/rx";
 const Dialog = DialogPrimitive.Root;
 
 const DialogTrigger = DialogPrimitive.Trigger;
@@ -43,7 +42,7 @@ DialogDescription.displayName = "DialogDescription"
 const DialogClose = React.forwardRef(
     ({ children, ...props }, forwardedRef) => (
         <DialogPrimitive.Close aria-label="Close" {...props} ref={forwardedRef}>
-            <Cross1Icon />
+            <RxCross1 />
         </DialogPrimitive.Close>
     )
 );

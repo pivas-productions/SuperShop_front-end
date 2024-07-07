@@ -28,6 +28,7 @@ module.exports = {
       },
       animation: {
         'arrow_down': 'arrow-down 2s infinite',
+        'filters-show': 'filters-show 5s easy-in-out'
       },
       keyframes: {
         'arrow-down': {
@@ -41,6 +42,16 @@ module.exports = {
             transform: 'translate(-50%, 3.75rem)'
           },
         },
+        'filters-show': {
+          '0%': {
+            // left: '-50rem',
+            transform: 'translateX(-150%)'
+          },
+          '100%': {
+            // opacity: 0,
+            transform: 'translateX(0)'
+          },
+        }
       },
     },
   },
@@ -54,5 +65,17 @@ module.exports = {
         },
         { values: theme('transitionDelay') }
       )
-    }),],
+    }),
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'animate-duration': (value) => ({
+            animationDuration: value,
+          }),
+        },
+        { values: theme('transitionDuration') }
+      )
+    }),
+  ],
+    
 };

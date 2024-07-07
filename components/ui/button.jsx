@@ -17,6 +17,7 @@ const buttonVariants = cva("inline-flex items-center justify-center whitespace-n
             sm: "h-8 rounded-md px-3 text-xs",
             xss: "h-6 rounded-md px-1 text-xs",
             lg: "h-10 rounded-md px-8",
+            xl: "h-16 rounded-md px-10",
             icon: "h-9 w-9",
         },
     },

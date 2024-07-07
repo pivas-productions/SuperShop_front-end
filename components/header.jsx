@@ -8,7 +8,7 @@ import Image from 'next/image';
 import './header.css'
 const HeaderMain = () => {
     return (
-        <header className='Header fixed z-30 w-full h-16 border-b-fuchsia-800 border-b flex flex-row gap-6 md:gap-0 justify-center md:justify-around items-center'>
+        <header className='Header fixed z-10 w-full h-16 border-b-fuchsia-800 border-b flex flex-row gap-6 md:gap-0 justify-center md:justify-around items-center'>
             <div className="Logo w-16 h-16 justify-center items-center inline-flex relative order-2 md:-order-none" >
                 <Image fill className="Logo_shop object-contain" src="/57x55.png" alt='Logo shop' />
             </div>
@@ -20,25 +20,25 @@ const HeaderMain = () => {
                     <span className="line block h-[4px] w-full bg-gray-900 rounded line3 duration-400 ease-in-out transition-transform origin-bottom-left"></span>
                 </div>
                 <nav className="main-nav-items peer-checked/main-menu-check:translate-x-0 menu-items w-72 rounded-r-xl pt-20 duration-500 ease-in-out transition-transform pl-6 -ml-10 flex flex-col -translate-x-full shadow-inner h-screen z-40 text-white text-5xl font-normal font-['Jaldi'] leading-10 text-center bg-black/20">
-                    <Link href={""} className="MainBut p-4 hover:pr-2 hover:font-semibold hover:bg-black/10">
+                    <Link href={"/"} className="MainBut p-4 hover:pr-2 hover:font-semibold hover:bg-black/10">
                         Main
                     </Link>
-                    <Link href={""} className="CatalogBut p-4 hover:pr-2 hover:font-semibold hover:bg-black/10">
+                    <Link href={"/catalog"} className="CatalogBut p-4 hover:pr-2 hover:font-semibold hover:bg-black/10">
                         Catalog
                     </Link>
-                    <Link href={""} className="AdditationBut p-4 hover:pr-2 hover:font-semibold hover:bg-black/10">
+                    <Link href={"/additation"} className="AdditationBut p-4 hover:pr-2 hover:font-semibold hover:bg-black/10">
                         Additation
                     </Link>
                 </nav>
             </div>
             <nav className="Nav hidden md:inline-flex h-16 justify-center items-start self-start">
-                <Link href={""} className="MainBut grow shrink basis-0 self-stretch py-0.5 justify-center items-center inline-flex hover:pr-2 hover:bg-black/10">
+                <Link href={"/"} className="MainBut grow shrink basis-0 self-stretch py-0.5 justify-center items-center inline-flex hover:pr-2 hover:bg-black/10">
                     <div className="Main w-64 text-center text-white text-5xl font-normal font-['Jaldi'] leading-10">Main</div>
                 </Link>
-                <Link href={""} className="CatalogBut grow shrink basis-0 self-stretch py-0.5 justify-center items-center inline-flex hover:pr-2 hover:bg-black/10">
+                <Link href={"/catalog"} className="CatalogBut grow shrink basis-0 self-stretch py-0.5 justify-center items-center inline-flex hover:pr-2 hover:bg-black/10">
                     <div className="Catalog w-64 text-center text-white text-5xl font-normal font-['Jaldi'] leading-10">Catalog</div>
                 </Link>
-                <Link href={""} className="AdditationBut grow shrink basis-0 self-stretch py-0.5 justify-center items-center inline-flex hover:pr-2 hover:bg-black/10">
+                <Link href={"/additation"} className="AdditationBut grow shrink basis-0 self-stretch py-0.5 justify-center items-center inline-flex hover:pr-2 hover:bg-black/10">
                     <div className="Additation w-64 text-center text-white text-5xl font-normal font-['Jaldi'] leading-10">Additation</div>
                 </Link>
             </nav>
