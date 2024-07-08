@@ -28,7 +28,7 @@ module.exports = {
       },
       animation: {
         'arrow_down': 'arrow-down 2s infinite',
-        'filters-show': 'filters-show 5s easy-in-out'
+        'filters-show': 'filters-show 2s easy-in-out',
       },
       keyframes: {
         'arrow-down': {

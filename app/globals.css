@@ -44,6 +44,7 @@ body {
 }
 html,body{
   font-size: 8px;
+  -webkit-font-smoothing: antialiased;
 
 }
 @media (min-width: 640px) { 

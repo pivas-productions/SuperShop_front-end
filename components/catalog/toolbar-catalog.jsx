@@ -6,6 +6,7 @@ import { Select } from '../ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import FiltersBar from './filters-bar';
+import { usePathname } from 'next/navigation';
 
 const sorting_type = [
     { value: 'by-popularity', label: 'By popularity' },
@@ -14,11 +15,30 @@ const sorting_type = [
     { value: 'in-desc-prices', label: 'In descending prices' }
 ]
 
-const ToolbarCatalog = () => {
+const ToolbarCatalog = ({route}) => {
+    const [countProducts, setCountProducts] = useState(null);
+    const pathname = usePathname()
+
     const [catalogView, setCatalogView] = useState('list');
     const [filtersView, setFiltersView] = useState(false);
     const [isPending, startTransition] = useTransition();
     const FiltersButton = useRef(null)
+
+    useEffect(() => {
+        if (pathname.replace('/catalog/', '')) {
+            // Выполнение запроса fetch на основе выбранной категории
+            fetch(`${route}/api/categories/${pathname.replace('/catalog/', '')}/items?format=json`)
+                .then(response => response.json())
+                .then(data => {
+                    setCountProducts(data.count)
+                })
+                .catch(error => {
+                    console.error('Error fetching catalog data:', error);
+                });
+        }
+    }, [pathname, route]);
+
+
     const defValue = {
         sorting_type: sorting_type.find((item) => item.value === 'by-popularity'),
         express_delivery: false
@@ -79,7 +99,7 @@ const ToolbarCatalog = () => {
                                     {/* Add dropdown for sorting options here */}
                                 </div>
                             </div>
-                            <span className="text-gray-700">12 478 продуктов</span>
+                            <span className="text-gray-700">{countProducts} продуктов</span>
                             <div className="flex items-center space-x-4">
 
                                     <FormField control={form.control} name="express_delivery" render={({ field }) => (
