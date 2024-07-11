@@ -10,7 +10,7 @@ const HeaderMain = () => {
     return (
         <header className='Header fixed z-10 w-full h-16 border-b-fuchsia-800 border-b flex flex-row gap-6 md:gap-0 justify-center md:justify-around items-center'>
             <div className="Logo w-16 h-16 justify-center items-center inline-flex relative order-2 md:-order-none" >
-                <Image fill className="Logo_shop object-contain" src="/57x55.png" alt='Logo shop' />
+                <Image fill className="Logo_shop object-contain" src="/57x55.png" sizes='(max-width: 768px) 100%, (max-width: 1200px) 50%, 50%' alt='Logo shop' />
             </div>
             <div className="nav-container md:hidden relative block w-16 mr-auto h-[60px]">
                 <input className="open-hamburger-menu-main absolute block h-[32px] w-[32px] top-5 left-5 z-[5] opacity-0 cursor-pointer" type="checkbox" name="" id="" />

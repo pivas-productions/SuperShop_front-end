@@ -2,7 +2,6 @@
 
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
 import Loading from '../Loading';
 
 
@@ -10,24 +9,25 @@ const HeaderCatalog = ({ route }) => {
     const [image_src, setImage_src] = useState(null);
     const pathname = usePathname()
     useEffect(() => {
-        if (pathname.replace('/catalog/', '')) {
-            fetch(`${route}/api/categories/${pathname.replace('/catalog/', '')}?format=json`)
+        if (pathname.replace('/catalog', '')) {
+            fetch(`${route}/api/categories${pathname.replace('/catalog', '')}?format=json`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.photo)
                     setImage_src(data.photo)
                 })
                 .catch(error => {
                     console.error('Error fetching catalog data:', error);
                 });
+        }else{
+            setImage_src('/for_all_items.jpg')
         }
     }, [pathname, route]);
     if(!image_src){
         return (
-        <header className={"header-photo flex justify-center items-center relative text-white " + "w-full min-h-96 bg-contain"}>
-            <Loading/>
-        </header>
-    )
+            <header className={"header-photo flex justify-center items-center relative text-white " + "w-full min-h-96 bg-contain"}>
+                <Loading/>
+            </header>
+        )
     }
     return (
         <header className={"header-photo flex justify-center items-center relative text-white " + "w-full min-h-96 bg-origin-content bg-cover bg-center bg-no-repeat"} style={{backgroundImage: `url(${image_src})`}}>
@@ -55,5 +55,4 @@ const HeaderCatalog = ({ route }) => {
         </header>
     );
 };
-// HeaderCatalog.displayName = "HeaderCatalog";
 export default HeaderCatalog;

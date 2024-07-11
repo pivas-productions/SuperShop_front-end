@@ -25,12 +25,12 @@ const ToolbarCatalog = ({route}) => {
     const FiltersButton = useRef(null)
 
     useEffect(() => {
-        if (pathname.replace('/catalog/', '')) {
+        if (pathname.replace('/catalog', '') != '') {
             // Выполнение запроса fetch на основе выбранной категории
-            fetch(`${route}/api/categories/${pathname.replace('/catalog/', '')}/items?format=json`)
+            fetch(`${route}/api/categories${pathname.replace('/catalog', '')}?format=json`)
                 .then(response => response.json())
                 .then(data => {
-                    setCountProducts(data.count)
+                    setCountProducts(data.item_count)
                 })
                 .catch(error => {
                     console.error('Error fetching catalog data:', error);
@@ -99,7 +99,7 @@ const ToolbarCatalog = ({route}) => {
                                     {/* Add dropdown for sorting options here */}
                                 </div>
                             </div>
-                            <span className="text-gray-700">{countProducts} продуктов</span>
+                            {pathname.replace('/catalog', '') != '' && <span className="text-gray-700">{countProducts} продуктов</span>}
                             <div className="flex items-center space-x-4">
 
                                     <FormField control={form.control} name="express_delivery" render={({ field }) => (
