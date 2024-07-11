@@ -22,7 +22,7 @@ const CatalogItemsWrapper = ({ items, catalog_slug, route }) => {
             {data?.pages?.map((item, i) => (
                 // TODO: ProductCard from component
                 <ProductCard key={i} href={`/catalog/${catalog_slug}/${item.id}`} >
-                    <ProductCardPhoto src_main={item?.general_photo_one?.photo?.photo ? route + '/' + item?.general_photo_one?.photo?.photo : '/435x366.png'} src_hover={item?.general_photo_two?.photo?.photo ? route + '/' + item?.general_photo_two?.photo?.photo : '/hover_image.jpg'} />
+                    <ProductCardPhoto src_main={item?.general_photo_one?.photo?.photo ? route + item?.general_photo_one?.photo?.photo : '/435x366.png'} src_hover={item?.general_photo_two?.photo?.photo ? route + item?.general_photo_two?.photo?.photo : '/hover_image.jpg'} />
                     <ProductCardContent item={item} />
                 </ProductCard>
                 // <Link key={i} href={`/catalog/${catalog_slug}/${item.id}`} className="ProductCard first:row-span-2 first:col-span-2 [&:nth-child(10n+1)]:row-span-2 [&:nth-child(10n+1)]:col-span-2 [&:nth-child(10n+8)]:row-span-2 [&:nth-child(10n+8)]:col-span-2 w-full pb-5 min-h-96 bg-white flex-col justify-start items-start gap-6 inline-flex rounded-lg">
