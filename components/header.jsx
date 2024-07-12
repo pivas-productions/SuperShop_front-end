@@ -6,6 +6,7 @@ import UserButton from './auth/user-button';
 import Link from 'next/link';
 import Image from 'next/image';
 import './header.css'
+import { SessionProvider } from '@/hooks/sessionProvider';
 const HeaderMain = () => {
     return (
         <header className='Header fixed z-10 w-full h-16 border-b-fuchsia-800 border-b flex flex-row gap-6 md:gap-0 justify-center md:justify-around items-center'>
@@ -53,7 +54,9 @@ const HeaderMain = () => {
                     <RiShoppingCartLine className='inline-flex md:ml-auto items-center p-2 rounded-full hover:shadow-black hover:shadow-inner w-14 h-14 md:w-10 md:h-10 cursor-pointer' />
                 </div>
                 <div className="AccountBut h-16 justify-center items-center inline-flex">
-                    <UserButton />
+                    <SessionProvider route={process.env.REACT_APP_API_URL_CLIENT}>
+                        <UserButton />
+                    </SessionProvider>
                 </div>
             </div>
 

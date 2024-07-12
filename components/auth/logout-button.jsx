@@ -1,9 +1,13 @@
 "use client";
 // import { logout } from "@/actions/logout";
+import { useSession } from "@/hooks/sessionProvider";
+
 const LogoutButton = ({ children }) => {
+  const { logout } = useSession();
+
     const handleLogout = () => {
-        // logout();
-        console.log('logout')
+      console.log('logout')
+      logout();
     };
     return (<span onClick={handleLogout} className="cursor-pointer">
       {children}

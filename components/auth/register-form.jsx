@@ -3,12 +3,10 @@
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterSchema } from "@/schemas";
 
 import { useIsClient } from "@/hooks/use-is-client";
 import Loading from "../Loading.jsx";
-
-import { RegisterSchema } from "@/schemas";
-
 import CardWrapper from "./card-wrapper"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "../ui/form";
 import { Input } from "../ui/input";
@@ -19,7 +17,7 @@ import NotifyMessage from "../messages/notify-message";
 // import { register } from "@/actions/register";
 import { useRouter } from "next/navigation";
 
-const RegisterForm = ({fetch_route}) => {
+const RegisterForm = ({ fetch_route }) => {
     const router = useRouter()
     const isClient = useIsClient();
     const [notifyMes, setNotifyMes] = useState("");
@@ -28,7 +26,7 @@ const RegisterForm = ({fetch_route}) => {
     const [isPending, startTransition] = useTransition();
 
     const form = useForm({
-        // resolver: zodResolver(RegisterSchema),
+        resolver: zodResolver(RegisterSchema),
         defaultValues: {
             name: "",
             telNo: "+7",
@@ -42,11 +40,11 @@ const RegisterForm = ({fetch_route}) => {
         setNotifyMes('');
         setStateNotify('');
         setSuccess('');
-        console.log(fetch_route,fetch_route);
+        console.log(fetch_route, fetch_route);
         startTransition(async () => {
-            try{
+            try {
                 form.clearErrors()
-                let response = await fetch(`http://localhost:8000/api/register/`, {
+                let response = await fetch(`${fetch_route}/api/register/`, {
                     method: "POST",
                     body: JSON.stringify(values),
                     headers: {
@@ -60,18 +58,12 @@ const RegisterForm = ({fetch_route}) => {
                     // console.log('i`m error')
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                // if (!response.ok) {
-                //     throw new Error(`HTTP error! status: ${response.status}`);
-                // }
-                // console.log('response',response)
-                // const data = await response.json();
-                // console.log('response.data', data)
                 if (data?.error) {
                     // form.reset();
                     console.log(data?.message)
                     Object.entries(data?.message)?.map(([key, value]) => {
                         console.log(key, 'key', value, 'value')
-                        form.setError(key, {type: 'manual', message: value})
+                        form.setError(key, { type: 'manual', message: value })
 
                     })
                     setNotifyMes('Invalid data! Check data');
@@ -83,7 +75,7 @@ const RegisterForm = ({fetch_route}) => {
                     setStateNotify('success');
                     setSuccess(true)
                 }
-            }catch (error){
+            } catch (error) {
                 // Обработка ошибки
                 setNotifyMes('Registration failed! Error on server');
                 setStateNotify('error');
@@ -100,7 +92,7 @@ const RegisterForm = ({fetch_route}) => {
     if (stateNotify) {
         setTimeout(() => {
             setNotifyMes('');
-            setStateNotify('');1
+            setStateNotify(''); 1
         }, 3000)
     }
     return (
