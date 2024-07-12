@@ -13,9 +13,9 @@ export default async function CatalogPage({
         <>
             <section className='rounded min-h-screen text-center '>
                 <Suspense fallback={<Loading />}>
-                    <HeaderCatalog route={process.env.REACT_APP_API_URL} />
+                    <HeaderCatalog route={process.env.REACT_APP_API_URL_CLIENT} />
                 </Suspense>
-                <ToolbarCatalog route={process.env.REACT_APP_API_URL} />
+                <ToolbarCatalog route={process.env.REACT_APP_API_URL_CLIENT} />
                 <section className="catalog_main col-span-full grid grid-cols-12 mt-4 py-2 px-10">
                     <Suspense fallback={<Loading />}>
                         <SidebarCatalog />

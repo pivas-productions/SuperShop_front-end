@@ -6,8 +6,8 @@ import Link from 'next/link';
 import React from 'react'
 
 const CatalogNamePage = async ({ params }) => {
-  const route = process.env.REACT_APP_API_URL;
-  const items = await getItems({ pageParam: 1, catalog_slug: params.catalog_slug, route: route });
+  const route = process.env.REACT_APP_API_URL_CLIENT;
+  const items = await getItems({ pageParam: 1, catalog_slug: params.catalog_slug, route: process.env.REACT_APP_API_URL });
 
   if (items.length === 0)
     return (

@@ -24,12 +24,11 @@ const RegisterForm = ({fetch_route}) => {
     const isClient = useIsClient();
     const [notifyMes, setNotifyMes] = useState("");
     const [stateNotify, setStateNotify] = useState("");
-    const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [isPending, startTransition] = useTransition();
 
     const form = useForm({
-        resolver: zodResolver(RegisterSchema),
+        // resolver: zodResolver(RegisterSchema),
         defaultValues: {
             name: "",
             telNo: "+7",
@@ -40,60 +39,56 @@ const RegisterForm = ({fetch_route}) => {
     });
 
     const onSubmit = (values) => {
+        setNotifyMes('');
+        setStateNotify('');
+        setSuccess('');
         console.log(fetch_route,fetch_route);
         startTransition(async () => {
             try{
+                form.clearErrors()
                 let response = await fetch(`http://localhost:8000/api/register/`, {
                     method: "POST",
                     body: JSON.stringify(values),
                     headers: {
                         'Content-type': 'application/json'
                     }
-                })
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                console.log('response',response)
+                });
+                // console.log(response.status, response.status == 500)
                 const data = await response.json();
                 console.log('response.data', data)
+                if (response.status === 500) {
+                    // console.log('i`m error')
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                // if (!response.ok) {
+                //     throw new Error(`HTTP error! status: ${response.status}`);
+                // }
+                // console.log('response',response)
+                // const data = await response.json();
+                // console.log('response.data', data)
                 if (data?.error) {
-                    form.reset();
-                    setNotifyMes(data.message);
+                    // form.reset();
+                    console.log(data?.message)
+                    Object.entries(data?.message)?.map(([key, value]) => {
+                        console.log(key, 'key', value, 'value')
+                        form.setError(key, {type: 'manual', message: value})
+
+                    })
+                    setNotifyMes('Invalid data! Check data');
                     setStateNotify('error');
                 }
                 if (data?.success) {
                     form.reset();
-                    setNotifyMes(data.message);
+                    setNotifyMes('Вы зарегистрированы! Переход на страницу авторизации...');
                     setStateNotify('success');
+                    setSuccess(true)
                 }
             }catch (error){
-                console.error('Error:', error);
                 // Обработка ошибки
-                // Например, отображение уведомления об ошибке
                 setNotifyMes('Registration failed! Error on server');
                 setStateNotify('error');
             }
-            
-            // response.then((res) => {
-                // if (res) {
-                //     res.json().then((data) => {
-                //         if (data?.error) {
-                //             form.reset();
-                //             setNotifyMes(data.error);
-                //             setStateNotify('error');
-                //         }
-                //         if (data?.success) {
-                //             form.reset();
-                //             setNotifyMes(data.success);
-                //             setStateNotify('success');
-                //         }
-                //     })
-                // }
-            // })
         });
-        form.reset();
-        setNotifyMes('');
-        setStateNotify('');
     };
     if (!isClient)
         return <Loading />;
@@ -101,6 +96,12 @@ const RegisterForm = ({fetch_route}) => {
         setTimeout(() => {
             router.push('/auth/login')
         }, 1000)
+    }
+    if (stateNotify) {
+        setTimeout(() => {
+            setNotifyMes('');
+            setStateNotify('');1
+        }, 3000)
     }
     return (
         <CardWrapper headerTitle={"Регистрация"} headerLabel={"Зарегистрируйте учетную запись"}>
@@ -111,7 +112,7 @@ const RegisterForm = ({fetch_route}) => {
                             <FormItem>
                                 <FormLabel>Имя</FormLabel>
                                 <FormControl>
-                                    <Input {...field} disabled={isPending} type="text" placeholder="Ваше имя" />
+                                    <Input {...field} disabled={isPending || success} type="text" placeholder="Ваше имя" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -120,7 +121,7 @@ const RegisterForm = ({fetch_route}) => {
                             <FormItem>
                                 <FormLabel>Телефонный номер</FormLabel>
                                 <FormControl>
-                                    <Input {...field} value={field.value} disabled={isPending} maxlength={12} placeholder="+79000000000" type="tel" />
+                                    <Input {...field} value={field.value} disabled={isPending || success} maxLength={12} placeholder="+79000000000" type="tel" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -130,7 +131,7 @@ const RegisterForm = ({fetch_route}) => {
                             <FormItem>
                                 <FormLabel>Пароль</FormLabel>
                                 <FormControl>
-                                    <PasswordInput {...field} disabled={isPending} type="password" placeholder="******" />
+                                    <PasswordInput {...field} disabled={isPending || success} type="password" placeholder="******" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -140,7 +141,7 @@ const RegisterForm = ({fetch_route}) => {
                             <FormItem>
                                 <FormLabel>Подтвердите пароль</FormLabel>
                                 <FormControl>
-                                    <PasswordInput {...field} disabled={isPending} type="password" placeholder="******" />
+                                    <PasswordInput {...field} disabled={isPending || success} type="password" placeholder="******" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -148,7 +149,7 @@ const RegisterForm = ({fetch_route}) => {
                     </div>
                     {notifyMes && <NotifyMessage message={notifyMes} state={stateNotify}></NotifyMessage>}
 
-                    <Button type="submit" disabled={isPending} className="w-full hover:bg-sky-400">
+                    <Button type="submit" disabled={isPending || success} className="w-full hover:bg-sky-400">
                         Регистрация
                     </Button>
                 </form>

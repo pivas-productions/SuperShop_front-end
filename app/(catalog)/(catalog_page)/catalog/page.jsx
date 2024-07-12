@@ -4,9 +4,9 @@ import NoData from '@/components/no-data';
 import React from 'react'
 
 const CatalogMainPage = async () => {
-    const route = process.env.REACT_APP_API_URL;
+    const route = process.env.REACT_APP_API_URL_CLIENT;
 
-    const items = await getItems({ pageParam: 1, catalog_slug: "allitems", route: route });
+    const items = await getItems({ pageParam: 1, catalog_slug: "allitems", route: process.env.REACT_APP_API_URL });
 
     if (items.length === 0)
       return (

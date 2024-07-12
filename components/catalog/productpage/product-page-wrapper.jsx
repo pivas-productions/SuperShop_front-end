@@ -8,12 +8,14 @@ import { AccordionContent, AccordionItem, AccordionRoot, AccordionTrigger } from
 import ProductPageForm from './product-page-form';
 import AddToFavorite from '@/components/add-to-favorite';
 import ShareMenu from '@/components/share-menu';
+import ReviewsWrapper from './reviews-wrapper';
 
 const ProductPageWrapper = () => {
+  const route = process.env.REACT_APP_API_URL_CLIENT;
   // const images = [{ src: 'http://localhost:8000/media/item/4pic.webp' }, { src: '/hover_image.jpg' }, { src: 'http://localhost:8000/media/item/3pic.webp' }];
   const images = [
     {
-      src: "http://localhost:8000/media/item/4pic.webp",
+      src: `${route}/media/item/4pic.webp`,
       width: 896,
       height: 414,
       imageFit: 'cover'
@@ -25,12 +27,13 @@ const ProductPageWrapper = () => {
       imageFit: 'cover'
     },
     {
-      src: "http://localhost:8000/media/item/3pic.webp",
+      src: `${route}/media/item/3pic.webp`,
       width: 896,
       height: 414,
       imageFit: 'cover'
     },
   ]
+  console.log(images, 'images in product page wrapper')
   return (
     <>
       <div className="w-full 2xl:container py-16 lg:mt-16 flex-col justify-start items-start gap-6 inline-flex">
@@ -168,9 +171,9 @@ const ProductPageWrapper = () => {
                 <span className="w-full">Reviews</span>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="AccordionContent self-stretch justify-center items-center inline-flex">
-                  <div className="text-stone-900">Add the review component</div>
-                </div>
+                <ReviewsWrapper />
+                
+                {/* <div className="text-stone-900">Add the review component</div> */}
               </AccordionContent>
             </AccordionItem>
           </AccordionRoot>

@@ -10,7 +10,7 @@ const { useInView } = require('react-intersection-observer');
 const CatalogItemsWrapper = ({ items, catalog_slug, route }) => {
     const { ref, inView } = useInView();
     const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetItems(items, catalog_slug, route);
-
+    console.log('route',route)
     useEffect(() => {
         if (inView) {
             fetchNextPage();
