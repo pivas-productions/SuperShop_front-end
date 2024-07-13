@@ -1,10 +1,9 @@
 import * as React from "react";
 import { cva } from "class-variance-authority";
 import Image from "next/image";
-import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 import { RateUI } from "./rate";
-import { CarouselBlaze } from "./carousel-blaze";
+import CarouselWithOpenFullscreen from "../carousel-with-open-fullscreen";
 
 
 const reviewCardVariants = cva("ProductCard flex-col cursor-default justify-start items-start gap-6 flex rounded-lg", {
@@ -90,33 +89,16 @@ const ReviewCardContent = React.forwardRef(({ className, item, ...props }, ref) 
 ReviewCardContent.displayName = "ReviewCardContent";
 
 const ReviewCardPhoto = React.forwardRef(({ className, items, route, cover, ...props }, ref) => {
-    // TODO: add block photos
     return (
-        <div className={"ReviewCardPhoto group relative w-full min-h-24 flex " + (className ? className : '')} ref={ref} {...props}>
-            <CarouselBlaze>
-                {Object.values(items?.photo).map((item, i) => {
-                    console.log(item.photo, 'item carouselBlaze')
-                    return (
-                        <div key={i} className="h-4/5 lg:h-full" style={{ position: "relative", width: '100%' }}>
-                            <Image 
-                                className="h-24 w-24"
-                                fill
-                                alt={item.name ? item.name : ''}
-                                src={route + item.photo}
-                                loading="eager"
-                                draggable={false}
-                                placeholder={item.blurDataURL ? "blur" : undefined}
-                                style={{
-                                    objectFit: cover ? "cover" : "contain",
-                                    offsetPosition: 'center',
-                                    cursor: "pointer",
-                                }}
-                                sizes={`100vw`}
-                            />
-                        </div>
-                    )
-                })}
-            </CarouselBlaze>
+        <div className={"ReviewCardPhoto group relative w-full h-36 flex gap-2 px-2 " + (className ? className : '')} ref={ref} {...props}>
+            <CarouselWithOpenFullscreen slidesToShow={3} loop={false} items={[{ src: '/hover_image.jpg', alt: 'Image 1' },
+            { src: '/for_all_items.jpg', alt: 'Image 2' },
+            { src: '/hover_image.jpg', alt: 'Image 3' },
+            { src: '/435x366.png', alt: 'Image 4' },
+            { src: '/main_page/main_photo.jpg', alt: 'Image 5' },
+            { src: '/for_all_items.jpg', alt: 'Image 6' },
+
+            ]} />
         </div>
     );
 });

@@ -53,7 +53,7 @@ const ProductPageWrapper = () => {
               </div>
               <div className="w-full justify-around items-center inline-flex ">
 
-                <Link href={'#'} className="Mark flex items-center align-middle gap-1">
+                <Link href={'#reviewsblock'} className="Mark flex items-center align-middle gap-1">
                   <FaStar className='w-5 h-5' fill='orange' />
                   <span>4.5</span>
                   <span className='ml-4 underline'>38 отзывов</span>
@@ -63,56 +63,6 @@ const ProductPageWrapper = () => {
                   <AddToFavorite />
                 </div>
               </div>
-              {/* <div className="pl-1.5 pr-7 pt-[7.50px] pb-[22.50px] flex-col justify-start items-start gap-[61px] flex">
-                <div className="flex-col justify-center items-center gap-4 inline-flex">
-                  <div className="Size py-5 pl-3 self-start">
-                    Size
-                  </div>
-                  <div className="self-stretch justify-center items-start gap-7 inline-flex">
-                    <div className="w-14 h-14 p-3 bg-zinc-800 rounded-full border flex justify-center items-center text-white border-zinc-800">
-                      XS
-                    </div>
-                    <div className="w-14 h-14 p-3 bg-zinc-800 rounded-[32px] border flex justify-center items-center text-white border-zinc-800">
-                      S
-                    </div>
-                    <div className="w-14 h-14 p-3 bg-zinc-800 rounded-full border flex justify-center items-center text-white border-zinc-800">
-                      M
-                    </div>
-                    <div className="w-14 h-14 p-3 bg-zinc-800 rounded-full border flex justify-center items-center text-white border-zinc-800">
-                      XL
-                    </div>
-                    <div className="w-14 h-14 p-3 bg-zinc-800 rounded-full border flex justify-center items-center text-white border-zinc-800">
-                      XXL
-                    </div>
-                  </div>
-                </div>
-                <div className="flex-col justify-center items-center gap-4 inline-flex">
-                  <div className="py-5 pl-3 self-start">
-                    Colors
-                  </div>
-                  <div className="ColorsSelect self-stretch justify-center items-start gap-7 inline-flex">
-                    <div className="w-14 h-14 p-3 bg-zinc-800 rounded-full border flex justify-center items-center text-white border-zinc-800" />
-                    <div className="w-14 h-14 p-3 bg-red-800 rounded-full border flex justify-center items-center text-white border-zinc-800" />
-                    <div className="w-14 h-14 p-3 bg-green-800 rounded-full border flex justify-center items-center text-white border-zinc-800" />
-                    <div className="w-14 h-14 p-3 bg-pink-800 rounded-full border flex justify-center items-center text-white border-zinc-800" />
-                    <div className="w-14 h-14 p-3 bg-blue-800 rounded-full border flex justify-center items-center text-white border-zinc-800" />
-                  </div>
-                </div>
-              </div>
-              <div className="w-full space-y-8">
-                <div className="PriceBlock inline-flex h-20 gap-2">
-                  <div className="self-center text-stone-900 text-6xl font-bold">$50</div>
-                  <div className="self-start text-zinc-400 text-5xl font-bold line-through ">$50</div>
-                </div>
-                <div className="buttonBlock space-y-2">
-                  <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-800 text-neutral-100">
-                    Add to cart
-                  </div>
-                  <div className="w-1/2 mx-auto p-3 bg-zinc-400 rounded-lg border border-zinc-800 text-zinc-800 ">
-                    Buy one click
-                  </div>
-                </div>
-              </div> */}
               <ProductPageForm />
             </div>
           </div>
@@ -165,15 +115,12 @@ const ProductPageWrapper = () => {
                 </div>
               </AccordionContent>
             </AccordionItem>
-            {/* TODO: add noraml reviews */}
             <AccordionItem value={'reviews'}>
               <AccordionTrigger>
-                <span className="w-full">Reviews</span>
+                <span id='reviewsblock' className="w-full">Reviews</span>
               </AccordionTrigger>
               <AccordionContent>
                 <ReviewsWrapper />
-                
-                {/* <div className="text-stone-900">Add the review component</div> */}
               </AccordionContent>
             </AccordionItem>
           </AccordionRoot>

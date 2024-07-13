@@ -7,11 +7,11 @@ export function useBlazeSlider(config) {
   const elRef = React.useRef()
 
   React.useEffect(() => {
-    // if not already initialized
     if (!sliderRef.current) {
       sliderRef.current = new BlazeSlider(elRef.current, config)
+      console.log(config, 'config useBlazeSlider')
     }
-  }, [])
+  }, [config])
 
   return elRef
 }
