@@ -5,11 +5,11 @@ import React, { Suspense } from 'react'
 const ProductIdPage = ({ params }) => {
   console.log(params)
   return (
-    <section className='rounded w-screen min-h-screen text-center '>
+    <main className='rounded w-screen min-h-screen text-center '>
       <Suspense fallback={<Loading />}>
         <ProductPageWrapper />
       </Suspense>
-    </section>
+    </main>
   )
 }
 

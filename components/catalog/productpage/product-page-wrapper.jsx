@@ -59,7 +59,7 @@ const ProductPageWrapper = () => {
                   <span className='ml-4 underline'>38 отзывов</span>
                 </Link>
                 <div className="blockbutton inline-flex gap-2">
-                  <ShareMenu />
+                  <ShareMenu media={images[0].src} />
                   <AddToFavorite />
                 </div>
               </div>
