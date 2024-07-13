@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 import { RateUI } from "./rate";
+import { CarouselBlaze } from "./carousel-blaze";
 
 
 const reviewCardVariants = cva("ProductCard flex-col cursor-default justify-start items-start gap-6 flex rounded-lg", {
@@ -77,7 +78,7 @@ const ReviewCardContent = React.forwardRef(({ className, item, ...props }, ref) 
                     {`без неожиданностей`.replace(/^\s+/gm)}
                 </p>
             </div>
-            
+
             <div className="comments py-2">
                 <p className="whitespace-pre-wrap">
                     Очень классный товар, покупаю уже 5 раз, всем доволен и кайфую
@@ -88,12 +89,34 @@ const ReviewCardContent = React.forwardRef(({ className, item, ...props }, ref) 
 });
 ReviewCardContent.displayName = "ReviewCardContent";
 
-const ReviewCardPhoto = React.forwardRef(({ className, src_main, src_hover, ...props }, ref) => {
+const ReviewCardPhoto = React.forwardRef(({ className, items, route, cover, ...props }, ref) => {
     // TODO: add block photos
     return (
-        <div className={"CardPhoto group relative w-full h-4/5 " + className} ref={ref} {...props}>
-            <Image fill className="Image delay-75 duration-500 hover:opacity-0 transition-all w-96 h-96 rounded-lg" sizes='(max-width: 768px) 100%, (max-width: 1200px) 50%, 50%' src={src_main} alt='' />
-            <Image fill className="Image opacity-0 hover:opacity-100 group-has-[:hover]:block transition-opacity duration-1000 ease-out hidden w-96 h-96 rounded-lg" src={src_hover} sizes='(max-width: 768px) 100%, (max-width: 1200px) 50%, 50%' alt='' />
+        <div className={"ReviewCardPhoto group relative w-full min-h-24 flex " + (className ? className : '')} ref={ref} {...props}>
+            <CarouselBlaze>
+                {Object.values(items?.photo).map((item, i) => {
+                    console.log(item.photo, 'item carouselBlaze')
+                    return (
+                        <div key={i} className="h-4/5 lg:h-full" style={{ position: "relative", width: '100%' }}>
+                            <Image 
+                                className="h-24 w-24"
+                                fill
+                                alt={item.name ? item.name : ''}
+                                src={route + item.photo}
+                                loading="eager"
+                                draggable={false}
+                                placeholder={item.blurDataURL ? "blur" : undefined}
+                                style={{
+                                    objectFit: cover ? "cover" : "contain",
+                                    offsetPosition: 'center',
+                                    cursor: "pointer",
+                                }}
+                                sizes={`100vw`}
+                            />
+                        </div>
+                    )
+                })}
+            </CarouselBlaze>
         </div>
     );
 });

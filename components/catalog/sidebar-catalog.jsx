@@ -1,7 +1,9 @@
 import React, { memo } from 'react'
 
 const SidebarCatalog = memo(async ({}) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/categories?format=json`);
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/categories?format=json`, {
+        next: { revalidate: 100 } // 3600
+    });
     const items = await res.json();
     return (
         <aside className={"sidebarCatalog bg-white/40 p-4 rounded-xl text-xl col-span-2"}>
