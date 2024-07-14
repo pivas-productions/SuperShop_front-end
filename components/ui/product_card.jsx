@@ -35,6 +35,7 @@ const ProductCard = React.forwardRef(({ className, href, variant, size, seen_sty
 ProductCard.displayName = "ProductCard";
 
 const ProductCardPhoto = React.forwardRef(({ className, src_main, src_hover, ...props }, ref) => {
+    console.log(src_main, 'main and hover Photo', src_hover)
     return (
         <div className={"CardPhoto group relative w-full h-4/5 " + (className ? className : "")} ref={ref} {...props}>
             {/* <Image fill className="Image w-96 h-96 rounded-lg" src={src} alt='' /> */}
