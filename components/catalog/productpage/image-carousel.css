@@ -1,0 +1,14 @@
+:root{
+    --yarl__thumbnails_thumbnail_background: tranperant;
+    --yarl__thumbnails_thumbnail_border_color: transperant;
+    --yarl__thumbnails_container_background_color: transperant;
+    --yarl__color_backdrop: transperant;
+}
+/* .yarl__thumbnails_container{
+    display: none !important;
+}
+@media (min-width: 1024px) {
+    .yarl__thumbnails_container{
+        display: block;
+    }
+} */

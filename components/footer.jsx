@@ -86,7 +86,7 @@ const FooterMain = () => {
                 <div className="footer_icons flex py-1 px-8 col-span-4 text-gray-200">
                     <RiVisaLine className='footer_icon_svg m-auto w-10 h-10' />
                     <RiMastercardFill className='footer_icon_svg m-auto w-10 h-10' />
-                    <Image width={'40'} height={'40'} src={'./mir-card.svg'} alt='payment variant MIR' className='footer_icon_svg m-auto w-10 h-10' />
+                    <Image width={'40'} height={'40'} src={'/mir-card.svg'} alt='payment variant MIR' className='footer_icon_svg m-auto w-10 h-10' />
 
                 </div>
             </div>

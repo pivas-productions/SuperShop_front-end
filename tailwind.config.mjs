@@ -28,6 +28,9 @@ module.exports = {
       },
       animation: {
         'arrow_down': 'arrow-down 2s infinite',
+        'filters-show': 'filters-show 2s easy-in-out',
+        'slideDown': 'slide-down-accordion 300ms ease-out',
+        'slideUp': 'slide-up-accordion 300ms ease-out',
       },
       keyframes: {
         'arrow-down': {
@@ -41,6 +44,32 @@ module.exports = {
             transform: 'translate(-50%, 3.75rem)'
           },
         },
+        'filters-show': {
+          '0%': {
+            // left: '-50rem',
+            transform: 'translateX(-150%)'
+          },
+          '100%': {
+            // opacity: 0,
+            transform: 'translateX(0)'
+          },
+        },
+        'slide-down-accordion': {
+          'from': {
+            height: '0'
+          },
+          'to': {
+            height: 'var(--radix-accordion-content-height)',
+          }
+        },        
+        'slide-up-accordion': {
+          'from': {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          'to': {
+            height: '0'
+          }
+        }
       },
     },
   },
@@ -54,5 +83,17 @@ module.exports = {
         },
         { values: theme('transitionDelay') }
       )
-    }),],
+    }),
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'animate-duration': (value) => ({
+            animationDuration: value,
+          }),
+        },
+        { values: theme('transitionDuration') }
+      )
+    }),
+  ],
+    
 };

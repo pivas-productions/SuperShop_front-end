@@ -1,50 +1,31 @@
 "use client";
 import { useState, useTransition } from "react";
-
-
-import { useSearchParams } from "next/navigation";
-
-
-import { useForm } from "react-hook-form";
-
-
-import { zodResolver } from "@hookform/resolvers/zod";
-
-
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-
-
-import { useIsClient } from "@/hooks/use-is-client";
-
-
-import Loading from "@/components/Loading";
-
-
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/schemas";
 
-
 import CardWrapper from "./card-wrapper";
-
-
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "../ui/form";
-
 import { Input } from "../ui/input";
-
 import { PasswordInput } from "./password-input";
-
 import { Button } from "../ui/button";
-
 import NotifyMessage from "../messages/notify-message";
+import { useIsClient } from "@/hooks/use-is-client";
+import Loading from "@/components/Loading";
+import { useSession } from "@/hooks/sessionProvider";
 
-// import { login } from "@/actions/login";
-
-
-const LoginForm = ({fetch_route}) => {
+const LoginForm = ({ fetch_route }) => {
+    const router = useRouter()
     const searchParams = useSearchParams()
     const callbackUrl = searchParams.get("callbackUrl");
     const [notifyMes, setNotifyMes] = useState("");
+    const [success, setSuccess] = useState(false);
     const [stateNotify, setStateNotify] = useState("");
     const [isPending, startTransition] = useTransition();
+    const { login } = useSession();
+
     const isClient = useIsClient();
     const form = useForm({
         resolver: zodResolver(LoginSchema),
@@ -57,17 +38,20 @@ const LoginForm = ({fetch_route}) => {
     const onSubmit = (values) => {
         startTransition(async () => {
             try {
-                let response = await fetch(`http://localhost:8000/api/register/`, {
+                let response = await fetch(`${fetch_route}/api/token/`, {
                     method: "POST",
                     body: JSON.stringify(values),
                     headers: {
                         'Content-type': 'application/json'
-                    }
+                    },
+                    credentials: 'include'
                 })
-                if (!response.ok) {
+
+                if (response.status === 500) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                console.log('response',response)
+                console.log('response', response)
+                console.log('response.headers', response.headers.get('Set-Cookie'))
                 const data = await response.json();
                 console.log('response.data', data)
                 if (data?.error) {
@@ -76,25 +60,31 @@ const LoginForm = ({fetch_route}) => {
                     setStateNotify('error');
                 }
                 if (data?.success) {
+                    login();
+                    console.log('success')
                     form.reset();
-                    setNotifyMes(data.message);
+                    setSuccess(true)
+                    setNotifyMes('Вход успешен! Перенаправляем вас на страницу с которой вы пришли');
                     setStateNotify('success');
                 }
-            }catch (error){
+            } catch (error) {
                 console.error('Error:', error);
                 // Обработка ошибки
-                // Например, отображение уведомления об ошибке
                 setNotifyMes('Registration failed! Error on server');
                 setStateNotify('error');
-            }
-            finally {
-                setNotifyMes("");
-                setStateNotify("");
             }
         });
     };
     if (!isClient)
         return <Loading />;
+    if (success) {
+        setTimeout(() => {
+            if (callbackUrl)
+                window.location.href = callbackUrl
+            else
+                window.location.href = '/'
+        }, 1000)
+    }
     return (<CardWrapper headerTitle={"Авторизация"} headerLabel="С возвращением!">
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -103,7 +93,7 @@ const LoginForm = ({fetch_route}) => {
                         <FormField control={form.control} name="telNo" render={({ field }) => (<FormItem>
                             <FormLabel>Телефонный номер</FormLabel>
                             <FormControl>
-                                <Input {...field} variant="default" disabled={isPending} type="tel" placeholder="+79000000000" />
+                                <Input {...field} variant="default" disabled={isPending || success} type="tel" placeholder="+79000000000" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>)} />
@@ -111,7 +101,7 @@ const LoginForm = ({fetch_route}) => {
                         <FormField control={form.control} name="password" render={({ field }) => (<FormItem>
                             <FormLabel>Пароль</FormLabel>
                             <FormControl>
-                                <PasswordInput {...field} disabled={isPending} type="password" placeholder="******" />
+                                <PasswordInput {...field} disabled={isPending || success} type="password" placeholder="******" />
                             </FormControl>
                             <FormMessage />
                             <Button size="sm" variant="link" asChild className="px-0 text-muted-foreground">
@@ -122,8 +112,11 @@ const LoginForm = ({fetch_route}) => {
                 </div>
                 {notifyMes && <NotifyMessage message={notifyMes} state={stateNotify}></NotifyMessage>}
 
-                <Button type="submit" disabled={isPending} className="w-full hover:bg-sky-400">
+                <Button type="submit" disabled={isPending || success} className="w-full hover:bg-sky-400">
                     {"Войти"}
+                </Button>
+                <Button size="sm" variant="link" asChild className="px-0 text-muted-foreground">
+                    <Link href="/auth/register">Еще нет аккаунта? Зарегистрироваться</Link>
                 </Button>
             </form>
         </Form>

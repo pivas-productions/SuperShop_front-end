@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import * as Accordion from "@radix-ui/react-accordion";
-import { ChevronDownIcon, } from "@radix-ui/react-icons";
+// import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { FaChevronDown } from "react-icons/fa";
 
 const AccordionRoot = Accordion.Root;
 
@@ -17,7 +18,7 @@ const AccordionTrigger = React.forwardRef(({ children, className, ...props }, fo
             ref={forwardedRef}
         >
             {children}
-            <ChevronDownIcon
+            <FaChevronDown 
                 className="text-violet10 ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180"
                 aria-hidden
             />

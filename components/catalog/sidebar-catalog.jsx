@@ -1,18 +1,25 @@
-import React from 'react'
+import React, { memo } from 'react'
 
-const SidebarCatalog = React.forwardRef(({ className, ...props }, ref) => {
-  return (
-      <aside className={"sidebarCatalog bg-white/40 p-4 rounded-xl text-xl " + className} ref={ref} {...props}>
-      <nav>
-          <ol>
-              <li className='px-10 py-2 hover:bg-black/5 cursor-pointer rounded-xl my-1'><a href="bikes">Велосипеды</a></li>
-              <li className='px-10 py-2 hover:bg-black/5 cursor-pointer rounded-xl my-1'><a href="bikes/bmx">BMX</a></li>
-              <li className='px-10 py-2 hover:bg-black/5 cursor-pointer rounded-xl my-1'>Jump Bike 3000</li>
-          </ol>
-      </nav>
-  </aside>
-  );
+const SidebarCatalog = memo(async ({}) => {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/categories?format=json`, {
+        next: { revalidate: 100 } // 3600
+    });
+    const items = await res.json();
+    return (
+        <aside className={"sidebarCatalog bg-white/40 p-4 rounded-xl text-xl col-span-2"}>
+            <nav>
+                <ol>
+                    {items.results.map((item) => {
+                        return (
+
+                            <li key={item.id} className='px-10 py-2 hover:bg-black/5 cursor-pointer rounded-xl my-1'><a href={"/catalog/" + item.slug}>{item.name}</a></li>
+                        )
+                    })}
+                </ol>
+            </nav>
+        </aside>
+    );
 });
-SidebarCatalog.displayName = "SidebarCatalog";
-export { SidebarCatalog };
+SidebarCatalog.displayName = 'SidebarCatalog'
+
 export default SidebarCatalog
