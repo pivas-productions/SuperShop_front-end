@@ -10,13 +10,12 @@ export const SessionProvider = ({ children, route }) => {
 
     useEffect(() => {
         const fetchSession = async () => {
+            setSession(false);
             try {
-                console.log(route, 'route in sessionProvider')
                 const response = await fetch('http://localhost:8000/api/token/refresh/', {
                     method: 'GET',
                     credentials: 'include',  // Передача cookies
                 });
-                console.log(response, 'respones in SessionProvider')
                 if (response.ok) {
                     const data = await response.json();
                     setSession(data);
@@ -24,13 +23,17 @@ export const SessionProvider = ({ children, route }) => {
                     setSession(false);
                 }
             } catch (error) {
-                console.error('Failed to fetch session:', error);
                 setSession(false);
             }
         };
-
+        
         fetchSession();
     }, [route]);
+
+    const login = () => {
+            setSession(true);
+
+    };
 
     const logout = async () => {
         try {
@@ -38,30 +41,15 @@ export const SessionProvider = ({ children, route }) => {
                 method: 'GET',
                 credentials: 'include',  // Передача cookies
             });
-            setSession({ isLoggedIn: false });
+            setSession(false);
         } catch (error) {
             console.error('Failed to logout:', error);
         }
     };
 
     return (
-        <SessionContext.Provider value={{ session, logout }}>
+        <SessionContext.Provider value={{ session, logout, login }}>
             {children}
         </SessionContext.Provider>
     );
 };
-
-
-
-
-
-
-
-
-// export function useSessionProvider() {
-//     const [isClient, setIsClient] = useState(false);
-//     useEffect(() => {
-//         setIsClient(true);
-//     }, []);
-//     return isClient;
-// }

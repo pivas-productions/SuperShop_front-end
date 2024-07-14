@@ -16,6 +16,7 @@ import NotifyMessage from "../messages/notify-message";
 
 // import { register } from "@/actions/register";
 import { useRouter } from "next/navigation";
+import Link from "next/link.js";
 
 const RegisterForm = ({ fetch_route }) => {
     const router = useRouter()
@@ -144,6 +145,9 @@ const RegisterForm = ({ fetch_route }) => {
                     <Button type="submit" disabled={isPending || success} className="w-full hover:bg-sky-400">
                         Регистрация
                     </Button>
+                    <Button size="sm" variant="link" asChild className="px-0 text-muted-foreground">
+                    <Link href="/auth/login">Уже есть аккаунта? Войти</Link>
+                </Button>
                 </form>
             </Form>
         </CardWrapper>

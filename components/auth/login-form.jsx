@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 import NotifyMessage from "../messages/notify-message";
 import { useIsClient } from "@/hooks/use-is-client";
 import Loading from "@/components/Loading";
+import { useSession } from "@/hooks/sessionProvider";
 
 const LoginForm = ({ fetch_route }) => {
     const router = useRouter()
@@ -23,6 +24,8 @@ const LoginForm = ({ fetch_route }) => {
     const [success, setSuccess] = useState(false);
     const [stateNotify, setStateNotify] = useState("");
     const [isPending, startTransition] = useTransition();
+    const { login } = useSession();
+
     const isClient = useIsClient();
     const form = useForm({
         resolver: zodResolver(LoginSchema),
@@ -57,6 +60,7 @@ const LoginForm = ({ fetch_route }) => {
                     setStateNotify('error');
                 }
                 if (data?.success) {
+                    login();
                     console.log('success')
                     form.reset();
                     setSuccess(true)
@@ -76,9 +80,9 @@ const LoginForm = ({ fetch_route }) => {
     if (success) {
         setTimeout(() => {
             if (callbackUrl)
-                router.push(callbackUrl)
+                window.location.href = callbackUrl
             else
-                router.push('/')
+                window.location.href = '/'
         }, 1000)
     }
     return (<CardWrapper headerTitle={"Авторизация"} headerLabel="С возвращением!">
@@ -110,6 +114,9 @@ const LoginForm = ({ fetch_route }) => {
 
                 <Button type="submit" disabled={isPending || success} className="w-full hover:bg-sky-400">
                     {"Войти"}
+                </Button>
+                <Button size="sm" variant="link" asChild className="px-0 text-muted-foreground">
+                    <Link href="/auth/register">Еще нет аккаунта? Зарегистрироваться</Link>
                 </Button>
             </form>
         </Form>

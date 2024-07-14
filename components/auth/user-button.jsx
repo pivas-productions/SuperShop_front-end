@@ -6,10 +6,16 @@ import LogoutButton from "@/components/auth/logout-button";
 import Link from "next/link";
 import { useSession } from "@/hooks/sessionProvider";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const UserButton = () => {
   const { session } = useSession();
   const pathname = usePathname();
+  const [_, setState] = useState(); // Unused state to force re-render
+
+  useEffect(() => {
+    setState(session); // Force re-render on session state change
+  }, [session]);
   console.log(pathname, 'pathname')
   console.log(session, 'session in userButton')
   return (<DropdownMenu modal={false}>
