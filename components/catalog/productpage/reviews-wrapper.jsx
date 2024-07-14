@@ -20,8 +20,8 @@ const ReviewsWrapper = () => {
     }
     return (
         <>
-            <div className="ReviewWrapper flex gap-6">
-                <div className="leftSide flex-1 space-y-6">
+            <div className="ReviewWrapper flex flex-col lg:flex-row gap-6">
+                <div className="leftSide flex-1 space-y-6 order-2 lg:order-1">
                     <div className={"ReviewCarouselAllPhotos group relative w-full h-36 flex gap-2 px-2"}>
                         <CarouselWithOpenFullscreen slidesToShow={5} loop={false} items={[{ src: '/hover_image.jpg', alt: 'Image 1' },
                         { src: '/for_all_items.jpg', alt: 'Image 2' },
@@ -44,8 +44,8 @@ const ReviewsWrapper = () => {
                         </ReviewCard>
                     </section>
                 </div>
-                <div className="rigthSide hidden lg:block">
-                    <RateProgressBar />
+                <div className="rigthSide order-1 lg:order-2">
+                    <RateProgressBar avgRate={4.7} maxRate={5} />
                 </div>
             </div>
         </>
