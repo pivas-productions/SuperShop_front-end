@@ -23,6 +23,9 @@ module.exports = {
           500: '#FFC107', // ваш желтый цвет
         },
       },
+      boxShadow: {
+        "mega-shadow": "0px 5px 10px 0 rgba(0,0,0,0.5)"
+      },
       strokeWidth: {
         20: '20',
       },
