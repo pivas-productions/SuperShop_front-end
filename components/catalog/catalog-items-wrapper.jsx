@@ -1,7 +1,5 @@
 'use client';
 import useGetItems from "@/hooks/useGetItems";
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect } from "react";
 import LoadingMoreData from "../ui/loading-more-data";
 import { ProductCard, ProductCardContent, ProductCardPhoto } from "../ui/product_card";
@@ -16,7 +14,7 @@ const CatalogItemsWrapper = ({ items, catalog_slug, route }) => {
             fetchNextPage();
         }
     }, [inView, fetchNextPage]);
-
+    console.log('data',data)
     return (
         <>
             {data?.pages?.map((item, i) => (

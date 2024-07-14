@@ -27,7 +27,9 @@ const ToolbarCatalog = ({route}) => {
     useEffect(() => {
         if (pathname.replace('/catalog', '') != '') {
             // Выполнение запроса fetch на основе выбранной категории
-            fetch(`${route}/api/categories${pathname.replace('/catalog', '')}?format=json`)
+            fetch(`${route}/api/categories${pathname.replace('/catalog', '')}?format=json`, {
+                next: { revalidate: 100 } // 3600
+            })
                 .then(response => response.json())
                 .then(data => {
                     setCountProducts(data.item_count)

@@ -10,7 +10,9 @@ const HeaderCatalog = ({ route }) => {
     const pathname = usePathname()
     useEffect(() => {
         if (pathname.replace('/catalog', '')) {
-            fetch(`${route}/api/categories${pathname.replace('/catalog', '')}?format=json`)
+            fetch(`${route}/api/categories${pathname.replace('/catalog', '')}?format=json`, {
+                next: { revalidate: 100 } // 3600
+            })
                 .then(response => response.json())
                 .then(data => {
                     setImage_src(data.photo)
