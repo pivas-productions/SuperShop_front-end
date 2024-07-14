@@ -14,10 +14,11 @@ import ReviewsWrapper from './reviews-wrapper';
 const ProductPageWrapper = ({route, items}) => {
   const reviewsTrigger = useRef(null)
   const GoToReviews = () => {
-    reviewsTrigger.current.scrollIntoView({
+    reviewsTrigger.current?.scrollIntoView({
       behavior: 'smooth'
     })
-    reviewsTrigger.current?.click();
+    if(reviewsTrigger.current?.dataset.state != 'open')
+      reviewsTrigger.current?.click();
   };
   
   console.log(items, 'items in product page wrapper')
@@ -103,8 +104,8 @@ const ProductPageWrapper = ({route, items}) => {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value={'reviews'}>
-              <AccordionTrigger>
-                <span id='reviewsblock' ref={reviewsTrigger} className="w-full">Reviews</span>
+              <AccordionTrigger ref={reviewsTrigger}>
+                <span className="w-full">Reviews</span>
               </AccordionTrigger>
               <AccordionContent className={' overflow-hidden'}>
                 <ReviewsWrapper />
