@@ -3,7 +3,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import React, { useTransition } from 'react'
 import { useForm } from 'react-hook-form';
 
-const ProductPageForm = () => {
+const ProductPageForm = ({items}) => {
 
     const [isPending, startTransition] = useTransition();
     const defValue = {
@@ -30,22 +30,27 @@ const ProductPageForm = () => {
     return (
         <>
             <Form {...form}>
-                <form className='space-y-8'>
+                <form className='space-y-8 w-full'>
                     <FormField control={form.control} name="sizes" render={({ field }) => (
-                        <FormItem className='!space-y-0 flex-col justify-center items-center gap-4 inline-flex'>
+                        <FormItem className='!space-y-0 flex-col justify-center items-center gap-4 inline-flex w-full'>
                             <FormLabel className='!text-lg'>Sizes</FormLabel>
                             <div className="justify-center items-start gap-7 inline-flex">
-                                <FormControl>
-                                    <input
-                                        type='radio'
-                                        {...field}
-                                        value={'XS'}
-                                        checked={field.value === 'XS'}
-                                        disabled={isPending}
-                                        className="w-14 h-14 p-3 after:bg-zinc-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:content-['XS'] after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white"
-                                    />
-                                </FormControl>
-                                <FormControl>
+                                {items.sizes.map((item, i) => {
+                                    return (
+                                        <FormControl key={i}>
+                                        <input
+                                            type='radio'
+                                            {...field}
+                                            value={item.name}
+                                            checked={field.value === item.name}
+                                            disabled={isPending}
+                                            className={"w-14 h-14 p-3 after:bg-zinc-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:content-['"+item.name+"'] after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white"}
+                                        />
+                                    </FormControl>
+                                    )
+                                })}
+
+                                {/* <FormControl>
                                     <input
                                         type='radio'
                                         {...field}
@@ -88,16 +93,30 @@ const ProductPageForm = () => {
                                         disabled={isPending}
                                         className="w-14 h-14 p-3 after:bg-zinc-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:content-['XL'] after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white"
                                     />
-                                </FormControl>
+                                </FormControl> */}
                             </div>
                             <FormMessage />
                         </FormItem>
                     )} />
                     <FormField control={form.control} name="colors" render={({ field }) => (
-                        <FormItem className='!space-y-0 flex-col justify-center items-center gap-4 inline-flex'>
+                        <FormItem className='!space-y-0 flex-col justify-center items-center gap-4 inline-flex w-full'>
                             <FormLabel className='!text-lg'>Colors</FormLabel>
                             <div className="justify-center items-start gap-7 inline-flex">
-                                <FormControl>
+                            {items.sizes.map((item, i) => {
+                                    return (
+                                        <FormControl key={i}>
+                                        <input
+                                            type='radio'
+                                            {...field}
+                                            value={item.name}
+                                            checked={field.value === item.name}
+                                            disabled={isPending}
+                                            className={`w-14 h-14 p-3 after:bg-[`+item.hex+`] rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white`}
+                                        />
+                                    </FormControl>
+                                    )
+                                })}
+                                {/* <FormControl>
                                     <input
                                         type='radio'
                                         {...field}
@@ -147,7 +166,7 @@ const ProductPageForm = () => {
                                         disabled={isPending}
                                         className="w-14 h-14 p-3 after:bg-blue-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white"
                                     />
-                                </FormControl>
+                                </FormControl> */}
                             </div>
                             <FormMessage />
                         </FormItem>
@@ -155,8 +174,8 @@ const ProductPageForm = () => {
 
                     <div className="w-full space-y-8">
                         <div className="PriceBlock inline-flex h-20 gap-2">
-                            <div className="self-center text-stone-900 text-6xl font-bold">$50</div>
-                            <div className="self-start text-zinc-400 text-5xl font-bold line-through ">$50</div>
+                            <div className="self-center text-stone-900 text-6xl font-bold">${items.price_with_discount}</div>
+                            <div className="self-start text-zinc-400 text-5xl font-bold line-through ">${items.price}</div>
                         </div>
                         <div className="buttonBlock space-y-2" >
                             <button className="block w-full p-3 bg-zinc-800 rounded-lg border border-zinc-800 text-neutral-100" onClick={form.handleSubmit(onCart)}>

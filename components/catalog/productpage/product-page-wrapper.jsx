@@ -11,7 +11,7 @@ import AddToFavorite from '@/components/add-to-favorite';
 import ShareMenu from '@/components/share-menu';
 import ReviewsWrapper from './reviews-wrapper';
 
-const ProductPageWrapper = ({route, items}) => {
+const ProductPageWrapper = ({route, items, images}) => {
   const reviewsTrigger = useRef(null)
   const GoToReviews = () => {
     reviewsTrigger.current?.scrollIntoView({
@@ -24,20 +24,20 @@ const ProductPageWrapper = ({route, items}) => {
   console.log(items, 'items in product page wrapper')
   return (
     <>
-      <div className="w-full 2xl:container py-16 lg:mt-16 flex-col justify-start items-start gap-6 inline-flex">
+      <div className="w-full px-4 2xl:px-12 py-16 lg:mt-16 flex-col justify-start items-start gap-6 inline-flex">
         <div className="mx-auto z-30 absolute lg:static container justify-start items-center inline-flex gap-2">
           <LinkBack />
           <Breadcrumps />
         </div>
-        <section className='mainContent w-full lg:px-6'>
-          <div className="mainInfo flex flex-col lg:flex-row  gap-4">
+        <section className='mainContent w-full'>
+          <div className="mainInfo flex flex-col 2xl:flex-row  gap-4">
             <div className="ImageBlock h-[70vh] flex-grow">
-              <ImageCarousel images={items} />
+              <ImageCarousel images={images} />
             </div>
             <div className=" self-stretch flex-col justify-center items-start gap-6 inline-flex">
               <div className='w-full'>
-                <div className="text-neutral-500">Category</div>
-                <div className="text-stone-900 text-6xl font-semibold font-['Inter'] leading-[96px]">Name </div>
+                <div className="text-neutral-500">{items?.categories?.name}</div>
+                <div className="text-stone-900 text-6xl font-semibold font-['Inter'] leading-[96px]">{items?.name} </div>
               </div>
               <div className="w-full justify-around items-center inline-flex ">
 
@@ -47,20 +47,20 @@ const ProductPageWrapper = ({route, items}) => {
                   <span className='ml-4 underline'>38 отзывов</span>
                 </button>
                 <div className="blockbutton inline-flex gap-2">
-                  <ShareMenu media={items[0].src} />
+                  <ShareMenu media={images[0].src} />
                   <AddToFavorite />
                 </div>
               </div>
-              <ProductPageForm />
+              <ProductPageForm items={items}/>
             </div>
           </div>
         </section>
-        <section className='w-full lg:px-6 flex-col justify-start items-start gap-[11px] flex'>
+        <section className='w-full 2xl:px-6 md:mt-20 xl:mt-0 flex-col justify-start items-start gap-[11px] flex'>
           <div className="flex-col w-full justify-start gap-10 items-start inline-flex">
             <div className="Title text-black text-5xl font-semibold ">
               Description
             </div>
-            <div className="Body min-h-28 text-stone-900">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</div>
+            <div className="Body min-h-28 text-stone-900 whitespace-pre-wrap w-fit">{items.description}</div>
           </div>
           <AccordionRoot collapsible={true} type="single" className='w-full'>
             <AccordionItem value={'characteristics'}>
@@ -69,7 +69,7 @@ const ProductPageWrapper = ({route, items}) => {
               </AccordionTrigger>
               <AccordionContent className={' overflow-hidden'}>
                 <div className="AccordionContent self-stretch justify-center items-center inline-flex">
-                  <div className="text-stone-900">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</div>
+                  <span className="text-stone-900 whitespace-pre-wrap w-fit">{items.feature}</span>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -79,7 +79,7 @@ const ProductPageWrapper = ({route, items}) => {
               </AccordionTrigger>
               <AccordionContent className={' overflow-hidden'}>
                 <div className="AccordionContent self-stretch justify-center items-center inline-flex">
-                  <div className="text-stone-900">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</div>
+                  <span className="text-stone-900 whitespace-pre-wrap w-fit">{items.brand}</span>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -89,7 +89,7 @@ const ProductPageWrapper = ({route, items}) => {
               </AccordionTrigger>
               <AccordionContent className={' overflow-hidden'}>
                 <div className="AccordionContent self-stretch justify-center items-center inline-flex">
-                  <div className="text-stone-900">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</div>
+                  <span className="text-stone-900 whitespace-pre-wrap w-fit">{items.information}</span>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -99,7 +99,7 @@ const ProductPageWrapper = ({route, items}) => {
               </AccordionTrigger>
               <AccordionContent className={' overflow-hidden'}>
                 <div className="AccordionContent self-stretch justify-center items-center inline-flex">
-                  <div className="text-stone-900">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</div>
+                  <span className="text-stone-900 whitespace-pre-wrap w-fit">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</span>
                 </div>
               </AccordionContent>
             </AccordionItem>
