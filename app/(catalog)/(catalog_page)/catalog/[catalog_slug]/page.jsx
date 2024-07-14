@@ -6,8 +6,8 @@ import Link from 'next/link';
 import React from 'react'
 
 const CatalogNamePage = async ({ params }) => {
-  const route = process.env.REACT_APP_API_URL_CLIENT;
-  const items = await getItems({ pageParam: 1, catalog_slug: params.catalog_slug, route: process.env.REACT_APP_API_URL });
+  const route = `${process.env.REACT_APP_API_URL_CLIENT}/api/categories/${params.catalog_slug}/items?populate=general_photos&format=json`;
+  const items = await getItems({ pageParam: 1, catalog_slug: params.catalog_slug, route: process.env.REACT_APP_API_URL + `/api/categories/${params.catalog_slug}/items?populate=general_photos&format=json`});
 
   if (items.length === 0)
     return (
@@ -503,7 +503,7 @@ const CatalogNamePage = async ({ params }) => {
   // })
   return (
     <>
-      <CatalogItemsWrapper items={items} catalog_slug={params.catalog_slug} route={route}/>
+      <CatalogItemsWrapper items={items} catalog_slug={params.catalog_slug} route={route} fetch_key={'catalog_' + params.catalog_slug}/>
     </>
   )
 }

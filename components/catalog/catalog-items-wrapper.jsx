@@ -5,10 +5,10 @@ import LoadingMoreData from "../ui/loading-more-data";
 import { ProductCard, ProductCardContent, ProductCardPhoto } from "../ui/product_card";
 const { useInView } = require('react-intersection-observer');
 
-const CatalogItemsWrapper = ({ items, catalog_slug, route }) => {
+const CatalogItemsWrapper = ({ items, catalog_slug, route, fetch_key }) => {
     const { ref, inView } = useInView();
-    const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetItems(items, catalog_slug, route);
-    console.log('route',route)
+    const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetItems(items, fetch_key,  route);
+
     useEffect(() => {
         if (inView) {
             fetchNextPage();

@@ -2,11 +2,12 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import getItems from "@/actions/getItems";
 
-export default function useGetItems(initialData, catalog_slug, route) {
+export default function useGetItems(initialData, key, route) {
+  console.log(key, 'key useGetItems')
   return useInfiniteQuery({
-    queryKey: ["items", catalog_slug],
+    queryKey: [key],
     queryFn: ({ pageParam = 1 }) => {
-      return getItems({ pageParam, catalog_slug, route });
+      return getItems({ pageParam, route });
     },
     initialData: { pages: [initialData], pageParams: [1] },
     initialPageParam: 1,
@@ -21,6 +22,5 @@ export default function useGetItems(initialData, catalog_slug, route) {
     },
     refetchOnWindowFocus: false,
     staleTime: Infinity,
-    enabled: !!catalog_slug,
   });
 }
