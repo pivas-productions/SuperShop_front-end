@@ -4,11 +4,12 @@ import 'blaze-slider/dist/blaze.css'
 import { useBlazeSlider } from '@/hooks/use-blaze-slider'
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from 'react-icons/fa';
 
-const CarouselBlaze = React.forwardRef(({ children, className, slidesToShow, loop, ...props }, ref) => {
+const CarouselBlaze = React.forwardRef(({ children, className, slidesToShow, loop, slideGap, ...props }, ref) => {
   const carouselRef = useBlazeSlider({
     all: {
       slidesToShow: slidesToShow,
       loop: loop,
+      slideGap: slideGap ? slideGap : '20px',
     }
   })
   return (

@@ -6,6 +6,7 @@ import { ProductCard, ProductCardContent, ProductCardPhoto } from '../ui/product
 const montaga = Montaga({ subsets: ['latin'], weight: ['400'] })
 
 export const NewItems = ({ items }) => {
+    const route = process.env.REACT_APP_API_URL_CLIENT
     return (
         <>
             <div className="Main2 w-full bg-rose-200">
@@ -22,8 +23,8 @@ export const NewItems = ({ items }) => {
                     {Object.values(items).slice(0, 3).map((item) => {
                         // console.log(item)
                         return (
-                            <ProductCard key={item.id}>
-                                <ProductCardPhoto src={'/435x366.png'} />
+                            <ProductCard seen_style='list' href={'/catalog/items/'+item.id} key={item.id}>
+                                <ProductCardPhoto src_main={item?.general_photo_one?.photo?.photo ? route + item?.general_photo_one?.photo?.photo : '/435x366.png'} src_hover={item?.general_photo_two?.photo?.photo ? route + item?.general_photo_two?.photo?.photo : '/hover_image.jpg'} />
                                 <ProductCardContent item={item} />
                             </ProductCard>
                         )

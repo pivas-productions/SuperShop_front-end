@@ -2,10 +2,12 @@ import React from 'react'
 import { Montaga } from 'next/font/google'
 import { ProductCard, ProductCardContent, ProductCardPhoto } from '../ui/product_card'
 import { SwiperContainer, SwiperSlider } from '../ui/swiper-slider'
+import { CarouselBlaze } from '../ui/carousel-blaze'
 
 const montaga = Montaga({ subsets: ['latin'], weight: ['400'] })
 
 export const Discounts = ({items}) => {
+    const route = process.env.REACT_APP_API_URL_CLIENT
     return (
         <>
             <div className="Main2 w-full bg-rose-200">
@@ -18,17 +20,15 @@ export const Discounts = ({items}) => {
                         </div>
                     </div>
                 </div>
-                <div className="ProductsList h-96 container mt-4 gap-32 ">
-                    <SwiperContainer>
+                <div className="ProductsList h-96 container mt-4 gap-32">
+                    <CarouselBlaze slidesToShow={3} loop={true} slideGap='8rem'>
                         {Object.values(items).map((item) => (
-                            <SwiperSlider key={item.id}>
-                                <ProductCard key={item.id}>
-                                    <ProductCardPhoto src={'/435x366.png'} />
+                                <ProductCard seen_style='list' href={'/catalog/items/'+item.id} key={item.id}>
+                                    <ProductCardPhoto src_main={item?.general_photo_one?.photo?.photo ? route + item?.general_photo_one?.photo?.photo : '/435x366.png'} src_hover={item?.general_photo_two?.photo?.photo ? route + item?.general_photo_two?.photo?.photo : '/hover_image.jpg'} />
                                     <ProductCardContent item={item} />
                                 </ProductCard>
-                            </SwiperSlider>
                         ))}
-                    </SwiperContainer>
+                    </CarouselBlaze>
 
                 </div>
             </div>
