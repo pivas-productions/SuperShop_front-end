@@ -22,7 +22,7 @@ export default async function FavoritePage() {
             <section className="catalog_main col-span-full grid grid-cols-5 mt-4 py-2 px-10">
                 <ReactQueryProvider>
                 <Suspense fallback={<Loading />}>
-                <CatalogItemsWrapper items={items} catalog_slug={"params.catalog_slug"} route={route} fetch_key={'favorite'} />
+                <CatalogItemsWrapper items={items} catalog_slug={"params.catalog_slug"} route={route} backend_href={process.env.REACT_APP_API_URL_CLIENT} fetch_key={'favorite'} />
                     </Suspense>
                 </ReactQueryProvider>
             </section>
