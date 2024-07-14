@@ -29,6 +29,8 @@ module.exports = {
       animation: {
         'arrow_down': 'arrow-down 2s infinite',
         'filters-show': 'filters-show 2s easy-in-out',
+        'slideDown': 'slide-down-accordion 300ms ease-out',
+        'slideUp': 'slide-up-accordion 300ms ease-out',
       },
       keyframes: {
         'arrow-down': {
@@ -51,6 +53,22 @@ module.exports = {
             // opacity: 0,
             transform: 'translateX(0)'
           },
+        },
+        'slide-down-accordion': {
+          'from': {
+            height: '0'
+          },
+          'to': {
+            height: 'var(--radix-accordion-content-height)',
+          }
+        },        
+        'slide-up-accordion': {
+          'from': {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          'to': {
+            height: '0'
+          }
         }
       },
     },

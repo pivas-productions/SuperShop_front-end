@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useRef } from 'react'
 import Breadcrumps from './breadcrumps'
 import { LinkBack } from '@/components/ui/back-link'
 import ImageCarousel from './image-carousel'
@@ -10,30 +11,16 @@ import AddToFavorite from '@/components/add-to-favorite';
 import ShareMenu from '@/components/share-menu';
 import ReviewsWrapper from './reviews-wrapper';
 
-const ProductPageWrapper = () => {
-  const route = process.env.REACT_APP_API_URL_CLIENT;
-  // const images = [{ src: 'http://localhost:8000/media/item/4pic.webp' }, { src: '/hover_image.jpg' }, { src: 'http://localhost:8000/media/item/3pic.webp' }];
-  const images = [
-    {
-      src: `${route}/media/item/4pic.webp`,
-      width: 896,
-      height: 414,
-      imageFit: 'cover'
-    },
-    {
-      src: "/hover_image.jpg",
-      width: 896,
-      height: 414,
-      imageFit: 'cover'
-    },
-    {
-      src: `${route}/media/item/3pic.webp`,
-      width: 896,
-      height: 414,
-      imageFit: 'cover'
-    },
-  ]
-  console.log(images, 'images in product page wrapper')
+const ProductPageWrapper = ({route, items}) => {
+  const reviewsTrigger = useRef(null)
+  const GoToReviews = () => {
+    reviewsTrigger.current.scrollIntoView({
+      behavior: 'smooth'
+    })
+    reviewsTrigger.current?.click();
+  };
+  
+  console.log(items, 'items in product page wrapper')
   return (
     <>
       <div className="w-full 2xl:container py-16 lg:mt-16 flex-col justify-start items-start gap-6 inline-flex">
@@ -44,7 +31,7 @@ const ProductPageWrapper = () => {
         <section className='mainContent w-full lg:px-6'>
           <div className="mainInfo flex flex-col lg:flex-row  gap-4">
             <div className="ImageBlock h-[70vh] flex-grow">
-              <ImageCarousel images={images} />
+              <ImageCarousel images={items} />
             </div>
             <div className=" self-stretch flex-col justify-center items-start gap-6 inline-flex">
               <div className='w-full'>
@@ -53,13 +40,13 @@ const ProductPageWrapper = () => {
               </div>
               <div className="w-full justify-around items-center inline-flex ">
 
-                <Link href={'#reviewsblock'} className="Mark flex items-center align-middle gap-1">
+                <button onClick={GoToReviews} className="Mark flex items-center align-middle gap-1">
                   <FaStar className='w-5 h-5' fill='orange' />
                   <span>4.5</span>
                   <span className='ml-4 underline'>38 отзывов</span>
-                </Link>
+                </button>
                 <div className="blockbutton inline-flex gap-2">
-                  <ShareMenu media={images[0].src} />
+                  <ShareMenu media={items[0].src} />
                   <AddToFavorite />
                 </div>
               </div>
@@ -79,7 +66,7 @@ const ProductPageWrapper = () => {
               <AccordionTrigger>
                 <span className="w-full">Characteristics</span>
               </AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className={' overflow-hidden'}>
                 <div className="AccordionContent self-stretch justify-center items-center inline-flex">
                   <div className="text-stone-900">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</div>
                 </div>
@@ -89,7 +76,7 @@ const ProductPageWrapper = () => {
               <AccordionTrigger>
                 <span className="w-full">About the brand</span>
               </AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className={' overflow-hidden'}>
                 <div className="AccordionContent self-stretch justify-center items-center inline-flex">
                   <div className="text-stone-900">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</div>
                 </div>
@@ -99,7 +86,7 @@ const ProductPageWrapper = () => {
               <AccordionTrigger>
                 <span className="w-full">Additional Information</span>
               </AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className={' overflow-hidden'}>
                 <div className="AccordionContent self-stretch justify-center items-center inline-flex">
                   <div className="text-stone-900">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</div>
                 </div>
@@ -109,7 +96,7 @@ const ProductPageWrapper = () => {
               <AccordionTrigger>
                 <span className="w-full">Size table</span>
               </AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className={' overflow-hidden'}>
                 <div className="AccordionContent self-stretch justify-center items-center inline-flex">
                   <div className="text-stone-900">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</div>
                 </div>
@@ -117,9 +104,9 @@ const ProductPageWrapper = () => {
             </AccordionItem>
             <AccordionItem value={'reviews'}>
               <AccordionTrigger>
-                <span id='reviewsblock' className="w-full">Reviews</span>
+                <span id='reviewsblock' ref={reviewsTrigger} className="w-full">Reviews</span>
               </AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className={' overflow-hidden'}>
                 <ReviewsWrapper />
               </AccordionContent>
             </AccordionItem>
