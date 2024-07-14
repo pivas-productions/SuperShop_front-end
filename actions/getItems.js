@@ -11,7 +11,9 @@ export default async function getItems({ pageParam = 1, catalog_slug, route }) {
   console.log(url, 'url in getItems')
   const res = await fetch(
     url
-
+    , {
+      next: { revalidate: 100 } // 3600
+  }
   );
   return res.json();
 }
