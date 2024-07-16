@@ -51,6 +51,7 @@ export default function ImageCarousel({ images }) {
                 carousel={{
                     padding: 0,
                     spacing: 0,
+                    borderRadius: '100%',
                     imageFit: "cover",
                 }}
                 plugins={[Inline, Thumbnails]}
@@ -59,9 +60,11 @@ export default function ImageCarousel({ images }) {
                         width: "100%",
                         // maxWidth: "900px",
                         height: "100%",
+                        borderRadius: '100%',
+
                         maxHeight: 'auto',
-                        aspectRatio: "3 / 2",
-                        margin: "0 auto",
+                        // aspectRatio: "3 / 2",
+                        // margin: "0 auto",
                     },
                 }}
                 thumbnails={{

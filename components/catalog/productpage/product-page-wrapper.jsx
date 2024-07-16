@@ -24,17 +24,20 @@ const ProductPageWrapper = ({ route, items, images }) => {
   console.log(items, 'items in product page wrapper')
   return (
     <>
-      <div className="w-full px-4 2xl:px-12 py-16 lg:mt-16 flex-col justify-start items-start gap-6 inline-flex">
-        <div className="mx-auto z-30 absolute lg:static container justify-start items-center inline-flex gap-2">
-          <LinkBack />
-          <Breadcrumps />
-        </div>
-        <section className='mainContent w-full'>
+      <div className="w-full px-4 2xl:px-12 py-20 md:py-16 lg:mt-8 flex-col justify-start items-start gap-6 inline-flex">
+
+        <section className='mainContent w-full mt-4 lg:mt-0'>
           <div className="mainInfo flex flex-col 2xl:flex-row  gap-4">
-            <div className="ImageBlock h-[70vh] flex-grow">
+            <div className="ImageBlock h-[40vh] lg:h-[95vh] flex-grow">
+            <div className="absolute z-50">
+              <div className="mx-auto z-50 absolute lg:static container justify-start items-center inline-flex gap-2">
+                <LinkBack />
+                <Breadcrumps />
+              </div>
+            </div>
               <ImageCarousel images={images} />
             </div>
-            <div className=" self-stretch flex-col justify-center items-start gap-6 inline-flex">
+            <div className=" flex-col w-full xl:w-fit xl:items-start lg:self-start mt-12 gap-6 flex">
               <div className='w-full'>
                 <div className="text-neutral-500">{items?.categories?.[0].name}</div>
                 <div className="text-stone-900 text-6xl font-semibold font-['Inter'] leading-[96px]">{items?.name} </div>
