@@ -1,16 +1,21 @@
 import React from 'react'
-import { MdModeEdit } from "react-icons/md";
 import './settings-bar-cart.css';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { CiCreditCard1 } from 'react-icons/ci';
 import { CheckboxIndicator, CheckboxRoot } from '../ui/checkbox';
+import { EditDialogForCart } from './edit-dialog-for-cart';
 const SettingsBarCart = () => {
     return (
         <section className='space-y-12'>
             <div className=" shadow-md border-2 rounded-3xl p-4">
                 <div className="TitleBar flex justify-center">
                     <h4 className="text-lg font-semibold">Способ доставки</h4>
-                    <MdModeEdit className='text-xl relative bottom-1 left-16' />
+                    <EditDialogForCart title={'Способ доставки'} >
+                        <div>
+                            asfasfasdf
+                        </div>
+                    </EditDialogForCart>
+                    {/* <MdModeEdit className='text-xl relative bottom-1 left-16' /> */}
                 </div>
                 <p className="py-4 flex gap-2"><FaMapMarkerAlt />Республика Крым, Симферополь, Киевская улица, 83</p>
                 <div className='flex items-center gap-2  font-semibold font-serif w-full justify-center'>
@@ -21,7 +26,64 @@ const SettingsBarCart = () => {
             <div className="shadow-md border-2 rounded-3xl p-4">
                 <div className="TitleBar flex justify-center mb-4">
                     <h4 className="text-lg font-semibold">Способ Оплаты</h4>
-                    <MdModeEdit className='text-xl relative bottom-1 left-16' />
+                    <EditDialogForCart title={'Способ Оплаты'} >
+                        <div className="space-y-4 text-center">
+                            <div className="radio-item">
+                                <input className="hidden peer" name="radio" id="radio1" type="radio" />
+                                <label
+                                    className="flex justify-center items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
+                                                after:absolute after:rounded-full after:h-[1.5rem] after:w-[1.5rem] after:border-2 after:border-pink-300 after:left-[2rem]
+                                                before:absolute before:rounded-full before:h-[1.55rem] before:w-[1.55rem] before:bg-pink-300/80 before:opacity-0 before:invisible 
+                                                before:transition-all duration-300 before:ease-in-out before:scale-150 before:left-[2rem] peer-checked:border-pink-300
+                                                peer-checked:before:opacity-100 peer-checked:before:visible peer-checked:before:scale-100
+                                                "
+                                    htmlFor="radio1"
+                                >Наличные</label>
+                            </div>
+                            <div className="radio-item">
+                                <input className="hidden peer" name="radio" id="radio2" type="radio" />
+                                <label
+                                    className="flex justify-center items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
+                                                after:absolute after:rounded-full after:h-[1.5rem] after:w-[1.5rem] after:border-2 after:border-pink-300 after:left-[2rem]
+                                                before:absolute before:rounded-full before:h-[1.55rem] before:w-[1.55rem] before:bg-pink-300/80 before:opacity-0 before:invisible 
+                                                before:transition-all duration-300 before:ease-in-out before:scale-150 before:left-[2rem] peer-checked:border-pink-300
+                                                peer-checked:before:opacity-100 peer-checked:before:visible peer-checked:before:scale-100
+                                                "
+                                    htmlFor="radio2"
+                                >
+                                    <CiCreditCard1 className='text-3xl' />
+                                    <span className="Mir0375 border border-black p-2 rounded-3xl ">Mir &#x2022;&#x2022; 0375</span>
+                                </label>
+                            </div>
+                            <div className="radio-item">
+                                <input className="hidden peer" name="radio" id="radio3" type="radio" />
+                                <label
+                                    className="flex justify-center items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
+                                                after:absolute after:rounded-full after:h-[1.5rem] after:w-[1.5rem] after:border-2 after:border-pink-300 after:left-[2rem]
+                                                before:absolute before:rounded-full before:h-[1.55rem] before:w-[1.55rem] before:bg-pink-300/80 before:opacity-0 before:invisible 
+                                                before:transition-all duration-300 before:ease-in-out before:scale-150 before:left-[2rem] peer-checked:border-pink-300
+                                                peer-checked:before:opacity-100 peer-checked:before:visible peer-checked:before:scale-100
+                                                "
+                                    htmlFor="radio3"
+                                >
+                                    <CiCreditCard1 className='text-3xl' />
+                                    <span className="Mir0375 border border-black p-2 rounded-3xl ">Mir &#x2022;&#x2022; 0375</span>
+                                </label>
+                            </div>
+                            <div className="radio-item">
+                                <input className="hidden peer" name="radio" id="newMethod" type="button" />
+                                <label
+                                    className="flex justify-center items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
+                                              hover:border-pink-300 group transition-colors duration-200
+                                                "
+                                    htmlFor="newMethod"
+                                >
+                                    <CiCreditCard1 className='text-3xl group-hover:text-pink-300 transition-colors duration-200' />
+                                    <span className="Mir0375 border border-black group-hover:border-pink-300 p-2 rounded-3xl transition-colors duration-200 ">Добавить новую карту</span>
+                                </label>
+                            </div>
+                        </div>
+                    </EditDialogForCart>
                 </div>
                 <section className="flex flex-col gap-4">
                     <div className="Frame3567 space-x-1 w-fit flex items-center">
@@ -74,9 +136,9 @@ const SettingsBarCart = () => {
                     </button>
                     <div className="CheckboxField flex-col justify-start items-start inline-flex">
                         <div className="CheckboxAndLabel self-stretch justify-start items-center gap-3 inline-flex">
-                                <CheckboxRoot id={'agree_rules'} colors={'blacked'} size={'xs'} effect={'sm'}>
-                                    <CheckboxIndicator />
-                                </CheckboxRoot>
+                            <CheckboxRoot id={'agree_rules'} colors={'blacked'} size={'xs'} effect={'sm'}>
+                                <CheckboxIndicator />
+                            </CheckboxRoot>
                             <label htmlFor='agree_rules' className="align-middle Label text-stone-900 text-sm font-medium font-['Roboto'] leading-none tracking-tight">Соглашаюсь с правилами использования торговой площадки и возврата</label>
                         </div>
                     </div>

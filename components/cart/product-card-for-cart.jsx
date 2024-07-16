@@ -4,8 +4,9 @@ import AddToFavorite from '@/components/add-to-favorite'
 import DeleteProduct from '@/components/delete-product'
 import { CiCircleMinus, CiCirclePlus } from 'react-icons/ci'
 import { CheckboxIndicator, CheckboxRoot } from '../ui/checkbox'
+import Link from 'next/link'
 
-export default function ProductCardForCart({ allChecked, initialQuantity, productId }) {
+export default function ProductCardForCart({ allChecked, initialQuantity, productId, item }) {
     const [quantity, setQuantity] = useState(initialQuantity);
     const [intervalId, setIntervalId] = useState(null);
     const [timeoutId, setTimeoutId] = useState(null);
@@ -90,7 +91,7 @@ export default function ProductCardForCart({ allChecked, initialQuantity, produc
         setStateChecked(checked);
     };
     return (
-        <div className="Productframe w-full rounded-3xl border-gray-300 shadow-md border-2 p-2 grid grid-cols-[auto,1fr,4fr,1fr,auto] place-items-center gap-10">
+        <Link href={`/catalog/${item?.catalog_slug}/${item?.id}`} className="Productframe w-full rounded-3xl border-gray-300 shadow-md border-2 p-2 grid grid-cols-[auto,1fr,4fr,1fr,auto] place-items-center gap-10">
             <div className="Checkboxes w-fit">
                 <CheckboxRoot checked={stateChecked} onCheckedChange={handleCheckboxChange} colors={'blacked'} size={'xs'} effect={'sm'}>
                     <CheckboxIndicator />
@@ -140,6 +141,6 @@ export default function ProductCardForCart({ allChecked, initialQuantity, produc
                     <CiCirclePlus className='h-full text-2xl' />
                 </button>
             </div>
-        </div>
+        </Link>
     );
 };
