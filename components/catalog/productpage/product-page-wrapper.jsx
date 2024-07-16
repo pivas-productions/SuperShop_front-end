@@ -11,16 +11,16 @@ import AddToFavorite from '@/components/add-to-favorite';
 import ShareMenu from '@/components/share-menu';
 import ReviewsWrapper from './reviews-wrapper';
 
-const ProductPageWrapper = ({route, items, images}) => {
+const ProductPageWrapper = ({ route, items, images }) => {
   const reviewsTrigger = useRef(null)
   const GoToReviews = () => {
     reviewsTrigger.current?.scrollIntoView({
       behavior: 'smooth'
     })
-    if(reviewsTrigger.current?.dataset.state != 'open')
+    if (reviewsTrigger.current?.dataset.state != 'open')
       reviewsTrigger.current?.click();
   };
-  
+
   console.log(items, 'items in product page wrapper')
   return (
     <>
@@ -36,11 +36,10 @@ const ProductPageWrapper = ({route, items, images}) => {
             </div>
             <div className=" self-stretch flex-col justify-center items-start gap-6 inline-flex">
               <div className='w-full'>
-                <div className="text-neutral-500">{items?.categories?.name}</div>
+                <div className="text-neutral-500">{items?.categories?.[0].name}</div>
                 <div className="text-stone-900 text-6xl font-semibold font-['Inter'] leading-[96px]">{items?.name} </div>
               </div>
               <div className="w-full justify-around items-center inline-flex ">
-
                 <button onClick={GoToReviews} className="Mark flex items-center align-middle gap-1">
                   <FaStar className='w-5 h-5' fill='orange' />
                   <span>4.5</span>
@@ -51,7 +50,11 @@ const ProductPageWrapper = ({route, items, images}) => {
                   <AddToFavorite />
                 </div>
               </div>
-              <ProductPageForm items={items}/>
+              <div className="w-full mx-auto justify-around gap-2 items-center inline-flex ">
+                <span>Товар уже купили:</span>
+                <span className='self-start'>{items?.order_count} раз</span>
+              </div>
+              <ProductPageForm items={items} />
             </div>
           </div>
         </section>

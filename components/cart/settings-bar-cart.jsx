@@ -3,6 +3,7 @@ import { MdModeEdit } from "react-icons/md";
 import './settings-bar-cart.css';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { CiCreditCard1 } from 'react-icons/ci';
+import { CheckboxIndicator, CheckboxRoot } from '../ui/checkbox';
 const SettingsBarCart = () => {
     return (
         <section className='space-y-12'>
@@ -73,10 +74,10 @@ const SettingsBarCart = () => {
                     </button>
                     <div className="CheckboxField flex-col justify-start items-start inline-flex">
                         <div className="CheckboxAndLabel self-stretch justify-start items-center gap-3 inline-flex">
-                            <div className="Checkboxes w-fit">
-                                <input type="checkbox" name="" id="" />
-                            </div>
-                            <div className="Label grow shrink basis-0 text-stone-900 text-sm font-medium font-['Roboto'] leading-tight tracking-tight">Соглашаюсь с правилами использования торговой площадки и возврата</div>
+                                <CheckboxRoot id={'agree_rules'} colors={'blacked'} size={'xs'} effect={'sm'}>
+                                    <CheckboxIndicator />
+                                </CheckboxRoot>
+                            <label htmlFor='agree_rules' className="align-middle Label text-stone-900 text-sm font-medium font-['Roboto'] leading-none tracking-tight">Соглашаюсь с правилами использования торговой площадки и возврата</label>
                         </div>
                     </div>
                 </section>

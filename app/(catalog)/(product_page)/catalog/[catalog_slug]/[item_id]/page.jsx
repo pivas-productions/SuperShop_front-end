@@ -4,7 +4,7 @@ import React, { Suspense } from 'react'
 
 const ProductIdPage = async ({ params }) => {
   console.log(params)
-  const res = await fetch(`${process.env.REACT_APP_API_URL}/api/items/${params.item_id}?populate=all_photo&populate[0]=colors_sizes&populate[2]=categories`
+  const res = await fetch(`${process.env.REACT_APP_API_URL}/api/items/${params.item_id}?populate=all_photo,colors_sizes,categories`
     , {
       next: { revalidate: 100 } // 3600
   });
@@ -24,7 +24,7 @@ const ProductIdPage = async ({ params }) => {
     ]
     return acc;
   }, [])
-  console.log(images)
+  console.log(images, 'images')
   return (
     <main className='rounded w-screen min-h-screen text-center '>
       <Suspense fallback={<Loading />}>

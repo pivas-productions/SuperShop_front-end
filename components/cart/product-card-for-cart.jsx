@@ -3,12 +3,13 @@ import React, { useState, useEffect } from 'react'
 import AddToFavorite from '@/components/add-to-favorite'
 import DeleteProduct from '@/components/delete-product'
 import { CiCircleMinus, CiCirclePlus } from 'react-icons/ci'
+import { CheckboxIndicator, CheckboxRoot } from '../ui/checkbox'
 
-export default function ProductCardForCart({ initialQuantity, productId }) {
+export default function ProductCardForCart({ allChecked, initialQuantity, productId }) {
     const [quantity, setQuantity] = useState(initialQuantity);
     const [intervalId, setIntervalId] = useState(null);
     const [timeoutId, setTimeoutId] = useState(null);
-
+    const [stateChecked, setStateChecked] = useState(allChecked)
     const changeQuantity = (delta) => {
         if (timeoutId) {
             clearTimeout(timeoutId);
@@ -81,10 +82,19 @@ export default function ProductCardForCart({ initialQuantity, productId }) {
         return () => clearInterval(intervalId);
     }, [intervalId]);
 
+    useEffect(() => {
+        setStateChecked(allChecked);
+    }, [allChecked]);
+
+    const handleCheckboxChange = (checked) => {
+        setStateChecked(checked);
+    };
     return (
         <div className="Productframe w-full rounded-3xl border-gray-300 shadow-md border-2 p-2 grid grid-cols-[auto,1fr,4fr,1fr,auto] place-items-center gap-10">
             <div className="Checkboxes w-fit">
-                <input type="checkbox" name="" id="" />
+                <CheckboxRoot checked={stateChecked} onCheckedChange={handleCheckboxChange} colors={'blacked'} size={'xs'} effect={'sm'}>
+                    <CheckboxIndicator />
+                </CheckboxRoot>
             </div>
             <div className={"CardPhotoInCart group relative w-full h-full"}>
                 <img className="Image rounded-lg h-full w-full" src="https://via.placeholder.com/140x156" alt='' />
@@ -108,7 +118,7 @@ export default function ProductCardForCart({ initialQuantity, productId }) {
                 </div>
             </div>
             <div className="flex gap-2 items-center">
-                <button 
+                <button
                     onMouseDown={() => startChangingQuantity(-1)}
                     onMouseUp={stopChangingQuantity}
                     onMouseLeave={stopChangingQuantityMouseLeave}
@@ -122,7 +132,7 @@ export default function ProductCardForCart({ initialQuantity, productId }) {
                     className="min-w-[2.25rem] h-9 rounded-lg border border-zinc-500 px-3 py-1.5 text-center bg-transparent text-zinc-700 text-sm font-medium font-['Roboto'] leading-tight tracking-tight"
                     style={{ width: `${(quantity.toString().length + 5)}ch` }}
                 />
-                <button 
+                <button
                     onMouseDown={() => startChangingQuantity(1)}
                     onMouseUp={stopChangingQuantity}
                     onMouseLeave={stopChangingQuantityMouseLeave}
