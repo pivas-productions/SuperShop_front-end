@@ -23,7 +23,7 @@ export const Discounts = ({items}) => {
                 <div className="ProductsList h-96 container mt-4 gap-32">
                     <CarouselBlaze slidesToShow={3} loop={true} slideGap='8rem'>
                         {Object.values(items).map((item) => (
-                                <ProductCard seen_style='list' href={'/catalog/items/'+item.id} key={item.id}>
+                                <ProductCard seen_style='grid' href={'/catalog/items/'+item.id} key={item.id}>
                                     <ProductCardPhoto src_main={item?.general_photo_one?.photo?.photo ? route + item?.general_photo_one?.photo?.photo : '/435x366.png'} src_hover={item?.general_photo_two?.photo?.photo ? route + item?.general_photo_two?.photo?.photo : '/hover_image.jpg'} />
                                     <ProductCardContent item={item} />
                                 </ProductCard>

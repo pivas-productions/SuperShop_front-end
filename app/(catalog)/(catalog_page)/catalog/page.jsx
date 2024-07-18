@@ -16,7 +16,7 @@ const CatalogMainPage = async () => {
       )
     return (
         <>
-            <CatalogItemsWrapper items={items} catalog_slug={"allitems"} fetch_key={'catalog_allitems'} backend_href={process.env.REACT_APP_API_URL_CLIENT} route={route}/>
+            <CatalogItemsWrapper default_style={items.length > 1 ? 'list' : 'grid'} items={items} catalog_slug={"allitems"} fetch_key={'catalog_allitems'} backend_href={process.env.REACT_APP_API_URL_CLIENT} route={route}/>
             
         </>
     )

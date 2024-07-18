@@ -13,14 +13,14 @@ const productCardVariants = cva("ProductCard flex-col cursor-pointer justify-sta
             default: "w-full min-h-96 pb-5"
         },
         seen_style: {
-            grid: 'first:row-span-2 first:col-span-2 [&:nth-child(10n+1)]:row-span-2 [&:nth-child(10n+1)]:col-span-2 [&:nth-child(10n+8)]:row-span-2 [&:nth-child(10n+8)]:col-span-2 ',
-            list: '',
+            list: 'first:row-span-2 first:col-span-2 [&:nth-child(10n+1)]:row-span-2 [&:nth-child(10n+1)]:col-span-2 [&:nth-child(10n+8)]:row-span-2 [&:nth-child(10n+8)]:col-span-2 ',
+            grid: '',
         }
     },
     defaultVariants: {
         variant: "default",
         size: "default",
-        seen_style: 'grid'
+        seen_style: 'list'
     },
 });
 
@@ -35,7 +35,7 @@ const ProductCard = React.forwardRef(({ className, href, variant, size, seen_sty
 ProductCard.displayName = "ProductCard";
 
 const ProductCardPhoto = React.forwardRef(({ className, src_main, src_hover, ...props }, ref) => {
-    console.log(src_main, 'main and hover Photo', src_hover)
+    // console.log(src_main, 'main and hover Photo', src_hover)
     return (
         <div className={"CardPhoto group relative w-full h-4/5 " + (className ? className : "")} ref={ref} {...props}>
             {/* <Image fill className="Image w-96 h-96 rounded-lg" src={src} alt='' /> */}

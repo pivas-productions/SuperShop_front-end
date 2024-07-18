@@ -6,7 +6,7 @@ import { Select } from '../ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import FiltersBar from './filters-bar';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const sorting_type = [
     { value: 'by-popularity', label: 'By popularity' },
@@ -16,8 +16,11 @@ const sorting_type = [
 ]
 
 const ToolbarCatalog = ({route}) => {
+    const searchParams = useSearchParams();
+    const { replace } = useRouter();
+    const pathname = usePathname();
     const [countProducts, setCountProducts] = useState(null);
-    const pathname = usePathname()
+
 
     const [catalogView, setCatalogView] = useState('list');
     const [filtersView, setFiltersView] = useState(false);
@@ -40,7 +43,26 @@ const ToolbarCatalog = ({route}) => {
         }
     }, [pathname, route]);
 
+    useEffect(() => {
+        if (searchParams.get('view_type')) {
+            setCatalogView(searchParams.get('view_type'))
+        }
+    }, [searchParams]);
 
+    const handleChangeView = (val) => {
+        setCatalogView(val)
+
+        const params = new URLSearchParams(searchParams);
+    
+        if (val != 'list') {
+          params.set('view_type', val);
+        } else {
+          params.delete('view_type');
+        }
+        replace(`${pathname}?${params.toString()}`);
+    }
+    
+    
     const defValue = {
         sorting_type: sorting_type.find((item) => item.value === 'by-popularity'),
         express_delivery: false
@@ -124,14 +146,14 @@ const ToolbarCatalog = ({route}) => {
                                     <button
                                         className={`${catalogView === 'list' ? 'text-black' : 'text-gray-400'
                                             }`}
-                                        onClick={() => setCatalogView('list')}
+                                        onClick={() => handleChangeView('list')}
                                     >
                                         <BsGrid1X2 />
                                     </button>
                                     <button
                                         className={`${catalogView === 'grid' ? 'text-black' : 'text-gray-400'
                                             }`}
-                                        onClick={() => setCatalogView('grid')}
+                                        onClick={() => handleChangeView('grid')}
                                     >
                                         <BsGrid size={20} />
                                     </button>

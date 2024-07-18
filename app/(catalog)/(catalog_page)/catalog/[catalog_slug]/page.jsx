@@ -503,7 +503,7 @@ const CatalogNamePage = async ({ params }) => {
   // })
   return (
     <>
-      <CatalogItemsWrapper items={items} catalog_slug={params.catalog_slug} backend_href={process.env.REACT_APP_API_URL_CLIENT} route={route} fetch_key={'catalog_' + params.catalog_slug}/>
+      <CatalogItemsWrapper default_style={items.length > 1 ? 'list' : 'grid'} items={items} catalog_slug={params.catalog_slug} backend_href={process.env.REACT_APP_API_URL_CLIENT} route={route} fetch_key={'catalog_' + params.catalog_slug}/>
     </>
   )
 }

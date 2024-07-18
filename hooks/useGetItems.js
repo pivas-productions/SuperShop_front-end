@@ -3,7 +3,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import getItems from "@/actions/getItems";
 
 export default function useGetItems(initialData, key, route) {
-  console.log(key, 'key useGetItems')
   return useInfiniteQuery({
     queryKey: [key],
     queryFn: ({ pageParam = 1 }) => {

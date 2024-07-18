@@ -23,7 +23,7 @@ export const NewItems = ({ items }) => {
                     {Object.values(items).slice(0, 3).map((item) => {
                         // console.log(item)
                         return (
-                            <ProductCard seen_style='list' href={'/catalog/items/'+item.id} key={item.id}>
+                            <ProductCard seen_style='grid' href={'/catalog/items/'+item.id} key={item.id}>
                                 <ProductCardPhoto src_main={item?.general_photo_one?.photo?.photo ? route + item?.general_photo_one?.photo?.photo : '/435x366.png'} src_hover={item?.general_photo_two?.photo?.photo ? route + item?.general_photo_two?.photo?.photo : '/hover_image.jpg'} />
                                 <ProductCardContent item={item} />
                             </ProductCard>
