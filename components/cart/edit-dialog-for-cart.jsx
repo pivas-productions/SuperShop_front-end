@@ -1,13 +1,14 @@
 import React from 'react'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { MdModeEdit } from 'react-icons/md'
-import { Button } from '../ui/button'
 
 const EditDialogForCart = React.forwardRef(({ children, className, title, ...props}, ref) => {
     return (
         <Dialog modal={true} className={className} {...props} ref={ref} >
             <DialogTrigger asChild> 
-                <MdModeEdit className='text-xl relative cursor-pointer bottom-1 left-16' />
+                <button>
+                    <MdModeEdit className='text-xl relative cursor-pointer bottom-1 left-16' />
+                </button>
             </DialogTrigger>
             <DialogContent variant={'editDialog'}>
                 <DialogTitle className="w-full rounded-t-md flex justify-between" >

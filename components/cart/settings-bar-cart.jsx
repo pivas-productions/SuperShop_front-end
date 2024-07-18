@@ -1,19 +1,128 @@
+'use client'
 import React from 'react'
 import './settings-bar-cart.css';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { CiCreditCard1 } from 'react-icons/ci';
 import { CheckboxIndicator, CheckboxRoot } from '../ui/checkbox';
 import { EditDialogForCart } from './edit-dialog-for-cart';
-const SettingsBarCart = () => {
+import { AddNewMehod } from './add-new-method-cart';
+import CreditCardForm from './creditCardForm';
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from '../ui/tabs';
+
+
+import Search from '@/components/search';
+import Table from '@/components/table';
+// import { CreateInvoice } from '@/app/ui/invoices/buttons';
+
+const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
+
+const SettingsBarCart = ({searchParams}) => {
+    const [openDeliveryDialog, setOpenDeliveryDialog] = React.useState(false);
+    const [openPaymentDialog, setOpenPaymentDialog] = React.useState(false);
+
+    const handleOpenDeliveryDialog = (isOpen) => {
+        setOpenPaymentDialog(false); // Закрыть диалог способа оплаты
+        setOpenDeliveryDialog(isOpen);
+    }
+
+    const handleOpenPaymentDialog = (isOpen) => {
+        setOpenDeliveryDialog(false); // Закрыть диалог способа доставки
+        setOpenPaymentDialog(isOpen);
+    }
+
+    const handleSubmit = () => {
+        wait().then(() => {
+            setOpenDeliveryDialog(false);
+            setOpenPaymentDialog(false);
+        });
+    }
+    // const [open, setOpen] = React.useState(false);
+    // const handleSubmit = () => {
+    //     wait().then(() => setOpen(false));
+    // }
+
+    const query = searchParams?.query || '';
+    const currentPage = Number(searchParams?.page) || 1;
     return (
         <section className='space-y-12'>
             <div className=" shadow-md border-2 rounded-3xl p-4">
                 <div className="TitleBar flex justify-center">
                     <h4 className="text-lg font-semibold">Способ доставки</h4>
-                    <EditDialogForCart title={'Способ доставки'} >
-                        <div>
-                            asfasfasdf
-                        </div>
+                    <EditDialogForCart open={openDeliveryDialog} onOpenChange={handleOpenDeliveryDialog} title={'Способ доставки'} >
+                        <TabsRoot defaultValue={'Pickup'}>
+                            <TabsList>
+                                <TabsTrigger value={'Pickup'}>
+                                    Самовывоз
+                                </TabsTrigger>
+                                <TabsTrigger value={'Delivery'}>
+                                    Доставка
+                                </TabsTrigger>
+                            </TabsList>
+                            <TabsContent value={'Pickup'}>
+                            <div className="mt-4 w-full flex items-center justify-between gap-2 md:mt-8">
+        <Search placeholder="Search invoices..." />
+        {/* <CreateInvoice /> */}
+      </div>
+        <Table query={query} currentPage={currentPage} />
+                            </TabsContent>
+                            <TabsContent value={'Delivery'}>
+                                <div className='space-y-4 text-center'>
+                                    <form className="space-y-4 text-center"
+                                        onSubmit={handleSubmit}
+                                    >
+                                        <div className="radio-item">
+                                            <input className="hidden peer" onChange={handleSubmit} name="radio" id="radio1" type="radio" />
+                                            <label
+                                                className="flex justify-end items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
+                                                    after:absolute after:rounded-full after:h-[1.5rem] after:w-[1.5rem] after:border-2 after:border-pink-300 after:left-[2rem]
+                                                    before:absolute before:rounded-full before:h-[1.55rem] before:w-[1.55rem] before:bg-pink-300/80 before:opacity-0 before:invisible
+                                                    before:transition-all duration-300 before:ease-in-out before:scale-150 before:left-[2rem] peer-checked:border-pink-300
+                                                    peer-checked:before:opacity-100 peer-checked:before:visible peer-checked:before:scale-100
+                                                    "
+                                                htmlFor="radio1"
+                                            >
+                                                <FaMapMarkerAlt />
+                                                <span className="border w-3/4 border-black p-2 rounded-3xl ">Республика Крым, Симферополь, Киевская улица, 83</span>
+                                            </label>
+                                        </div>
+                                        <div className="radio-item">
+                                            <input className="hidden peer" onChange={handleSubmit} name="radio" id="radio2" type="radio" />
+                                            <label
+                                                className="flex justify-end items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
+                                                    after:absolute after:rounded-full after:h-[1.5rem] after:w-[1.5rem] after:border-2 after:border-pink-300 after:left-[2rem]
+                                                    before:absolute before:rounded-full before:h-[1.55rem] before:w-[1.55rem] before:bg-pink-300/80 before:opacity-0 before:invisible
+                                                    before:transition-all duration-300 before:ease-in-out before:scale-150 before:left-[2rem] peer-checked:border-pink-300
+                                                    peer-checked:before:opacity-100 peer-checked:before:visible peer-checked:before:scale-100
+                                                    "
+                                                htmlFor="radio2"
+                                            >
+                                                <FaMapMarkerAlt />
+                                                <span className="border w-3/4 border-black p-2 rounded-3xl ">Республика Крым, Симферополь, Киевская улица, 83</span>
+                                            </label>
+                                        </div>
+                                        <div className="radio-item">
+                                            <input className="hidden peer" onChange={handleSubmit} name="radio" id="radio3" type="radio" />
+                                            <label
+                                                className="flex justify-end items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
+                                                    after:absolute after:rounded-full after:h-[1.5rem] after:w-[1.5rem] after:border-2 after:border-pink-300 after:left-[2rem]
+                                                    before:absolute before:rounded-full before:h-[1.55rem] before:w-[1.55rem] before:bg-pink-300/80 before:opacity-0 before:invisible
+                                                    before:transition-all duration-300 before:ease-in-out before:scale-150 before:left-[2rem] peer-checked:border-pink-300
+                                                    peer-checked:before:opacity-100 peer-checked:before:visible peer-checked:before:scale-100
+                                                    "
+                                                htmlFor="radio3"
+                                            >
+                                                <FaMapMarkerAlt />
+                                                <span className="border w-3/4 border-black p-2 rounded-3xl ">Республика Крым, Симферополь, Киевская улица, 83</span>
+                                            </label>
+                                        </div>
+                                    </form>
+                                    <AddNewMehod type={'new_address'} title={'Новый способ доставки'} closeDialogFunc={setOpenDeliveryDialog}>
+                                        {/* <CreditCardForm /> */}
+                                    </AddNewMehod>
+                                </div>
+                            </TabsContent>
+                        </TabsRoot>
+
                     </EditDialogForCart>
                     {/* <MdModeEdit className='text-xl relative bottom-1 left-16' /> */}
                 </div>
@@ -27,7 +136,7 @@ const SettingsBarCart = () => {
                 <div className="TitleBar flex justify-center mb-4">
                     <h4 className="text-lg font-semibold">Способ Оплаты</h4>
                     <EditDialogForCart title={'Способ Оплаты'} >
-                        <div className="space-y-4 text-center">
+                        <div className="space-y-4 text-center max-h-96 overflow-auto">
                             <div className="radio-item">
                                 <input className="hidden peer" name="radio" id="radio1" type="radio" />
                                 <label
@@ -71,17 +180,23 @@ const SettingsBarCart = () => {
                                 </label>
                             </div>
                             <div className="radio-item">
-                                <input className="hidden peer" name="radio" id="newMethod" type="button" />
+                                <input className="hidden peer" name="radio" id="radio4" type="radio" />
                                 <label
                                     className="flex justify-center items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
-                                              hover:border-pink-300 group transition-colors duration-200
+                                                after:absolute after:rounded-full after:h-[1.5rem] after:w-[1.5rem] after:border-2 after:border-pink-300 after:left-[2rem]
+                                                before:absolute before:rounded-full before:h-[1.55rem] before:w-[1.55rem] before:bg-pink-300/80 before:opacity-0 before:invisible 
+                                                before:transition-all duration-300 before:ease-in-out before:scale-150 before:left-[2rem] peer-checked:border-pink-300
+                                                peer-checked:before:opacity-100 peer-checked:before:visible peer-checked:before:scale-100
                                                 "
-                                    htmlFor="newMethod"
+                                    htmlFor="radio4"
                                 >
-                                    <CiCreditCard1 className='text-3xl group-hover:text-pink-300 transition-colors duration-200' />
-                                    <span className="Mir0375 border border-black group-hover:border-pink-300 p-2 rounded-3xl transition-colors duration-200 ">Добавить новую карту</span>
+                                    <CiCreditCard1 className='text-3xl' />
+                                    <span className="Mir0375 border border-black p-2 rounded-3xl ">Новая карта</span>
                                 </label>
                             </div>
+                            {/* <AddNewMehod type={'new_card'} title={'Новый способ оплаты'} >
+                                <CreditCardForm />
+                            </AddNewMehod> */}
                         </div>
                     </EditDialogForCart>
                 </div>

@@ -8,6 +8,7 @@ const DialogContentVariants = cva("rounded-md bg-white p-[25px] shadow-[hsl(206_
         variant: {
             default: "",
             editDialog: "data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%]",
+            addDialog: "data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[600px] translate-x-[-50%] translate-y-[-50%]",
         },
     },
     defaultVariants: {
