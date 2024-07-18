@@ -30,7 +30,7 @@ const UserButton = () => {
       {session ? (
         <>
           <DropdownMenuItem className="hover:bg-button-bg/20 py-2 focus:bg-button-bg/20 hover:text-primary-foreground focus:text-primary-foreground flex text-center items-center justify-center">
-            <Link href={'/admin_panel/user-profile'} className="w-full">Профиль</Link>
+            <Link href={'/profile'} className="w-full">Профиль</Link>
           </DropdownMenuItem>
           <LogoutButton>
             <DropdownMenuItem className="hover:bg-button-bg/20 py-2 focus:bg-button-bg/20 hover:text-primary-foreground focus:text-primary-foreground flex text-center items-center justify-center">

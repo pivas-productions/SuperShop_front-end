@@ -11,7 +11,7 @@ const ProductIdPage = async ({ params }) => {
   const items = await res.json();
   console.log(items)
   const route = process.env.REACT_APP_API_URL_CLIENT;
-  const images = items?.all_photo.reduce((acc, curVal) => {
+  let images = items?.all_photos?.reduce((acc, curVal) => {
     acc = [
       ...acc,
       {
@@ -24,6 +24,16 @@ const ProductIdPage = async ({ params }) => {
     ]
     return acc;
   }, [])
+  if (items.all_photos == undefined)
+    images = [
+      {
+        alt: `${'image'}`,
+        src: `${'/no_photo.jpg'}`,
+        width: 896,
+        height: 414,
+        imageFit: 'cover',
+      }
+    ]
   console.log(images, 'images')
   return (
     <main className='rounded w-screen min-h-screen text-center '>
