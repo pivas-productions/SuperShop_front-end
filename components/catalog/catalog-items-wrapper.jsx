@@ -41,7 +41,7 @@ const CatalogItemsWrapper = ({ items, catalog_slug, route, backend_href, fetch_k
                     <></>
                 )}
             </div>
-            <div className="col-span-full" ref={ref} />
+            <div className="col-span-4" ref={ref} />
         </>
     );
 };

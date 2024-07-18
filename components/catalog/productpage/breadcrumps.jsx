@@ -4,7 +4,6 @@ import React from 'react'
 
 const Breadcrumps = () => {
     const pathname = usePathname();
-    console.log(pathname)
     return (
         <nav aria-label="breadcrumbs" className="hidden lg:inline-block text-black w-fit self-center ">
             <ol>
@@ -12,7 +11,6 @@ const Breadcrumps = () => {
                     <span className={`relative after:content-['/'] after:inset-y-0.5 after:absolute after:p-0 after:px-1 after:text-[90%]`}>..</span>
                 </li>
                 {Object.values(pathname.split('/').slice(1)).map((val, index, array) => {
-                    console.log(val, 'val')
                     const isLast = index === array.length - 1;
                     const href = '/' + array.slice(0, index + 1).join('/');
                     if(isLast) 

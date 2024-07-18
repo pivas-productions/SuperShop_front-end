@@ -37,7 +37,6 @@ export default function NextJsImage({ slide, offset, rect }) {
         Math.min(rect.height, (rect.width / slide.width) * slide.height)
       )
     : rect.height;
-  console.log(slide, 'slide in nextjs-image')
   return (
      <div className="h-full" style={{ position: "relative", width: '100%' }}>
       <Image

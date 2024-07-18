@@ -1,15 +1,17 @@
 import ProductPageWrapper from '@/components/catalog/productpage/product-page-wrapper'
 import Loading from '@/components/Loading'
+import SimilarProducts from '@/components/similar-products'
+import ReactQueryProvider from '@/components/ui/ReactQuery'
 import React, { Suspense } from 'react'
 
 const ProductIdPage = async ({ params }) => {
-  console.log(params)
+  // console.log(params)
   const res = await fetch(`${process.env.REACT_APP_API_URL}/api/items/${params.item_id}?populate=all_photo,colors_sizes,categories`
     , {
       next: { revalidate: 100 } // 3600
-  });
+    });
   const items = await res.json();
-  console.log(items)
+  console.log(items.categories[0].slug, 'items.categories')
   const route = process.env.REACT_APP_API_URL_CLIENT;
   const images = items?.all_photo.reduce((acc, curVal) => {
     acc = [
@@ -24,12 +26,18 @@ const ProductIdPage = async ({ params }) => {
     ]
     return acc;
   }, [])
-  console.log(images, 'images')
+  // console.log(images, 'images')
   return (
     <main className='rounded w-screen min-h-screen text-center '>
       <Suspense fallback={<Loading />}>
-        <ProductPageWrapper route={route} items={items} images={images}/>
+        <ProductPageWrapper route={route} items={items} images={images} />
       </Suspense>
+
+      <ReactQueryProvider>
+        <Suspense fallback={<Loading />}>
+          <SimilarProducts title={'С этим товаром покупают'} category={items?.categories?.[0]?.slug} />
+        </Suspense>
+      </ReactQueryProvider>
     </main>
   )
 }

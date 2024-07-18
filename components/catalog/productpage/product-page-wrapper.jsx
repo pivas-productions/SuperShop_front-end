@@ -21,7 +21,7 @@ const ProductPageWrapper = ({ route, items, images }) => {
       reviewsTrigger.current?.click();
   };
 
-  console.log(items, 'items in product page wrapper')
+  // console.log(items, 'items in product page wrapper')
   return (
     <>
       <div className="w-full px-4 2xl:px-12 py-20 md:py-16 lg:mt-8 flex-col justify-start items-start gap-6 inline-flex">

@@ -16,13 +16,13 @@ const ProductPageForm = ({items}) => {
     });
 
     const onCart = (values) => {
-        console.log(values, 'cart')
+        // console.log(values, 'cart')
         startTransition(() => {
 
         });
     };
     const onBuy = (values) => {
-        console.log(values, 'buy')
+        // console.log(values, 'buy')
         startTransition(() => {
 
         });
@@ -36,7 +36,6 @@ const ProductPageForm = ({items}) => {
                             <FormLabel className='!text-lg'>Sizes</FormLabel>
                             <div className="justify-center items-start gap-7 inline-flex">
                                 {items?.sizes?.map((item, i) => {
-                                    console.log(item.name)
                                     return (
                                         <FormControl key={i}>
                                         <input

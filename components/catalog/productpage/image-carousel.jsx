@@ -20,7 +20,6 @@ export default function ImageCarousel({ images }) {
     const thumbnailsRef = React.useRef(null);
     React.useEffect(() => {
         const updateThumbnailsVisibility = () => {
-            console.log('width', window.innerWidth)
             setHidden(window.innerWidth < 1024);
             if (window.innerWidth < 1024)
                 thumbnailsRef.current?.hide();
