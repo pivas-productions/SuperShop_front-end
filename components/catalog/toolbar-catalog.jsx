@@ -9,13 +9,13 @@ import FiltersBar from './filters-bar';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const sorting_type = [
-    { value: 'by-popularity', label: 'By popularity' },
-    { value: 'by-stocks', label: 'The size of the discount' },
-    { value: 'in-asc-prices', label: 'By increasing price' },
-    { value: 'in-desc-prices', label: 'In descending prices' }
+    { value: 'popularity', label: 'By popularity' },
+    { value: 'discount', label: 'The size of the discount' },
+    { value: 'price_asc', label: 'By increasing price' },
+    { value: 'price_desc', label: 'In descending prices' }
 ]
 
-const ToolbarCatalog = ({route}) => {
+const ToolbarCatalog = ({ route }) => {
     const searchParams = useSearchParams();
     const { replace } = useRouter();
     const pathname = usePathname();
@@ -28,45 +28,51 @@ const ToolbarCatalog = ({route}) => {
     const FiltersButton = useRef(null)
 
     useEffect(() => {
+        let category_route;
         if (pathname.replace('/catalog', '') != '') {
-            // Выполнение запроса fetch на основе выбранной категории
-            fetch(`${route}/api/categories${pathname.replace('/catalog', '')}?format=json`, {
-                next: { revalidate: 100 } // 3600
-            })
-                .then(response => response.json())
-                .then(data => {
-                    setCountProducts(data.item_count)
-                })
-                .catch(error => {
-                    console.error('Error fetching catalog data:', error);
-                });
+            category_route = 'categories' + pathname.replace('/catalog', '');
+        } else {
+            category_route = ''
         }
-    }, [pathname, route]);
+        // Выполнение запроса fetch на основе выбранной категории
+        let url_search = ''
+        for (const [key, value] of searchParams.entries()) {
+            url_search += `&${key}=${value}`;
+        }
+        fetch(`${route}/api/${category_route}/items?format=json` + url_search, {
+            next: { revalidate: 100 } // 3600
+        })
+            .then(response => response.json())
+            .then(data => {
+                setCountProducts(data.length)
+            })
+            .catch(error => {
+                console.error('Error fetching catalog data:', error);
+            });
+    }, [pathname, route, searchParams]);
 
     useEffect(() => {
         if (searchParams.get('view_type')) {
             setCatalogView(searchParams.get('view_type'))
+        } else {
+            setCatalogView('list')
         }
     }, [searchParams]);
 
-    const handleChangeView = (val) => {
-        setCatalogView(val)
+    const defValue = {}
+    if (searchParams?.get('sort')) {
+        defValue.sorting_type = sorting_type.find((item) => item.value === searchParams?.get('sort'));
 
-        const params = new URLSearchParams(searchParams);
-    
-        if (val != 'list') {
-          params.set('view_type', val);
-        } else {
-          params.delete('view_type');
-        }
-        replace(`${pathname}?${params.toString()}`);
+    } else {
+        defValue.sorting_type = sorting_type.find((item) => item.value === 'popularity');
     }
-    
-    
-    const defValue = {
-        sorting_type: sorting_type.find((item) => item.value === 'by-popularity'),
-        express_delivery: false
+    if (searchParams?.get('view_type')) {
+        defValue.view_type = searchParams?.get('view_type');
+
+    } else {
+        defValue.view_type = 'list';
     }
+
     const form = useForm({
         // resolver: zodResolver(ProfileSchema),
         defaultValues: defValue
@@ -74,25 +80,41 @@ const ToolbarCatalog = ({route}) => {
     const watchedFields = form.watch();
 
     const onSubmit = (values) => {
-        console.log(values)
+        // console.log(values)
         startTransition(() => {
-        //     updateuserprofile(values, items.id).then((data) => {
-        //         if (data.success) {
-        //             setSuccess(data.success);
-        //         }
-        //         if (data?.error)
-        //             setError(data.error);
-        //     });
+            const params = new URLSearchParams(searchParams);
+            if (values.sorting_type?.value != 'popularity') {
+                params.set('sort', values.sorting_type.value);
+            } else {
+                params.delete('sort');
+            }
+            if (values.view_type != 'list') {
+                params.set('view_type', values.view_type);
+            } else {
+                params.delete('view_type');
+            }
+
+            replace(`${pathname}?${params.toString()}`);
         });
     };
 
     useEffect(() => {
         // Автоматически отправляем форму при изменении любого поля
-        console.log(watchedFields)
-        if(watchedFields){
-            form.handleSubmit(onSubmit);
+        if (watchedFields) {
+            const params = new URLSearchParams(searchParams);
+            if (watchedFields.sorting_type?.value != 'popularity') {
+                params.set('sort', watchedFields.sorting_type.value);
+            } else {
+                params.delete('sort');
+            }
+            if (watchedFields.view_type != 'list') {
+                params.set('view_type', watchedFields.view_type);
+            } else {
+                params.delete('view_type');
+            }
+            replace(`${pathname}?${params.toString()}`);
         }
-    }, [watchedFields, form]);
+    }, [watchedFields, pathname, searchParams, replace]);
 
     const OpenFilters = () => {
         setFiltersView(!filtersView)
@@ -120,50 +142,58 @@ const ToolbarCatalog = ({route}) => {
                                             <FormMessage />
                                         </FormItem>
                                     )} />
-                                    {/* Add dropdown for sorting options here */}
                                 </div>
                             </div>
                             {pathname.replace('/catalog', '') != '' && <span className="text-gray-700">{countProducts} продуктов</span>}
                             <div className="flex items-center space-x-4">
-
-                                    <FormField control={form.control} name="express_delivery" render={({ field }) => (
-                                        <FormItem className='!space-y-0 flex items-center justify-center space-x-2'>
-                                            <FormLabel className='!text-base'>Express delivery</FormLabel>
+                                <FormField control={form.control} name="view_type" render={({ field }) => (
+                                    <FormItem className='!space-y-0 flex-col justify-center items-center gap-4 inline-flex w-full'>
+                                        <div className="justify-center items-start space-x-4 inline-flex">
                                             <FormControl>
                                                 <input
-                                                    type="checkbox"
+                                                    type='radio'
                                                     {...field}
-                                                    value={field.value}
+                                                    value={'list'}
+                                                    checked={field.value === 'list'}
                                                     disabled={isPending}
-                                                    className="toggle-checkbox appearance-none w-10 bg-gray-400/20 rounded-full h-6 after:border-black after:rounded-full relative after:border-2 after:h-6 after:w-6 after:block outline-none cursor-pointer transition-all after:transition-all checked:after:border-8 checked:after:translate-x-5"
+                                                    className='hidden'
+                                                    id='list_view'
                                                 />
                                             </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )} />
-                                <div className="flex items-center space-x-2">
-                                    <span>Type of catalog</span>
-                                    <button
-                                        className={`${catalogView === 'list' ? 'text-black' : 'text-gray-400'
-                                            }`}
-                                        onClick={() => handleChangeView('list')}
-                                    >
-                                        <BsGrid1X2 />
-                                    </button>
-                                    <button
-                                        className={`${catalogView === 'grid' ? 'text-black' : 'text-gray-400'
-                                            }`}
-                                        onClick={() => handleChangeView('grid')}
-                                    >
-                                        <BsGrid size={20} />
-                                    </button>
-                                </div>
+                                            <label
+                                                htmlFor="list_view"
+                                                className={`block w-full h-full cursor-pointer ${catalogView === 'list' ? 'text-black' : 'text-gray-400'}`}
+                                            >
+                                                <BsGrid1X2 size={19} className='w-full h-full' />
+                                            </label>
+                                            <FormControl>
+                                                <input
+                                                    type='radio'
+                                                    {...field}
+                                                    value={'grid'}
+                                                    checked={field.value === 'grid'}
+                                                    disabled={isPending}
+                                                    className='hidden'
+                                                    id='grid_view'
+                                                />
+                                            </FormControl>
+                                            <label
+                                                htmlFor="grid_view"
+                                                className={`cursor-pointer ${catalogView === 'grid' ? 'text-black' : 'text-gray-400'}`}
+                                            >
+                                                <BsGrid size={20} />
+
+                                            </label>
+                                        </div>
+                                        <FormMessage />
+                                    </FormItem>
+                                )} />
                             </div>
                         </div>
                     </form>
                 </Form>
             </section>
-            {filtersView && <FiltersBar ClosedDialog={closedDialog}/>}
+            {filtersView && <FiltersBar ClosedDialog={closedDialog} />}
         </>
     );
 };

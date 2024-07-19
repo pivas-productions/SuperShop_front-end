@@ -4,27 +4,41 @@ import { useEffect, useState } from "react";
 import LoadingMoreData from "../ui/loading-more-data";
 import { ProductCard, ProductCardContent, ProductCardPhoto } from "../ui/product_card";
 import { useSearchParams } from "next/navigation";
+// import { useQueryClient } from '@tanstack/react-query';
+
 const { useInView } = require('react-intersection-observer');
 
 const CatalogItemsWrapper = ({ items, catalog_slug, route, backend_href, fetch_key, default_style = 'list' }) => {
+    // const queryClient = useQueryClient();
     const { ref, inView } = useInView();
-    const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetItems(items, fetch_key,  route);
     const [seen_style, setSeen_style] = useState(default_style)
     const searchParams = useSearchParams();
+    // Extract search parameters
+    const searchParamsObject = {};
+    searchParams.forEach((value, key) => {
+        searchParamsObject[key] = value;
+    });
+
+    // Create a query key that includes searchParams
+    const queryKey = ['items', fetch_key, searchParamsObject];
+
+    const { data, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = useGetItems(items, queryKey, route);
+
+    // queryClient.invalidateQueries(['catalog_' + params.catalog_slug]);
 
     useEffect(() => {
-        if(searchParams.get('view_type') )
+        if (searchParams.get('view_type'))
             setSeen_style(searchParams.get('view_type'));
         else
             setSeen_style(default_style);
-    }, [searchParams, default_style]);
+        refetch();
+    }, [searchParams, default_style, refetch]);
 
     useEffect(() => {
         if (inView) {
             fetchNextPage();
         }
     }, [inView, fetchNextPage]);
-    // console.log(backend_href, 'data',data)
     return (
         <>
             {data?.pages?.map((item, i) => (

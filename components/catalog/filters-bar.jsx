@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef, useState, useTransition } from 'react'
+import React, { useCallback, useEffect, useRef, useState, useTransition } from 'react'
 import { Dialog, DialogClose, DialogContent, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
@@ -8,10 +8,15 @@ import { Slider } from 'antd';
 import { AccordionRoot, AccordionItem, AccordionTrigger, AccordionContent, } from '../ui/accordion';
 import { Input } from '../ui/input';
 import { DialogDescription } from '@radix-ui/react-dialog';
-
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 // ['анальные стимуляторы', 'вагинальные шарики', 'вакуумный стимулятор', 'вибратор', 'вибратор-кролик', 'вибратор-мини', 'вибробелье', 'вибромассажер', 'вибропули', 'виброяйца', 'возбуждающая соль для ванн', 'возбуждающие ароматы', 'возбуждающие гели и бальзамы', 'зажимы', 'лубрикаты и смазки', 'масла для эротического массажа', 'мастурбатор', 'менструальные чаши', 'наручники и поножи', 'отчиститель для интимных игрушек', 'плети, стеки и кнуты', 'презервативы', 'ремни и протупеи', 'стимуляторы', 'страпон', 'съедобная косметика', 'тренажер кегеля', 'украшения для тела', 'фаллоимитатор', 'феромоны', 'эрекционное кольцо', 'эротические кляпы', 'эротические маски и повязки', 'эротические свечи', 'эротические наборы', 'эротические подарочные наборы', 'эротическое белье']
 const vremCategoryType = ['anal stimulator', 'Vaginal balls', 'vacuum stimulator', 'vibrator', 'vibrator-coal', 'vibrator-mini', 'vibroblet', 'vibromasier', 'vibro-lane', 'vibro-yield', 'exciting baths for baths', 'Exciting aromas', 'exciting gels and balms', 'clamps', 'lubricates and lubricants', 'oil for erotic massage', 'masturbator', 'menstrual bowls', 'handcuffs and chisels', 'refined to intimate toys', 'Waps, stacks and whips', 'condoms', 'belts and producers', 'stimulants', 'strapon', 'edible cosmetics', 'Kegel Trainer', 'Decorations for the Body', 'Fallomitator', 'Feromens', 'Erective ring', 'erotic gags', 'erotic masks and dressings', 'erotic candles', 'erotic sets', 'erotic gift sets', 'erotic linen']
+
 const FiltersBar = ({ ClosedDialog }) => {
+    const searchParams = useSearchParams();
+    const { replace } = useRouter();
+    const pathname = usePathname();
+
     const [countSearch, setCountSearch] = useState(false)
     const [categoryTypeList, setCategoryTypeList] = useState(vremCategoryType.slice(0, 5))
     const [openShowAll, setOpenShowAll] = useState({
@@ -19,11 +24,38 @@ const FiltersBar = ({ ClosedDialog }) => {
     });
     const CloseButton = useRef(null);
     const [isPending, startTransition] = useTransition();
+
+
     const defValue = {
-        withDiscount: false,
-        inStock: false,
-        price: [0, 1000]
+        // withDiscount: false,
+        // inStock: false,
+        // price: [0, 1000]
     }
+    if(searchParams?.get('with_discount')){
+
+        defValue.withDiscount = true;
+    }else{
+        defValue.withDiscount = false;
+    }
+    if(searchParams?.get('in_stock')){
+        defValue.inStock = true;
+
+    }else{
+        defValue.inStock = false;
+    }
+    if(searchParams?.get('min_price') && searchParams?.get('max_price')){
+        defValue.price = [searchParams?.get('min_price'), searchParams?.get('max_price')];
+
+    }else{
+        if(searchParams?.get('min_price')){
+            defValue.price = [searchParams?.get('min_price'), 1000];
+
+        }else if(searchParams?.get('max_price'))
+            defValue.price = [0, searchParams?.get('max_price')];
+        else
+            defValue.price = [0, 1000];
+    }
+
     if (vremCategoryType) {
         vremCategoryType.map((key) => {
             if (!(defValue['type'])) {
@@ -38,25 +70,56 @@ const FiltersBar = ({ ClosedDialog }) => {
     });
     const watchedFields = form.watch();
 
-    const onSubmit = (values) => {
-        console.log(values)
+    
+    const onSubmit = useCallback((values) => {
+        // console.log(values)
         startTransition(() => {
-            //     updateuserprofile(values, items.id).then((data) => {
-            //         if (data.success) {
-            //             setSuccess(data.success);
-            //         }
-            //         if (data?.error)
-            //             setError(data.error);
-            //     });
+            const defaultprice = [0, 1000];
+            const params = new URLSearchParams(searchParams);
+
+            if (values.withDiscount) {
+                params.set('with_discount', values.withDiscount);
+            } else {
+                params.delete('with_discount');
+            }
+
+            if (values.inStock != false) {
+                params.set('in_stock', values.inStock);
+            } else {
+                params.delete('in_stock');
+            }
+
+            if (!(values.price.length == defaultprice.length && values.price.every((v, i) => defaultprice[i] == v))) {
+
+                if (defaultprice[0] != values.price[0])
+                    params.set('min_price', values.price[0]);
+                else {
+                    params.delete('min_price');
+
+                }
+
+                if (defaultprice[1] != values.price[1])
+                    params.set('max_price', values.price[1]);
+                else {
+                    params.delete('max_price');
+                }
+
+            } else {
+                params.delete('min_price');
+                params.delete('max_price');
+            }
+            
+
+            replace(`${pathname}?${params.toString()}`);
         });
-    };
+    }, [pathname, replace, searchParams]);
 
     useEffect(() => {
         // Автоматически отправляем форму при изменении любого поля
         if (watchedFields) {
             form.handleSubmit(onSubmit);
         }
-    }, [watchedFields, form]);
+    }, [watchedFields, form, onSubmit]);
 
     const ShowAllCheckbox = (event) => {
         if (event.currentTarget.name === 'type') {
@@ -87,6 +150,7 @@ const FiltersBar = ({ ClosedDialog }) => {
                                             type="checkbox"
                                             {...field}
                                             value={field.value}
+                                            checked={field.value}
                                             disabled={isPending}
                                             className="toggle-checkbox appearance-none w-10 bg-gray-400/20 rounded-full h-6 after:border-black after:rounded-full relative after:border-2 after:h-6 after:w-6 after:block outline-none cursor-pointer transition-all after:transition-all checked:after:border-8 checked:after:translate-x-5"
                                         />
@@ -102,6 +166,7 @@ const FiltersBar = ({ ClosedDialog }) => {
                                             type="checkbox"
                                             {...field}
                                             value={field.value}
+                                            checked={field.value}
                                             disabled={isPending}
                                             className="toggle-checkbox appearance-none w-10 bg-gray-400/20 rounded-full h-6 after:border-black after:rounded-full relative after:border-2 after:h-6 after:w-6 after:block outline-none cursor-pointer transition-all after:transition-all checked:after:border-8 checked:after:translate-x-5"
                                         />
