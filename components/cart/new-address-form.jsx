@@ -1,412 +1,247 @@
-'use client'
-import React, { useState, useRef, useEffect } from 'react';
-import MaskedInput from 'react-text-mask';
+import React, { useEffect, useState } from 'react';
 
-import './CreditCardForm.css';  // Переносим стили сюда
+import { useIsClient } from "@/hooks/use-is-client";
+
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents, ZoomControl } from 'react-leaflet';
+import Control from "react-leaflet-custom-control";
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import axios from 'axios';
+import { useDebouncedCallback } from 'use-debounce';
+
+import '../pickup-maps.css';
+import { CiSearch } from 'react-icons/ci';
+import Loading from '../Loading';
+import { FaLocationArrow } from 'react-icons/fa';
+
+// Fix for default icon path issue
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: '/images/leaflet/marker-icon-2x.png',
+  iconUrl: '/images/leaflet/marker-icon.png',
+  shadowUrl: '/images/leaflet/marker-shadow.png',
+});
+
+const defaultIcon = new L.Icon({
+  iconRetinaUrl: '/images/leaflet/marker-icon-2x.png',
+  iconUrl: '/images/leaflet/marker-icon.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowUrl: '/images/leaflet/marker-shadow.png',
+  shadowSize: [41, 41],
+});
+
+const activeIcon = new L.Icon({
+  iconUrl: '/images/leaflet/marker-icon-active.png', // Путь к иконке активного состояния
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowUrl: '/images/leaflet/marker-shadow.png',
+  shadowSize: [41, 41],
+});
 
 const NewAddressForm = () => {
-  //   const [currentCardBackground, setCurrentCardBackground] = useState(Math.floor(Math.random() * 25 + 1));
-  const [cardName, setCardName] = useState('');
-  const [prevCardName, setPrevCardName] = useState('');
+  const isClient = useIsClient();
 
-  const [cardNumber, setCardNumber] = useState('');
-  const [prevCardNumber, setPrevCardNumber] = useState('');
+  const [markers, setMarkers] = useState();
 
-  const [cardType, setCardType] = useState('');
-  const [prevCardType, setPrevCardType] = useState('');
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [searchResult, setSearchResult] = useState(null);
+  const [activeMarker, setActiveMarker] = useState(null); // Состояние для активного маркера
+  const [map, setMapRef] = useState(null)
 
-  const [cardMonth, setCardMonth] = useState('');
-  const [cardYear, setCardYear] = useState('');
-
-  const monthRef = useRef(null);
-  const yearRef = useRef(null);
-
-  const [cardCvv, setCardCvv] = useState('');
-  const [isCardFlipped, setIsCardFlipped] = useState(false);
-  const [focusElementStyle, setFocusElementStyle] = useState(null);
-  const [isInputFocused, setIsInputFocused] = useState(true);
-
-  const minCardYear = new Date().getFullYear();
-  const amexCardMask = [/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, /\d/];
-  const otherCardMask = [/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/];
-
-  const imgRef = useRef(null);
-
-  const cardNumberRef = useRef(null);
-  const cardNumberItemRef = useRef([]);
-
-  const cardNameRef = useRef([]);
-  const cardNameMainRef = useRef(null);
-
-  const cardDateRef = useRef(null);
-  const focusElementRef = useRef(null);
-  const focusElementStartedRef = useRef(null);
-
-  const getCardType = () => {
-    const number = cardNumber;
-    if (/^4/.test(number)) return 'visa';
-    if (/^(34|37)/.test(number)) return 'amex';
-    if (/^5[1-5]/.test(number)) return 'mastercard';
-    if (/^6011/.test(number)) return 'discover';
-    if (/^9792/.test(number)) return 'troy';
-    return 'visa'; // default type
-  };
-
-  useEffect(() => {
-    const newCardType = getCardType();
-    if (newCardType !== cardType) {
-      setPrevCardType(cardType);
-      setCardType(newCardType);
-    }
-  }, [cardNumber, cardType, getCardType]);
-  useEffect(() => {
-    if (imgRef.current) {
-      imgRef.current.classList.add('card-item__typeImg-enter');
-      setTimeout(() => {
-        imgRef.current.classList.remove('card-item__typeImg-enter');
-        imgRef.current.classList.add('card-item__typeImg-enter-active');
-      }, 50);
-
-      setTimeout(() => {
-        imgRef.current.classList.remove('card-item__typeImg-enter-active');
-      }, 300);
-    }
-  }, [cardType]);
-  const generateCardNumberMask = getCardType() === 'amex' ? amexCardMask : otherCardMask;
-
-
-
-  useEffect(() => {
-    const minCardMonth = () => {
-      return cardYear === minCardYear ? new Date().getMonth() + 1 : 1;
-    };
-    if (cardMonth < minCardMonth()) {
-      setCardMonth('');
-    }
-  }, [cardYear, cardMonth]);
-
-  useEffect(() => {
-    if (monthRef.current) {
-      monthRef.current.classList.add('card-item__dateItem-enter');
-      setTimeout(() => {
-        monthRef.current.classList.remove('card-item__dateItem-enter');
-        monthRef.current.classList.add('card-item__dateItem-enter-active');
-      }, 50);
-
-      setTimeout(() => {
-        monthRef.current.classList.remove('card-item__dateItem-enter-active');
-      }, 300);
-    }
-  }, [cardMonth]);
-
-  useEffect(() => {
-    if (yearRef.current) {
-      yearRef.current.classList.add('card-item__dateItem-enter');
-      setTimeout(() => {
-        yearRef.current.classList.remove('card-item__dateItem-enter');
-        yearRef.current.classList.add('card-item__dateItem-enter-active');
-      }, 50);
-
-      setTimeout(() => {
-        yearRef.current.classList.remove('card-item__dateItem-enter-active');
-      }, 300);
-    }
-  }, [cardYear]);
-
-  useEffect(() => {
-    const prevLength = prevCardName.length;
-    const currLength = cardName.length;
-
-    // Add animation for the last character if a character was added
-    if (currLength > prevLength) {
-      const lastSpan = cardNameRef.current[currLength - 1];
-      if (lastSpan) {
-        lastSpan.classList.add('card-item__nameItem-enter');
-        setTimeout(() => {
-          lastSpan.classList.remove('card-item__nameItem-enter');
-        }, 500);
-      }
-    }
-
-    // Add animation for the last character if a character was removed
-    if (currLength < prevLength) {
-      const lastSpan = cardNameRef.current[prevLength - 1];
-      if (lastSpan) {
-        lastSpan.classList.add('card-item__nameItem-leave');
-        setTimeout(() => {
-          lastSpan.classList.remove('card-item__nameItem-leave');
-        }, 500);
-      }
-    }
-
-    // Update previous card name
-    setPrevCardName(cardName);
-  }, [cardName]);
-
-
-  const focusInput = (e) => {
-    setIsInputFocused(true);
-    const targetRef = e?.target?.dataset.ref;
-    const target = {
-      cardNumber: cardNumberRef,
-      cardName: cardNameMainRef,
-      cardDate: cardDateRef
-    }[targetRef]?.current;
-
-    setFocusElementStyle({
-      width: `${target?.offsetWidth}px`,
-      height: `${target?.offsetHeight}px`,
-      transform: `translateX(${target?.offsetLeft}px) translateY(${target?.offsetTop}px)`
+  const AddMarkerOnClick = () => {
+    useMapEvents({
+      async click(event) {
+        setCurrentLocation(null)
+        setActiveMarker(null)
+        const { lat, lng } = event.latlng;
+        const newMarker = {
+          position: [lat, lng],
+          id: Date.now(),
+          address: await getAddressFromLatLng(lat, lng),
+        };
+        setMarkers(newMarker);
+      },
     });
   };
 
-  const blurInput = () => {
-    setTimeout(() => {
-      if (!isInputFocused) {
-        setFocusElementStyle(null);
-      }
-    }, 300);
-    setIsInputFocused(false);
+  const getAddressFromLatLng = async (lat, lng) => {
+    try {
+      const response = await axios.get('https://nominatim.openstreetmap.org/reverse', {
+        params: {
+          lat,
+          lon: lng,
+          format: 'json',
+          addressdetails: 1
+        }
+      });
+      return response.data.display_name || 'Адрес не найден';
+    } catch (error) {
+      console.error('Ошибка при обратном геокодировании:', error);
+      return 'Ошибка при получении адреса';
+    }
   };
 
-  useEffect(() => {
-    const prevLength = prevCardNumber.length;
-    const currLength = cardNumber.length;
+  const handleLocateClick = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setCurrentLocation({ lat: latitude, lng: longitude });
 
-    // Add animation for the last character if a character was added
-    if (currLength > prevLength) {
-      const lastSpan = cardNumberItemRef.current[currLength - 1];
-      if (lastSpan) {
-        lastSpan.classList.add('card-item__numberItem-enter');
-        setTimeout(() => {
-          lastSpan.classList.remove('card-item__numberItem-enter');
-        }, 500);
-      }
+        if (map) {
+          map.flyTo([latitude, longitude], 15);
+        }
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
     }
-
-    // Add animation for the last character if a character was removed
-    if (currLength < prevLength) {
-      const lastSpan = cardNumberItemRef.current[prevLength - 1];
-      if (lastSpan) {
-        lastSpan.classList.add('card-item__numberItem-leave');
-        setTimeout(() => {
-          lastSpan.classList.remove('card-item__numberItem-leave');
-        }, 500);
-      }
-    }
-
-    setPrevCardNumber(cardNumber);
-  }, [cardNumber]);
-
-  const renderCardNumber = () => {
-    const mask = generateCardNumberMask.map((item) => {
-      if (typeof item === 'object') {
-        return '_';
-      }
-      return item;
-    });
-
-    return (
-      <>
-        {mask.map((item, index) => (
-
-          <span key={index}>
-            <div key={index}
-              className={`card-item__numberItem flex items-end text-center leading-none ${index > 4 && index < 15 && cardNumber[index] ? 'align-[-40%]' : ''}`}
-              ref={(el) => (cardNumberItemRef.current[index] = el)}
-            >
-              {index < cardNumber.length ? (index > 4 && index < 14 && index != 9 ? '*' : cardNumber[index]) : item}
-            </div>
-          </span>
-
-        ))}
-      </>
-    );
   };
 
+
+
+  const handleSearch = useDebouncedCallback(async (event) => {
+
+    if (event.target.value.trim() !== '') {
+      const geocodeUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(event.target.value)}&format=json&limit=1`;
+      try {
+        const response = await axios.get(geocodeUrl);
+        if (response.data.length > 0) {
+          const result = response.data[0];
+          const latitude = parseFloat(result.lat);
+          const longitude = parseFloat(result.lon);
+          console.log('result', result)
+          setSearchResult({ latitude: latitude, longitude: longitude, address: result.display_name });
+          if (map && result) {
+            map.flyTo([latitude, longitude], 18); // Переместить на найденную точку с увеличением масштаба
+          }
+        } else {
+          setSearchResult(null);
+        }
+      } catch (error) {
+        console.error('Ошибка при геокодировании:', error);
+        setSearchResult(null);
+      }
+    } else {
+      setSearchResult(null);
+    }
+  }, 300);
+
+
+  const handleChoiceMarker = (location) => {
+    console.log(location)
+    setActiveMarker(location);
+  }
+
+  const handleSubmit = () => {
+    console.log('submited')
+  }
+
+  if (!isClient)
+    return <Loading />;
   return (
-      <div className="card-form">
-        <div className="card-list">
-          <div className={`card-item ${isCardFlipped ? '-active' : ''}`}>
-            <div className="card-item__side -front">
-              <div
-                className={`card-item__focus ${focusElementStyle ? '-active' : ''}`}
-                style={focusElementStyle}
-                ref={focusElementRef}
-              ></div>
-              <div className="card-item__cover">
-                <img
-                  src={`https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/5.jpeg`}
-                  className="card-item__bg"
-                  alt="card background"
-                />
-              </div>
-
-              <div className="card-item__wrapper">
-                <div className="card-item__top">
-                  <img
-                    src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png"
-                    className="card-item__chip"
-                    alt="chip"
-                  />
-                  <div className="card-item__type">
-                    <img
-                      src={`https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/${cardType}.png`}
-                      alt="Card type"
-                      className="card-item__typeImg"
-                      key={cardType}
-                      ref={imgRef}
-                    />
-                  </div>
-                </div>
-                <label className="card-item__number" ref={cardNumberRef}>
-                  {renderCardNumber()}
-                </label>
-                <div className="card-item__content">
-                  <label className="card-item__info" ref={cardNameMainRef} htmlFor='cardName'>
-                    <div className="card-item__holder">Card Holder</div>
-                    <div className="card-item__name">
-                      {cardName.length ? (
-                        cardName.split('').map((n, i) => (
-                          <span
-                            className="card-item__nameItem"
-                            key={i}
-                            ref={(el) => (cardNameRef.current[i] = el)}
-                          >
-                            {n}
-                          </span>
-                        ))
-                      ) : (
-                        'Full Name'
-                      )}
-                    </div>
-                  </label>
-                  <div className="card-item__date" ref={cardDateRef}>
-                    <label className="card-item__dateTitle" htmlFor='cardMonth'>Expires</label>
-                    <label className="card-item__dateItem cursor-pointer" htmlFor='cardMonth' ref={monthRef}>
-                      {cardMonth || 'MM'}
-                    </label>
-                    /
-                    <label className="card-item__dateItem cursor-pointer" htmlFor='cardYear' ref={yearRef}>
-                      {cardYear ? String(cardYear).slice(2, 4) : 'YY'}
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="card-item__side -back">
-              <div className="card-item__cover">
-                <img
-                  src={`https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/5.jpeg`}
-                  className="card-item__bg"
-                  alt="card background"
-                />
-              </div>
-              <div className="card-item__band"></div>
-              <div className="card-item__cvv">
-                <div className="card-item__cvvTitle">CVV</div>
-                <div className="card-item__cvvBand">
-                  {Array.from({ length: cardCvv.length }, (_, i) => (
-                    <span key={i}>*</span>
-                  ))}
-                </div>
-                <div className="card-item__type">
-                  <img
-                    src={`https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/${getCardType()}.png`}
-                    alt={getCardType()}
-                    className="card-item__typeImg"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="card-form__inner">
-          <div className="card-input">
-            <label className="card-input__label">Card Number</label>
-            <MaskedInput
-              mask={generateCardNumberMask}
-              guide={false}
-              // value={cardNumber}
-              ref={focusElementStartedRef}
-              onChange={(e) => setCardNumber(e.target.value)}
-              onFocus={focusInput}
-              onBlur={blurInput}
-              data-ref="cardNumber"
-              id='cardNumber'
-              autoFocus
-              render={(ref, props) => (
-                <input ref={ref} {...props} type="text" className="card-input__input" autoComplete="off" />
-              )}
-            />
-          </div>
-          <div className="card-input">
-            <label className="card-input__label">Card Holders</label>
-            <input
-              type="text"
-              className="card-input__input"
-              value={cardName}
-              onChange={(e) => setCardName(e.target.value)}
-              onFocus={focusInput}
-              onBlur={blurInput}
-              data-ref="cardName"
-              autoComplete="off"
-              id='cardName'
-            />
-          </div>
-          <div className="card-form__row">
-            <div className="card-form__col">
-              <div className="card-form__group">
-                <label className="card-input__label">Expiration Date</label>
-                <select
-                  className="card-input__input -select"
-                  value={cardMonth}
-                  onChange={(e) => setCardMonth(e.target.value)}
-                  onFocus={focusInput}
-                  onBlur={blurInput}
-                  data-ref="cardDate"
-                  id='cardMonth'
-
-                >
-                  <option value="" disabled>Month</option>
-                  {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                    <option key={month} value={month < 10 ? `0${month}` : month}>{month < 10 ? `0${month}` : month}</option>
-                  ))}
-                </select>
-                <select
-                  className="card-input__input -select"
-                  value={cardYear}
-                  onChange={(e) => setCardYear(e.target.value)}
-                  onFocus={focusInput}
-                  onBlur={blurInput}
-                  data-ref="cardDate"
-                  id='cardYear'
-                >
-                  <option value="" disabled>Year</option>
-                  {Array.from({ length: 12 }, (_, i) => minCardYear + i).map((year) => (
-                    <option key={year} value={year}>{year}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div className="card-form__col -cvv">
-              <div className="card-input">
-                <label className="card-input__label">CVV</label>
-                <input
-                  type="text"
-                  className="card-input__input"
-                  value={cardCvv}
-                  onChange={(e) => setCardCvv(e.target.value)}
-                  onFocus={() => { setIsCardFlipped(true); focusInput(); }}
-                  onBlur={() => { setIsCardFlipped(false); blurInput(); }}
-                  autoComplete="off"
-                />
-              </div>
-            </div>
-          </div>
-          <button className="card-form__button">Submit</button>
-        </div>
+    <div className='w-full h-full space-y-4'>
+      <div className="relative flex flex-1 flex-shrink-0">
+        <label htmlFor="search" className="sr-only">
+          Search
+        </label>
+        <input
+          className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+          placeholder={'Введите адрес'}
+          onChange={handleSearch}
+        />
+        <CiSearch className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
       </div>
+      <MapContainer
+        center={[47.222109, 39.718813]}
+        zoom={13}
+        style={{ height: '300px', width: '100%' }}
+        ref={setMapRef}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <Control position="bottomright" prepend>
+          <a
+            className=" flex justify-center items-center border-b border-b-[#0003] w-[30px] h-[30px] leading-[26px] text-center text-black text-[22px] rounded shadow-[0_1px_5px_#000000a6] bg-clip-padding border-2 leflet-control-zoom-in bg-white" href="#" title="Find Current location" role="button" aria-label="Find Current location" aria-disabled="false"
+            onClick={() => handleLocateClick()}
+          >
+            <FaLocationArrow  className='text-black w-[20px] h-[20px]'/>
+          </a>
+        </Control>
+        <AddMarkerOnClick />
+        {markers &&
+          <Marker
+            key={markers.id}
+            position={markers.position}
+            icon={activeMarker === location ? activeIcon : L.icon({
+              iconUrl: '/images/leaflet/marker-icon.png',
+              shadowUrl: '/images/leaflet/marker-shadow.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowSize: [41, 41]
+            })}
+            eventHandlers={{
+              click: () => handleChoiceMarker(location)
+            }}
+          >
+            <Popup>
+              {`Адрес: ${markers.address}`}
+            </Popup>
+          </Marker>
+        }
+        {currentLocation && (
+          <Marker
+            position={[currentLocation.lat, currentLocation.lng]}
+            icon={L.icon({
+              iconUrl: '/images/leaflet/marker-icon.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowUrl: '/images/leaflet/marker-shadow.png',
+              shadowSize: [41, 41]
+            })}
+          >
+          </Marker>
+        )}
+        {searchResult && (
+          <Marker
+            position={[searchResult.latitude, searchResult.longitude]}
+            icon={activeMarker === location ? activeIcon : L.icon({
+              iconUrl: '/images/leaflet/marker-icon.png',
+              shadowUrl: '/images/leaflet/marker-shadow.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowSize: [41, 41]
+            })}
+            eventHandlers={{
+              click: () => handleChoiceMarker(location)
+            }}
+          >
+            <Popup>
+              {`Адрес: ${searchResult.address}`}
+            </Popup>
+          </Marker>
+        )}
+      </MapContainer>
+      {activeMarker && <button
+        onClick={handleSubmit}
+        className={
+          "Button relative appearance-none transition-all overflow-hidden p-3 w-full h-full bg-zinc-800 rounded-2xl border border-zinc-800 justify-center items-center " +
+          "gap-2 inline-flex text-neutral-100 leading-none " +
+          "hover:text-black group/buttonbuy "
+        }
+      >
+        <span className="absolute inset-0 bg-white transition-all w-full duration-300 -left-full group-hover/buttonbuy:left-0 z-0"></span>
+        <span className="relative z-10">Доставить сюда</span>
+        <span className="absolute h-full bg-white transition-all w-full duration-300 -right-full group-hover/buttonbuy:right-0 z-0"></span>
+      </button>}
+    </div>
 
   );
 };

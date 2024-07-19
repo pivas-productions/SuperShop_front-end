@@ -9,14 +9,15 @@ import { AddNewMehod } from './add-new-method-cart';
 import CreditCardForm from './creditCardForm';
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from '../ui/tabs';
 
+import dynamic from 'next/dynamic';
 
-import Search from '@/components/search';
-import Table from '@/components/table';
-// import { CreateInvoice } from '@/app/ui/invoices/buttons';
+const NewAddressForm = dynamic(() => import('./new-address-form'), { ssr: false });
+
+const MapWithNoSSR = dynamic(() => import('@/components/pickup-maps'), { ssr: false });
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
-const SettingsBarCart = ({searchParams}) => {
+const SettingsBarCart = ({ searchParams }) => {
     const [openDeliveryDialog, setOpenDeliveryDialog] = React.useState(false);
     const [openPaymentDialog, setOpenPaymentDialog] = React.useState(false);
 
@@ -40,9 +41,6 @@ const SettingsBarCart = ({searchParams}) => {
     // const handleSubmit = () => {
     //     wait().then(() => setOpen(false));
     // }
-
-    const query = searchParams?.query || '';
-    const currentPage = Number(searchParams?.page) || 1;
     return (
         <section className='space-y-12'>
             <div className=" shadow-md border-2 rounded-3xl p-4">
@@ -59,11 +57,8 @@ const SettingsBarCart = ({searchParams}) => {
                                 </TabsTrigger>
                             </TabsList>
                             <TabsContent value={'Pickup'}>
-                            <div className="mt-4 w-full flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search invoices..." />
-        {/* <CreateInvoice /> */}
-      </div>
-        <Table query={query} currentPage={currentPage} />
+                                
+                                <MapWithNoSSR />
                             </TabsContent>
                             <TabsContent value={'Delivery'}>
                                 <div className='space-y-4 text-center'>
@@ -117,7 +112,7 @@ const SettingsBarCart = ({searchParams}) => {
                                         </div>
                                     </form>
                                     <AddNewMehod type={'new_address'} title={'Новый способ доставки'} closeDialogFunc={setOpenDeliveryDialog}>
-                                        {/* <CreditCardForm /> */}
+                                        <NewAddressForm />
                                     </AddNewMehod>
                                 </div>
                             </TabsContent>
