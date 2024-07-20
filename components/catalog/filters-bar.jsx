@@ -134,7 +134,7 @@ const FiltersBar = ({ ClosedDialog }) => {
     }
     return (
         <Dialog defaultOpen={true} modal={true} onOpenChange={ClosedDialog}>
-            <DialogContent className="bg-white text-black rounded-md fixed flex flex-col top-0 z-30 w-[40rem] animate-delay-[-0.2s] transition duration-300 ease-in-out animate-duration-[2s] min-h-screen animate-[filters-show] shadow-[#0b2132] shadow-xl ">
+            <DialogContent className="bg-white text-black rounded-md fixed flex flex-col top-0 z-30 w-[40rem] animate-delay-[-0.2s] transition duration-100 ease-in-out animate-duration-[2s] min-h-screen animate-[filters-show] shadow-[#0b2132] shadow-xl ">
                 <DialogTitle className="w-full px-6 py-6 rounded-t-md flex justify-between" >
                     <span className='text-2xl font-semibold'>Filters</span>
                     <DialogClose />

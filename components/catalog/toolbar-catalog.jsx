@@ -124,10 +124,10 @@ const ToolbarCatalog = ({ route }) => {
     }
     return (
         <>
-            <section className="toolbar bg-white">
+            <section className="toolbar bg-white  text-2xl lg:text-base">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <div className=" container mx-auto flex items-center justify-between py-4">
+                        <div className=" container px-10 xl:px-0 mx-auto flex items-center justify-between py-4">
                             <div className="flex items-center space-x-4">
                                 <button ref={FiltersButton} onClick={OpenFilters} className="flex items-center space-x-1 text-gray-700">
                                     <FaFilter />
@@ -137,7 +137,7 @@ const ToolbarCatalog = ({ route }) => {
                                     <FormField control={form.control} name="sorting_type" render={({ field }) => (
                                         <FormItem>
                                             <FormControl>
-                                                <Select {...field} value={field.value} className="text-sm" disabled={isPending} select_name={"sorting_type"} items={sorting_type} />
+                                                <Select {...field} value={field.value} className="lg:text-sm" disabled={isPending} select_name={"sorting_type"} items={sorting_type} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>

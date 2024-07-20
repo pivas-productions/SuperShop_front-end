@@ -70,7 +70,7 @@ const styleSelect = {
     }),
     option: (base) => ({
         ...base,
-        fontSize: '0.75rem',
+        // fontSize: '0.75rem',
         cursor: 'pointer'
 
     })
