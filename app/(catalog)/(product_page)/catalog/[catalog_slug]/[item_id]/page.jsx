@@ -31,7 +31,7 @@ const ProductIdPage = async ({ params }) => {
     images.push(
       {
         alt: `no-image`,
-        src: `/no-image.jpg`,
+        src: `/no-photo.jpg`,
         width: 896,
         height: 414,
         imageFit: 'cover',
