@@ -27,7 +27,7 @@ const ProductPageWrapper = ({ route, items, images }) => {
       <div className="w-full px-4 2xl:px-12 py-20 md:py-16 lg:mt-8 flex-col justify-start items-start gap-6 inline-flex">
 
         <section className='mainContent w-full mt-4 lg:mt-0'>
-          <div className="mainInfo flex flex-col 2xl:flex-row  gap-4">
+          <div className="mainInfo flex flex-col xl:flex-row  gap-4">
             <div className="ImageBlock h-[40vh] lg:h-[95vh] flex-grow">
             <div className="absolute z-50">
               <div className="mx-auto z-50 absolute lg:static container justify-start items-center inline-flex gap-2">
@@ -118,17 +118,6 @@ const ProductPageWrapper = ({ route, items, images }) => {
               </AccordionContent>
             </AccordionItem>
           </AccordionRoot>
-          {/* TODO: Add Slider SimilarProducts */}
-          {/* <div className=" w-[1792px] h-[461px] relative">
-              <div className="Slider w-[1792px] h-[336px] p-16 left-0 top-[64px] absolute opacity-80 bg-white justify-start items-start gap-12 inline-flex">
-                <img className="Image w-[300px] self-stretch" src="https://via.placeholder.com/300x208" />
-                <img className="Image w-[300px] self-stretch" src="https://via.placeholder.com/300x208" />
-                <img className="Image w-[300px] self-stretch" src="https://via.placeholder.com/300x208" />
-                <img className="Image w-[300px] self-stretch" src="https://via.placeholder.com/300x208" />
-                <img className="Image w-[300px] self-stretch" src="https://via.placeholder.com/300x208" />
-              </div>
-              <div className=" w-[529px] h-[60px] left-[71px] top-[4px] absolute text-black text-[32px] font-semibold font-['Inter'] leading-[44.80px]">Похожие товары</div>
-            </div> */}
         </section>
       </div>
     </>

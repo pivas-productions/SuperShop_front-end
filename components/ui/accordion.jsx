@@ -12,7 +12,7 @@ const AccordionTrigger = React.forwardRef(({ children, className, ...props }, fo
     <Accordion.Header className="flex">
         <Accordion.Trigger
             className={
-                'text-violet11 cursor-pointer shadow-mauve6 hover:bg-mauve2 group flex h-[45px] flex-1 items-center justify-between px-5 text-[15px] leading-none shadow-[0_1px_0] outline-none'
+                'text-violet11 cursor-pointer shadow-mauve6 hover:bg-mauve2 group flex h-[45px] flex-1 items-center justify-between px-5 text-base leading-none shadow-[0_1px_0] outline-none'
                 + className}
             {...props}
             ref={forwardedRef}
@@ -30,13 +30,13 @@ AccordionTrigger.displayName = Accordion.Trigger.displayName;
 const AccordionContent = React.forwardRef(({ children, className, ...props }, forwardedRef) => (
     <Accordion.Content
         className={
-            'text-mauve11 bg-mauve2 data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]' +
+            'text-mauve11 bg-mauve2 data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-base' +
             className
         }
         {...props}
         ref={forwardedRef}
     >
-        <div className="py-[15px] px-5">{children}</div>
+        <div className="py-4 px-5">{children}</div>
     </Accordion.Content>
 ));
 AccordionContent.displayName = Accordion.Content.displayName;

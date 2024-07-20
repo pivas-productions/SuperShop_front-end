@@ -9,7 +9,7 @@ const CarouselBlaze = React.forwardRef(({ children, className, slidesToShow, loo
     all: {
       slidesToShow: slidesToShow,
       loop: loop,
-      slideGap: slideGap ? slideGap : '20px',
+      slideGap: slideGap ? slideGap : '1.25rem',
     }
   })
   return (
