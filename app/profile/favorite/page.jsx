@@ -19,10 +19,10 @@ export default async function FavoritePage() {
     return (
         <main className="min-h-screen pt-16">
             <FavoriteTabs />
-            <section className="catalog_main col-span-full grid grid-cols-5 mt-4 py-2 px-10">
+            <section className="catalog_main col-span-full grid grid-cols-3 lg:grid-cols-5 mt-4 py-2 px-10 lg:px-5 gap-4 text-center">
                 <ReactQueryProvider>
                 <Suspense fallback={<Loading />}>
-                <CatalogItemsWrapper items={items} catalog_slug={"params.catalog_slug"} route={route} backend_href={process.env.REACT_APP_API_URL_CLIENT} fetch_key={'favorite'} />
+                <CatalogItemsWrapper default_style={'grid'} items={items} catalog_slug={"params.catalog_slug"} route={route} backend_href={process.env.REACT_APP_API_URL_CLIENT} fetch_key={'favorite'} />
                     </Suspense>
                 </ReactQueryProvider>
             </section>
