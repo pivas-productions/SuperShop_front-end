@@ -3,16 +3,16 @@ import React, { useEffect, useState } from 'react'
 import ProductCardForCart from './product-card-for-cart'
 import { CheckboxIndicator, CheckboxRoot } from '../ui/checkbox'
 
-const ProductWrapperCart = () => {
+const ProductWrapperCart = ({fetch_route, items}) => {
     const [allChecked, SetAllChecked] = useState(false)
     const handleCheckedChange = () => {
         SetAllChecked(!allChecked)
         console.log('change state')
     }
-    const item = {
-        catalog_slug: 'lingerie', 
-        id: '1'
-    }
+    // const item = {
+    //     catalog_slug: 'lingerie', 
+    //     id: '1'
+    // }
     return (
         <div className="Frame3571 w-full flex-col justify-center items-start gap-8 inline-flex">
             <div className="Toolbar w-full shadow-md border-2 p-1 rounded-3xl justify-start items-center gap-[29px] flex">
@@ -28,8 +28,15 @@ const ProductWrapperCart = () => {
                 </button>
             </div>
             <div className="Cartproductwrapper w-full px-2.5 rounded-3xl flex-col items-start gap-4 flex">
-            <ProductCardForCart allChecked={allChecked} initialQuantity={2} productId={1} item={item} />
-            <ProductCardForCart allChecked={allChecked} initialQuantity={1} productId={2} item={item} />
+                { Object.entries(items).map(([key, item], index) => {
+                    console.log('key',key, 'value', item)
+                    return (
+                        <ProductCardForCart key={index} fetch_route={fetch_route} allChecked={allChecked} initialQuantity={item.quantity} productId={item.product} item={item} />
+
+                    )
+                })}
+            {/* <ProductCardForCart allChecked={allChecked} initialQuantity={2} productId={1} item={item} />
+            <ProductCardForCart allChecked={allChecked} initialQuantity={1} productId={2} item={item} /> */}
 
             </div>
         </div>

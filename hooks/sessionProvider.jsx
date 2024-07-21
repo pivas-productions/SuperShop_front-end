@@ -16,6 +16,7 @@ export const SessionProvider = ({ children, route }) => {
                     method: 'GET',
                     credentials: 'include',  // Передача cookies
                 });
+                console.log('updated session')
                 if (response.ok) {
                     const data = await response.json();
                     setSession(data);
@@ -26,12 +27,12 @@ export const SessionProvider = ({ children, route }) => {
                 setSession(false);
             }
         };
-        
+
         fetchSession();
     }, [route]);
 
     const login = () => {
-            setSession(true);
+        setSession(true);
 
     };
 
@@ -47,8 +48,27 @@ export const SessionProvider = ({ children, route }) => {
         }
     };
 
+    const update = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/api/token/refresh/', {
+                method: 'GET',
+                credentials: 'include',  // Передача cookies
+            });
+            console.log('updated session')
+            if (response.ok) {
+                const data = await response.json();
+                console.log('data in session provider',data)
+                setSession(data);
+            } else {
+                setSession(false);
+            }
+        } catch (error) {
+            setSession(false);
+        }
+    };
+
     return (
-        <SessionContext.Provider value={{ session, logout, login }}>
+        <SessionContext.Provider value={{ session, logout, login, update }}>
             {children}
         </SessionContext.Provider>
     );

@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="ru">
       <body className={inter.className}>
         <HeaderMain/>
-        {children}
+          {children}
         <FooterMain/>
       </body>
     </html>

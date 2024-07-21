@@ -57,7 +57,7 @@ const ProductPageWrapper = ({ route, items, images }) => {
                 <span>Товар уже купили:</span>
                 <span className='self-start'>{items?.order_count} раз</span>
               </div>
-              <ProductPageForm items={items} />
+              <ProductPageForm fetch_route={route} items={items} />
             </div>
           </div>
         </section>
