@@ -17,7 +17,8 @@ export default async function FavoritePage() {
             </div>
         )
     return (
-        <main className="min-h-screen pt-16">
+        <main className="min-h-screen ml-10">
+            <div className="mt-10 text-6xl  font-['Roboto'] ">Избранное</div>
             <FavoriteTabs />
             <section className="catalog_main col-span-full grid grid-cols-3 lg:grid-cols-5 mt-4 py-2 px-10 lg:px-5 gap-4 text-center">
                 <ReactQueryProvider>
