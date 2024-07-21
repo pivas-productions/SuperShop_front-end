@@ -2,6 +2,7 @@ import CarouselWithOpenFullscreen from '@/components/carousel-with-open-fullscre
 import { ReviewCard, ReviewCardContent, ReviewCardHeader, ReviewCardPhoto } from '@/components/ui/review-card'
 import React from 'react'
 import RateProgressBar from './rate-progress-bar'
+import CreateReviews from './create-reviews'
 
 const ReviewsWrapper = () => {
     const items = {
@@ -21,6 +22,7 @@ const ReviewsWrapper = () => {
     return (
         <>
             <div className="ReviewWrapper flex flex-col lg:flex-row gap-6">
+                <CreateReviews />
                 <div className="leftSide flex-1 space-y-6 order-2 lg:order-1">
                     <div className={"ReviewCarouselAllPhotos group relative w-full h-36 flex gap-2 px-2"}>
                         <CarouselWithOpenFullscreen slidesToShow={5} loop={false} items={[{ src: '/hover_image.jpg', alt: 'Image 1' },

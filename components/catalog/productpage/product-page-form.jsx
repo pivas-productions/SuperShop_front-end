@@ -1,32 +1,77 @@
 'use client'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import React, { useTransition } from 'react'
+import React, { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form';
+import NotifyMessage from "@/components/messages/notify-message";
 
-const ProductPageForm = ({items}) => {
-
+const ProductPageForm = ({ items }) => {
+    const [notifyMes, setNotifyMes] = useState("");
+    const [stateNotify, setStateNotify] = useState("");
     const [isPending, startTransition] = useTransition();
     const defValue = {
-        sizes: 'M',
-        colors: 'red',
+        sizes: items?.sizes?.[0]?.name ? items?.sizes?.[0]?.name : 'none',
+        colors: items?.colors?.[0]?.name ? items?.colors?.[0]?.name : 'none',
     }
     const form = useForm({
         // resolver: zodResolver(ProfileSchema),
         defaultValues: defValue
     });
-
     const onCart = (values) => {
-        // console.log(values, 'cart')
-        startTransition(() => {
+        // console.log(values, 'cart', items.id)
+        startTransition(async () => {
+            try {
+                form.clearErrors()
+                const send_data = {
+                    ...values,
+                    items_id: items.id
+                }
+                console.log('send_data',send_data)
+                // let response = await fetch(`${fetch_route}/api/bastkets/add`, {
+                //     method: "POST",
+                //     body: JSON.stringify(values),
+                //     headers: {
+                //         'Content-type': 'application/json'
+                //     }
+                    // credentials: 'include'
+                // });
+                // console.log(response.status, response.status == 500)
+                // const data = await response.json();
+                // console.log('response.data', data)
+                // if (response.status === 500) {
+                // console.log('i`m error')
+                // throw new Error(`HTTP error! status: ${response.status}`);
+                // }
+                // if (data?.error) {
+                //     // form.reset();
+                //     console.log(data?.message)
+                //     Object.entries(data?.message)?.map(([key, value]) => {
+                //         console.log(key, 'key', value, 'value')
+                //         form.setError(key, { type: 'manual', message: value })
 
+                //     })
+                //     setNotifyMes('Invalid data! Check data');
+                //     setStateNotify('error');
+                // }
+                // if (data?.success) {
+                //     form.reset();
+                //     setNotifyMes('Вы зарегистрированы! Переход на страницу авторизации...');
+                //     setStateNotify('success');
+                //     setSuccess(true)
+                // }
+            } catch (error) {
+                // Обработка ошибки
+                setNotifyMes('Registration failed! Error on server');
+                setStateNotify('error');
+            }
         });
     };
-    const onBuy = (values) => {
-        // console.log(values, 'buy')
-        startTransition(() => {
+    // maybe added later
+    // const onBuy = (values) => {
+    //     // console.log(values, 'buy')
+    //     startTransition(() => {
 
-        });
-    };
+    //     });
+    // };
     return (
         <>
             <Form {...form}>
@@ -38,16 +83,16 @@ const ProductPageForm = ({items}) => {
                                 {items?.sizes?.map((item, i) => {
                                     return (
                                         <FormControl key={i}>
-                                        <input
-                                            type='radio'
-                                            {...field}
-                                            value={item.name}
-                                            checked={field.value === item.name}
-                                            disabled={isPending}
-                                            className={`w-14 h-14 p-3 after:bg-zinc-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:content-[attr(data-content)] after:border-zinc-800 after:rounded-full relative after:border-2 after:h-16 after:w-16 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white`}
-                                            data-content={item.name}
-                                        />
-                                    </FormControl>
+                                            <input
+                                                type='radio'
+                                                {...field}
+                                                value={item.name}
+                                                checked={field.value === item.name}
+                                                disabled={isPending}
+                                                className={`w-14 h-14 p-3 after:bg-zinc-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:content-[attr(data-content)] after:border-zinc-800 after:rounded-full relative after:border-2 after:h-16 after:w-16 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white`}
+                                                data-content={item.name}
+                                            />
+                                        </FormControl>
                                     )
                                 })}
                             </div>
@@ -58,72 +103,21 @@ const ProductPageForm = ({items}) => {
                         <FormItem className='!space-y-0 flex-col justify-center items-center gap-4 inline-flex w-full'>
                             <FormLabel className='!text-lg'>Colors</FormLabel>
                             <div className="justify-center items-start gap-7 inline-flex">
-                            {items.colors.map((item, i) => {
+                                {items.colors.map((item, i) => {
                                     return (
                                         <FormControl key={i}>
-                                        <input
-                                            type='radio'
-                                            {...field}
-                                            value={item.name}
-                                            checked={field.value === item.name}
-                                            disabled={isPending}
-                                            className={`w-14 h-14 p-3 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white`}
-                                            style={{ backgroundColor: item.hex }}
-                                        />
-                                    </FormControl>
+                                            <input
+                                                type='radio'
+                                                {...field}
+                                                value={item.name}
+                                                checked={field.value === item.name}
+                                                disabled={isPending}
+                                                className={`w-14 h-14 p-3 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white`}
+                                                style={{ backgroundColor: item.hex }}
+                                            />
+                                        </FormControl>
                                     )
                                 })}
-                                {/* <FormControl>
-                                    <input
-                                        type='radio'
-                                        {...field}
-                                        value={'zinc'}
-                                        checked={field.value === 'zinc'}
-                                        disabled={isPending}
-                                        className="w-14 h-14 p-3 after:bg-zinc-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white"
-                                    />
-                                </FormControl>
-                                <FormControl>
-                                    <input
-                                        type='radio'
-                                        {...field}
-                                        value={'red'}
-                                        checked={field.value === 'red'}
-                                        disabled={isPending}
-                                        className="w-14 h-14 p-3 after:bg-red-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white"
-                                    />
-                                </FormControl>
-                                <FormControl>
-                                    <input
-                                        type='radio'
-                                        {...field}
-                                        value={'green'}
-                                        checked={field.value === 'green'}
-                                        disabled={isPending}
-                                        className="w-14 h-14 p-3 after:bg-green-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white"
-                                    >
-                                    </input>
-                                </FormControl>
-                                <FormControl>
-                                    <input
-                                        type='radio'
-                                        {...field}
-                                        value={'pink'}
-                                        checked={field.value === 'pink'}
-                                        disabled={isPending}
-                                        className="w-14 h-14 p-3 after:bg-pink-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white"
-                                    />
-                                </FormControl>
-                                <FormControl>
-                                    <input
-                                        type='radio'
-                                        {...field}
-                                        value={'blue'}
-                                        checked={field.value === 'blue'}
-                                        disabled={isPending}
-                                        className="w-14 h-14 p-3 after:bg-blue-800 rounded-full text-white appearance-none after:flex after:justify-center after:items-center after:border-zinc-800 after:rounded-full relative after:border-2 after:h-14 after:w-14 outline-none cursor-pointer transition-all after:transition-all checked:after:bg-opacity-90 checked:after:shadow-2xl checked:after:border-white"
-                                    />
-                                </FormControl> */}
                             </div>
                             <FormMessage />
                         </FormItem>
@@ -135,15 +129,27 @@ const ProductPageForm = ({items}) => {
                             <div className="self-start text-zinc-400 text-5xl font-bold line-through ">${items.price}</div>
                         </div>
                         <div className="buttonBlock space-y-2" >
-                            <button className="block w-full p-3 bg-zinc-800 rounded-lg border border-zinc-800 text-neutral-100" onClick={form.handleSubmit(onCart)}>
-                                Add to cart
+                            <button
+                                onClick={form.handleSubmit(onCart)}
+                                className={
+                                    "Button relative appearance-none transition-all overflow-hidden p-3 w-full h-full bg-zinc-800 rounded-2xl border border-zinc-800 justify-center items-center " +
+                                    "gap-2 inline-flex text-neutral-100 leading-none " +
+                                    "hover:text-black group/buttonbuy "
+                                }
+                            >
+                                <span className="absolute inset-0 bg-white transition-all w-full duration-300 -left-full group-hover/buttonbuy:left-0 z-0"></span>
+                                <span className="relative z-10">Add to cart</span>
+                                <span className="absolute h-full bg-white transition-all w-full duration-300 -right-full group-hover/buttonbuy:right-0 z-0"></span>
                             </button>
-                            <button className="block w-1/2 mx-auto p-3 bg-zinc-400 rounded-lg border border-zinc-800 text-zinc-800"  onClick={form.handleSubmit(onBuy)}>
+                            {/* Maybe added later */}
+                            {/* <button className="block w-1/2 mx-auto p-3 bg-zinc-400 rounded-lg border border-zinc-800 text-zinc-800"  onClick={form.handleSubmit(onBuy)}>
                                 Buy one click
-                            </button>
+                            </button> */}
 
                         </div>
                     </div>
+                    {notifyMes && <NotifyMessage message={notifyMes} state={stateNotify}></NotifyMessage>}
+
                 </form>
             </Form>
         </>
