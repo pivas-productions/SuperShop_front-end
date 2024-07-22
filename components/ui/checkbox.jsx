@@ -4,8 +4,9 @@ import * as React from "react";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { FaCheck } from "react-icons/fa";
 import { cva } from "class-variance-authority";
+import { RxDividerHorizontal } from "react-icons/rx";
 
-const CheckboxRootVariants = cva("flex appearance-none items-center justify-center outline-none ", {
+const CheckboxRootVariants = cva("flex appearance-none items-center justify-center outline-none overflow-hidden", {
     variants: {
         colors: {
             default: "hover:bg-pink-300 bg-white transition-colors",
@@ -34,7 +35,7 @@ const CheckboxRootVariants = cva("flex appearance-none items-center justify-cent
 });
 
 const CheckboxRoot = React.forwardRef(({ children, colors, effect, size, checked, onCheckedChange, className, ...props }, forwardedRef) => (
-    <Checkbox.Root className={CheckboxRootVariants({colors, effect, size, className})}
+    <Checkbox.Root className={CheckboxRootVariants({ colors, effect, size, className })}
         checked={checked}
         onCheckedChange={onCheckedChange}
         {...props}
@@ -52,9 +53,26 @@ const CheckboxIndicator = React.forwardRef(({ className, ...props }, forwardedRe
         {...props}
         ref={forwardedRef}
     >
-        <FaCheck className="text-inherit"/>
+        <FaCheck className="text-inherit" />
     </Checkbox.Indicator>
 ));
 CheckboxIndicator.displayName = Checkbox.Indicator.displayName;
 
-export { CheckboxRoot, CheckboxIndicator, };
+const CheckboxIndicatorGroup = React.forwardRef(({ className, checked, ...props }, forwardedRef) => {
+    console.log('gg', checked)
+    return (
+    <Checkbox.Indicator className={
+        'text-violet11 '
+        + (className ? className : '')}
+        {...props}
+        ref={forwardedRef}
+    >
+        {checked === 'indeterminate' && <RxDividerHorizontal className="text-white" size={'1.5em'} /> }
+        {checked === true && <FaCheck className="text-inherit" />
+        }
+    </Checkbox.Indicator>
+)});
+CheckboxIndicatorGroup.displayName = Checkbox.Indicator.displayName;
+
+
+export { CheckboxRoot, CheckboxIndicator, CheckboxIndicatorGroup };

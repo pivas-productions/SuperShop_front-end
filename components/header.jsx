@@ -50,9 +50,9 @@ const HeaderMain = () => {
                 <Input id="globalSearch" className={'hidden md:block'} type={'text'} variant='search' size="search" placeholder={'Search'} ></Input>
             </div>
             <div className="iconsButtons order-3 md:-order-none h-16 flex justify-center items-center gap-10 mr-auto md:mr-0">
-                <div className="CartBut h-16 justify-center items-center inline-flex">
+                <Link href={'/cart'} className="CartBut h-16 justify-center items-center inline-flex">
                     <RiShoppingCartLine className='inline-flex md:ml-auto items-center p-2 rounded-full hover:shadow-black hover:shadow-inner w-14 h-14 md:w-10 md:h-10 cursor-pointer' />
-                </div>
+                </Link>
                 <div className="AccountBut h-16 justify-center items-center inline-flex">
                     <SessionProvider route={process.env.REACT_APP_API_URL_CLIENT}>
                         <UserButton />

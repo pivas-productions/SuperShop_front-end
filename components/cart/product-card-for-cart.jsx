@@ -7,7 +7,7 @@ import { CheckboxIndicator, CheckboxRoot } from '../ui/checkbox'
 import Link from 'next/link'
 import { useSession } from '@/hooks/sessionProvider'
 
-export default function ProductCardForCart({ fetch_route, allChecked, initialQuantity, productId, item }) {
+export default function ProductCardForCart({ fetch_route, allChecked, changedAllChecked, appendCheckedFunc, initialQuantity, productId, item }) {
     const [quantity, setQuantity] = useState(initialQuantity);
     const [intervalId, setIntervalId] = useState(null);
     const [timeoutId, setTimeoutId] = useState(null);
@@ -51,7 +51,6 @@ export default function ProductCardForCart({ fetch_route, allChecked, initialQua
                         product: productId,
                         quantity: quantity,
                     }
-                    console.log('send_data', send_data)
                     let response = await fetch(`${fetch_route}/api/baskets/basket-item/${productId}/`, {
                         method: "PATCH",
                         body: JSON.stringify(send_data),
@@ -60,16 +59,11 @@ export default function ProductCardForCart({ fetch_route, allChecked, initialQua
                         },
                         credentials: 'include'
                     });
-                    console.log(response, 'response')
-                    console.log(response.status, response.status === 201, response.status == 500)
-                    // const data = await response.json();
-                    console.log(response.statusText)
 
                 } catch (error) {
                     // Обработка ошибки
                 }
             });
-            console.log(`Количество товара ${productId} изменено на ${quantity}`);
         }, 1000); // Задержка в 1 секунду
 
         setTimeoutId(newTimeoutId);
@@ -86,7 +80,6 @@ export default function ProductCardForCart({ fetch_route, allChecked, initialQua
                         const send_data = {
                             quantity: quantity,
                         }
-                        console.log('send_data', send_data)
                         let response = await fetch(`${fetch_route}/api/baskets/basket-item/${productId}/`, {
                             method: "PATCH",
                             body: JSON.stringify(send_data),
@@ -95,16 +88,11 @@ export default function ProductCardForCart({ fetch_route, allChecked, initialQua
                             },
                             credentials: 'include'
                         });
-                        console.log(response, 'response')
-                        console.log(response.status, response.status === 201, response.status == 500)
-                        // const data = await response.json();
-                        console.log(response.statusText)
     
                     } catch (error) {
                         // Обработка ошибки
                     }
                 });
-                console.log(`Количество товара ${productId} изменено на ${quantity}`);
             }, 1000); // Задержка в 1 секунду
 
             setTimeoutId(newTimeoutId);
@@ -115,7 +103,6 @@ export default function ProductCardForCart({ fetch_route, allChecked, initialQua
     };
 
     const handleInputChange = (e) => {
-        update();
 
         const value = parseInt(e.target.value, 10);
         if (isNaN(value)) {
@@ -127,8 +114,27 @@ export default function ProductCardForCart({ fetch_route, allChecked, initialQua
         const newTimeoutId = setTimeout(() => {
             // Отправляем запрос на изменение количества товара
             // updateQuantity(productId, quantity);
+            startTransition(async () => {
+                try {
+                    update();
+                    const send_data = {
+                        quantity: Number(e.target.value),
+                    }
+                    let response = await fetch(`${fetch_route}/api/baskets/basket-item/${productId}/`, {
+                        method: "PATCH",
+                        body: JSON.stringify(send_data),
+                        headers: {
+                            'Content-type': 'application/json'
+                        },
+                        credentials: 'include'
+                    });
+
+                } catch (error) {
+                    // Обработка ошибки
+                }
+            });
             console.log(`Количество товара ${productId} изменено на ${quantity}`);
-        }, 1000); // Задержка в 1 секунду
+        }, 1500); // Задержка в 1 секунду
 
         setTimeoutId(newTimeoutId);
     };
@@ -138,11 +144,15 @@ export default function ProductCardForCart({ fetch_route, allChecked, initialQua
     }, [intervalId]);
 
     useEffect(() => {
-        setStateChecked(allChecked);
-    }, [allChecked]);
+        if(changedAllChecked){
+            setStateChecked(allChecked);
+        }
+    }, [allChecked, changedAllChecked]);
 
     const handleCheckboxChange = (checked) => {
+        update()
         setStateChecked(checked);
+        appendCheckedFunc(productId)
     };
     const handleClick = (e) => {
         update();
@@ -163,11 +173,11 @@ export default function ProductCardForCart({ fetch_route, allChecked, initialQua
                     <span>{item.product_name}</span>
                 </div>
                 <div className="">
-                    <div className=" text-neutral-400 text-sm">Цвет: черный, размер: XS</div>
+                    <div className=" text-neutral-400 text-sm">Цвет: {item.color}, размер: {item.size}</div>
                 </div>
                 <div className="blockbutton inline-flex gap-2">
                     <AddToFavorite />
-                    <DeleteProduct type={'cart'} id={item?.id} />
+                    <DeleteProduct fetch_route={fetch_route} type={'cart'} id={item?.id} />
                 </div>
             </div>
             <div className="Price">
