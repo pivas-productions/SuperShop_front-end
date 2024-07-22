@@ -31,7 +31,7 @@ const ProductIdPage = async ({ params }) => {
     images.push(
       {
         alt: `no-image`,
-        src: `/no-photo.jpg`,
+        src: `/no_photo.jpg`,
         width: 896,
         height: 414,
         imageFit: 'cover',
@@ -47,7 +47,7 @@ const ProductIdPage = async ({ params }) => {
 
       <ReactQueryProvider>
         <Suspense fallback={<Loading />}>
-          <SimilarProducts title={'С этим товаром покупают'} category={items?.categories?.[0]?.slug} />
+          <SimilarProducts title={'С этим товаром покупают'}  fetch_route={process.env.REACT_APP_API_URL_CLIENT} category={items?.categories?.[0]?.slug} />
         </Suspense>
       </ReactQueryProvider>
     </main>

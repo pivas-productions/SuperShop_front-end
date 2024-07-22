@@ -11,10 +11,10 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <HeaderPhoto />
       <section className="flex flex-col gap-48">
-        <PopularProducts items={items_data} />
-        <Discounts items={items_data} />
-        <NewItems items={items_data} />
-        <MayBeInteresting items={items_data} />
+        <PopularProducts  fetch_route={process.env.REACT_APP_API_URL_CLIENT} items={items_data} />
+        <Discounts  fetch_route={process.env.REACT_APP_API_URL_CLIENT} items={items_data} />
+        <NewItems  fetch_route={process.env.REACT_APP_API_URL_CLIENT} items={items_data} />
+        <MayBeInteresting  fetch_route={process.env.REACT_APP_API_URL_CLIENT} items={items_data} />
       </section>
     </main>
   );

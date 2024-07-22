@@ -63,7 +63,7 @@ const ProductPageWrapper = ({ route, items, images }) => {
         </section>
         <section className='w-full 2xl:px-6 md:mt-20 xl:mt-0 flex-col justify-start items-start gap-[11px] flex'>
           <div className="flex-col w-full justify-start gap-10 items-start inline-flex">
-            <div className="Title text-black text-5xl font-semibold ">
+            <div className="Title text-black text-5xl font-semibold text-center lg:text-left pl-4 lg:pl-14 xl:pl-0 ">
               Description
             </div>
             <div className="Body min-h-28 text-stone-900 whitespace-pre-wrap w-fit">{items.description}</div>

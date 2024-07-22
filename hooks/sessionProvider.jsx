@@ -43,6 +43,7 @@ export const SessionProvider = ({ children, route }) => {
                 credentials: 'include',  // Передача cookies
             });
             setSession(false);
+            location.reload();
         } catch (error) {
             console.error('Failed to logout:', error);
         }

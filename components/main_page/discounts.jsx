@@ -25,7 +25,7 @@ export const Discounts = ({items}) => {
                         {Object.values(items).map((item) => (
                                 <ProductCard seen_style='grid' href={'/catalog/items/'+item.id} key={item.id}>
                                     <ProductCardPhoto src_main={item?.general_photo_one?.photo?.photo ? route + item?.general_photo_one?.photo?.photo : '/435x366.png'} src_hover={item?.general_photo_two?.photo?.photo ? route + item?.general_photo_two?.photo?.photo : '/hover_image.jpg'} />
-                                    <ProductCardContent item={item} />
+                                    <ProductCardContent item={item} fetch_route={fetch_route}/>
                                 </ProductCard>
                         ))}
                     </CarouselBlaze>
