@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 
 import { useIsClient } from "@/hooks/use-is-client";
 
@@ -42,7 +42,7 @@ const activeIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-const NewAddressForm = () => {
+const NewAddressForm = ({fetch_route}) => {
   const isClient = useIsClient();
 
   const [markers, setMarkers] = useState();
@@ -51,6 +51,7 @@ const NewAddressForm = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null); // Состояние для активного маркера
   const [map, setMapRef] = useState(null)
+  const [isPending, startTransition] = useTransition();
 
   const AddMarkerOnClick = () => {
     useMapEvents({
@@ -105,6 +106,7 @@ const NewAddressForm = () => {
   const handleSearch = useDebouncedCallback(async (event) => {
 
     if (event.target.value.trim() !== '') {
+      console.log(event.target.value, 'event.target.value search')
       const geocodeUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(event.target.value)}&format=json&limit=1`;
       try {
         const response = await axios.get(geocodeUrl);
@@ -136,6 +138,35 @@ const NewAddressForm = () => {
   }
 
   const handleSubmit = () => {
+    console.log('markers', markers)
+    startTransition(async () => {
+      try {
+        const send_data = {
+          address: markers.address,
+          lat: markers.position[0],
+          lon: markers.position[1],
+          default_state: false,
+        }
+        let response = await fetch(`${fetch_route}/api/address/`, {
+          method: "POST",
+          body: JSON.stringify(send_data),
+          headers: {
+            'Content-type': 'application/json'
+          },
+          credentials: 'include'
+        })
+
+        if (response.status === 500) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        console.log('response', response)
+        console.log('response.headers', response.headers.get('Set-Cookie'))
+        location.reload();
+        
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
     console.log('submited')
   }
 
@@ -169,7 +200,7 @@ const NewAddressForm = () => {
             className=" flex justify-center items-center border-b border-b-[#0003] w-[30px] h-[30px] leading-[26px] text-center text-black text-[22px] rounded shadow-[0_1px_5px_#000000a6] bg-clip-padding border-2 leflet-control-zoom-in bg-white" href="#" title="Find Current location" role="button" aria-label="Find Current location" aria-disabled="false"
             onClick={() => handleLocateClick()}
           >
-            <FaLocationArrow  className='text-black w-[20px] h-[20px]'/>
+            <FaLocationArrow className='text-black w-[20px] h-[20px]' />
           </a>
         </Control>
         <AddMarkerOnClick />

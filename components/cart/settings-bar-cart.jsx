@@ -17,7 +17,8 @@ const MapWithNoSSR = dynamic(() => import('@/components/pickup-maps'), { ssr: fa
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
-const SettingsBarCart = ({ searchParams }) => {
+const SettingsBarCart = ({ fetch_route, item, searchParams }) => {
+    console.log('item',item)
     const [openDeliveryDialog, setOpenDeliveryDialog] = React.useState(false);
     const [openPaymentDialog, setOpenPaymentDialog] = React.useState(false);
 
@@ -112,7 +113,7 @@ const SettingsBarCart = ({ searchParams }) => {
                                         </div>
                                     </form>
                                     <AddNewMehod type={'new_address'} title={'Новый способ доставки'} closeDialogFunc={setOpenDeliveryDialog}>
-                                        <NewAddressForm />
+                                        <NewAddressForm fetch_route={fetch_route} />
                                     </AddNewMehod>
                                 </div>
                             </TabsContent>
@@ -221,16 +222,16 @@ const SettingsBarCart = ({ searchParams }) => {
                     </div>
                     <div className=" rounded-[10px] flex-col justify-start items-start gap-[11px] inline-flex">
                         <div className="w-full grid grid-cols-2">
-                            <div className="text-center text-neutral-600 text-sm leading-tight">Товары, 1шт</div>
-                            <div className="text-center text-neutral-600 text-sm leading-tight">228120 ₽</div>
+                            <div className="text-center text-neutral-600 text-sm leading-tight">Товары, {item.items[0].length}1шт</div>
+                            <div className="text-center text-neutral-600 text-sm leading-tight">{item.without_discount} ₽</div>
                         </div>
                         <div className="w-full grid grid-cols-2">
                             <div className="text-center text-neutral-600 text-sm leading-tight">Скидка</div>
-                            <div className="text-center text-neutral-600 text-sm leading-tight">-10000 ₽</div>
+                            <div className="text-center text-neutral-600 text-sm leading-tight">{item.total_cost - item.without_discount} ₽</div>
                         </div>
                         <div className="w-full grid grid-cols-2">
                             <div className=" text-center text-neutral-600 text-lg font-extrabold font-['Inter'] leading-[25.20px]">Итого</div>
-                            <div className=" text-center text-neutral-600 text-lg font-extrabold font-['Inter'] leading-[25.20px]">218120 ₽</div>
+                            <div className=" text-center text-neutral-600 text-lg font-extrabold font-['Inter'] leading-[25.20px]">{item.total_cost} ₽</div>
                         </div>
                     </div>
                     <button

@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 
 const { useInView } = require('react-intersection-observer');
 
-const CatalogItemsWrapper = ({ items, catalog_slug, route, backend_href, fetch_key, default_style = 'list' }) => {
+const CatalogItemsWrapper = ({ items, catalog_slug, fetch_route, route, backend_href, fetch_key, default_style = 'list' }) => {
     // const queryClient = useQueryClient();
     const { ref, inView } = useInView();
     const [seen_style, setSeen_style] = useState(default_style)
@@ -44,7 +44,7 @@ const CatalogItemsWrapper = ({ items, catalog_slug, route, backend_href, fetch_k
             {data?.pages?.map((item, i) => (
                 <ProductCard key={i} href={`/catalog/${catalog_slug}/${item.id}`} seen_style={seen_style} >
                     <ProductCardPhoto src_main={item?.general_photo_one?.photo?.photo ? backend_href + item?.general_photo_one?.photo?.photo : '/435x366.png'} src_hover={item?.general_photo_two?.photo?.photo ? backend_href + item?.general_photo_two?.photo?.photo : '/hover_image.jpg'} />
-                    <ProductCardContent item={item} />
+                    <ProductCardContent fetch_route={fetch_route} item={item} />
                 </ProductCard>
             ))}
             <div className="col-span-full flex items-center justify-center">

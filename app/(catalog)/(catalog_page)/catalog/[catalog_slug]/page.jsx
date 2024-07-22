@@ -4,8 +4,8 @@ import NoData from '@/components/no-data';
 import React from 'react'
 
 const CatalogNamePage = async ({ params, searchParams }) => {
-  let route = `${process.env.REACT_APP_API_URL_CLIENT}/api/categories/${params.catalog_slug}/items?populate=general_photos&format=json`;
-  let routeServer = process.env.REACT_APP_API_URL + `/api/categories/${params.catalog_slug}/items?populate=general_photos&format=json`;
+  let route = `${process.env.REACT_APP_API_URL_CLIENT}/api/categories/${params.catalog_slug}/items?populate=general_photos,colors_sizes&format=json`;
+  let routeServer = process.env.REACT_APP_API_URL + `/api/categories/${params.catalog_slug}/items?populate=general_photos,colors_sizes&format=json`;
   if(searchParams){
 
     Object.entries(searchParams).map(([key, value]) => {
@@ -25,7 +25,7 @@ const CatalogNamePage = async ({ params, searchParams }) => {
 
   return (
     <>
-      <CatalogItemsWrapper default_style={items.length > 1 ? 'list' : 'grid'} items={items} catalog_slug={params.catalog_slug} backend_href={process.env.REACT_APP_API_URL_CLIENT} route={route} fetch_key={'catalog_' + params.catalog_slug} searchParams={searchParams}/>
+      <CatalogItemsWrapper default_style={items.length > 1 ? 'list' : 'grid'} fetch_route={process.env.REACT_APP_API_URL_CLIENT} items={items} catalog_slug={params.catalog_slug} backend_href={process.env.REACT_APP_API_URL_CLIENT} route={route} fetch_key={'catalog_' + params.catalog_slug} searchParams={searchParams}/>
     </>
   )
 }

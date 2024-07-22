@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import HeaderMain from "@/components/header";
 import FooterMain from "@/components/footer";
-
+import { SessionProvider } from '@/hooks/sessionProvider'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -14,9 +14,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ru">
       <body className={inter.className}>
-        <HeaderMain/>
+        <HeaderMain />
+        <SessionProvider route={process.env.REACT_APP_API_URL_CLIENT}>
           {children}
-        <FooterMain/>
+        </SessionProvider>
+        <FooterMain />
       </body>
     </html>
   );
