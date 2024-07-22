@@ -16,7 +16,7 @@ const EditDialogForCart = React.forwardRef(({ children, className, title, ...pro
                     <DialogClose className={'rounded-full'} />
                 </DialogTitle>
                 <DialogDescription />
-                <section className=" pt-10">
+                <section className=" pt-10 overflow-y-auto">
                     {children}
                 </section>
             </DialogContent>

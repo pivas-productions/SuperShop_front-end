@@ -122,7 +122,7 @@ const MapPickup = () => {
     }
 
     return (
-        <div className='w-full h-full space-y-4'>
+        <div className='w-full h-full space-y-4 overflow-y-auto'>
             <div className="relative flex flex-1 flex-shrink-0">
                 <label htmlFor="search" className="sr-only">
                     Search
@@ -135,9 +135,10 @@ const MapPickup = () => {
                 <CiSearch className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <MapContainer
+                className='asdfasfd h-64 w-full'
                 center={[47.222109, 39.718813]}
                 zoom={13}
-                style={{ height: '300px', width: '100%' }}
+                // style={{ height: '300px', width: '100%' }}
 
                 ref={setMapRef}
             >

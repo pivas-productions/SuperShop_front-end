@@ -63,13 +63,13 @@ const SettingsBarCart = ({ fetch_route, item, searchParams }) => {
                             </TabsContent>
                             <TabsContent value={'Delivery'}>
                                 <div className='space-y-4 text-center'>
-                                    <form className="space-y-4 text-center"
+                                    <form className="space-y-4 text-center text-sm xl:text-lg"
                                         onSubmit={handleSubmit}
                                     >
                                         <div className="radio-item">
                                             <input className="hidden peer" onChange={handleSubmit} name="radio" id="radio1" type="radio" />
                                             <label
-                                                className="flex justify-end items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
+                                                className="flex justify-end items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer relative
                                                     after:absolute after:rounded-full after:h-[1.5rem] after:w-[1.5rem] after:border-2 after:border-pink-300 after:left-[2rem]
                                                     before:absolute before:rounded-full before:h-[1.55rem] before:w-[1.55rem] before:bg-pink-300/80 before:opacity-0 before:invisible
                                                     before:transition-all duration-300 before:ease-in-out before:scale-150 before:left-[2rem] peer-checked:border-pink-300
@@ -84,7 +84,7 @@ const SettingsBarCart = ({ fetch_route, item, searchParams }) => {
                                         <div className="radio-item">
                                             <input className="hidden peer" onChange={handleSubmit} name="radio" id="radio2" type="radio" />
                                             <label
-                                                className="flex justify-end items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
+                                                className="flex justify-end items-center space-x-1 p-1 xl:p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer text-lg relative
                                                     after:absolute after:rounded-full after:h-[1.5rem] after:w-[1.5rem] after:border-2 after:border-pink-300 after:left-[2rem]
                                                     before:absolute before:rounded-full before:h-[1.55rem] before:w-[1.55rem] before:bg-pink-300/80 before:opacity-0 before:invisible
                                                     before:transition-all duration-300 before:ease-in-out before:scale-150 before:left-[2rem] peer-checked:border-pink-300

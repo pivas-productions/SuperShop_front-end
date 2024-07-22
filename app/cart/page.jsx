@@ -11,7 +11,10 @@ const CartPage = async () => {
             'Content-type': 'application/json',
             'Cookie': cookieString
         },
-        credentials: 'include'
+        credentials: 'include',
+        next: {
+
+        }
     });
     const items = await res.json();
     console.log('items', items)
@@ -24,7 +27,7 @@ const CartPage = async () => {
                 </div>
                 <div className='flex flex-col h-full xl:flex-row gap-4 lg:gap-5 xl:gap-10'>
                     <section className='flex-1 container mt-10 h-full text-gray-600 body-font  px-5 mx-auto flex flex-col justify-start gap-4 items-center'>
-                        <h1 className=" text-7xl font-medium title-font text-gray-900">
+                        <h1 className=" text-5xl lg:text-6xl font-medium title-font text-gray-900">
                             Похоже, ваша корзина пуста...
                         </h1>
                         {/* <h2 class=" text-4xl font-medium title-font text-gray-900">
