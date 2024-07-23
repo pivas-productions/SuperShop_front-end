@@ -20,7 +20,7 @@ const AddressCardContent = React.forwardRef(({ className, default_state, address
         <>
             {default_state &&
                 <div className=" p-1 bg-neutral-200 rounded-lg justify-center items-center gap-2 inline-flex">
-                    <div className="text-xl font-['Inter'] ">По умолчанию</div>
+                    <span className="text-xl font-['Inter'] ">По умолчанию</span>
                 </div>
             }
             <div className={"flex items-center gap-1" + (className ? className : "")} ref={ref} {...props}>
