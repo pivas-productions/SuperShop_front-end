@@ -134,7 +134,7 @@ const FiltersBar = ({ ClosedDialog }) => {
     }
     return (
         <Dialog defaultOpen={true} modal={true} onOpenChange={ClosedDialog}>
-            <DialogContent className="bg-white text-black rounded-md fixed flex flex-col top-0 z-30 w-[40rem] animate-delay-[-0.2s] transition duration-100 ease-in-out animate-duration-[2s] min-h-screen animate-[filters-show] shadow-[#0b2132] shadow-xl ">
+            <DialogContent className="bg-white text-black rounded-md fixed flex flex-col top-0 z-30 w-[40rem] animate-delay-[-0.2s] transition duration-75 ease-in-out animate-duration-[1s] min-h-screen animate-[filters-show] shadow-[#0b2132] shadow-xl ">
                 <DialogTitle className="w-full px-6 py-6 rounded-t-md flex justify-between" >
                     <span className='text-2xl font-semibold'>Filters</span>
                     <DialogClose />
@@ -196,7 +196,7 @@ const FiltersBar = ({ ClosedDialog }) => {
                                             <button name={'type'} type="reset" onClick={resetCheckboxes} className='w-1/4 mr-4 text-sm text-gray-500'>Сбросить</button>
                                         </div>
 
-                                        <section className={"listTypes overflow-y-auto " + (openShowAll.type ? 'h-80' : 'h-36')}>
+                                        <section className={"listTypes overflow-y-auto smooth-scroll " + (openShowAll.type ? 'h-80' : 'h-36')}>
 
                                             {categoryTypeList && categoryTypeList.map((name) => {
                                                 return (

@@ -206,7 +206,7 @@ const CreateReviews = ({ item }) => {
                             </div>
                         </div>
                         <Form {...form}>
-                            <form className='space-y-8 w-full p-2 max-h-[60vh] overflow-y-auto'>
+                            <form className='space-y-8 w-full p-2 max-h-[60vh] overflow-y-auto smooth-scroll'>
                                 <FormField control={form.control} name="rate" render={({ field }) => (
                                     <FormItem className='!space-y-0 flex justify-around items-center gap-4 w-full bg-black/5 rounded-2xl p-2'>
                                         <FormLabel className='!text-lg'>Оценка</FormLabel>

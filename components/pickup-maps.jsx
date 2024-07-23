@@ -122,7 +122,7 @@ const MapPickup = () => {
     }
 
     return (
-        <div className='w-full h-full space-y-4 overflow-y-auto'>
+        <div className='w-full h-full space-y-4 overflow-y-auto smooth-scroll'>
             <div className="relative flex flex-1 flex-shrink-0">
                 <label htmlFor="search" className="sr-only">
                     Search

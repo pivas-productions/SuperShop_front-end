@@ -132,7 +132,7 @@ const SettingsBarCart = ({ fetch_route, item, searchParams }) => {
                 <div className="TitleBar flex justify-center mb-4">
                     <h4 className="text-lg font-semibold">Способ Оплаты</h4>
                     <EditDialogForCart title={'Способ Оплаты'} >
-                        <div className="space-y-4 text-center max-h-96 overflow-auto">
+                        <div className="space-y-4 text-center max-h-96 overflow-auto smooth-scroll">
                             <div className="radio-item">
                                 <input className="hidden peer" name="radio" id="radio1" type="radio" />
                                 <label
