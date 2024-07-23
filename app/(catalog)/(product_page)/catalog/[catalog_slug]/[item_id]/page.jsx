@@ -47,7 +47,7 @@ const ProductIdPage = async ({ params }) => {
 
       <ReactQueryProvider>
         <Suspense fallback={<Loading />}>
-          <SimilarProducts title={'С этим товаром покупают'}  fetch_route={process.env.REACT_APP_API_URL_CLIENT} category={items?.categories?.[0]?.slug} />
+          <SimilarProducts title={'С этим товаром покупают'}  fetch_route={process.env.REACT_APP_API_URL_CLIENT} category={items?.categories?.[0]?.slug} arr_ids={[Number(params.item_id)]} />
         </Suspense>
       </ReactQueryProvider>
     </main>
