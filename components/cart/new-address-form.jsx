@@ -147,7 +147,8 @@ const NewAddressForm = ({fetch_route}) => {
           lon: markers.position[1],
           default_state: false,
         }
-        let response = await fetch(`${fetch_route}/api/address/`, {
+        console.log('send_data',send_data)
+        let response = await fetch(`${fetch_route}/api/addresses/`, {
           method: "POST",
           body: JSON.stringify(send_data),
           headers: {
@@ -160,7 +161,6 @@ const NewAddressForm = ({fetch_route}) => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         console.log('response', response)
-        console.log('response.headers', response.headers.get('Set-Cookie'))
         location.reload();
         
       } catch (error) {

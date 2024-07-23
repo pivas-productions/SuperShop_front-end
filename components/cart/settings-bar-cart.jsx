@@ -15,16 +15,18 @@ const NewAddressForm = dynamic(() => import('./new-address-form'), { ssr: false 
 
 const MapWithNoSSR = dynamic(() => import('@/components/pickup-maps'), { ssr: false });
 
-const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
+const wait = () => new Promise((resolve) => setTimeout(resolve, 500));
 
-const SettingsBarCart = ({ fetch_route, item, searchParams }) => {
-    console.log('item',item)
+const SettingsBarCart = ({ fetch_route, item, addresses, searchParams }) => {
+    console.log('item', item)
     const [openDeliveryDialog, setOpenDeliveryDialog] = React.useState(false);
     const [openPaymentDialog, setOpenPaymentDialog] = React.useState(false);
+    const [curAddress, setCurAddress] = React.useState({...(addresses.filter((item) => item.default_state === true)), type: 'delivery'});
 
     const handleOpenDeliveryDialog = (isOpen) => {
         setOpenPaymentDialog(false); // Закрыть диалог способа оплаты
         setOpenDeliveryDialog(isOpen);
+        console.log(curAddress)
     }
 
     const handleOpenPaymentDialog = (isOpen) => {
@@ -32,11 +34,24 @@ const SettingsBarCart = ({ fetch_route, item, searchParams }) => {
         setOpenPaymentDialog(isOpen);
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (type, val) => {
         wait().then(() => {
+            if(type === 'new_address_delivery'){
+                setCurAddress({...val, type: 'delivery'})
+                console.log('true)',addresses.filter((item) => item.default_state === true))
+                console.log('val',val)
+                
+            }
             setOpenDeliveryDialog(false);
             setOpenPaymentDialog(false);
+
         });
+    }
+    
+    const setCurAddressPickupInCart = (val) => {
+        setCurAddress(val);
+        setOpenDeliveryDialog(false);
+        setOpenPaymentDialog(false);
     }
     // const [open, setOpen] = React.useState(false);
     // const handleSubmit = () => {
@@ -58,15 +73,32 @@ const SettingsBarCart = ({ fetch_route, item, searchParams }) => {
                                 </TabsTrigger>
                             </TabsList>
                             <TabsContent value={'Pickup'}>
-                                
-                                <MapWithNoSSR />
+
+                                <MapWithNoSSR setCurAddressPickupInCart={setCurAddressPickupInCart}/>
                             </TabsContent>
                             <TabsContent value={'Delivery'}>
                                 <div className='space-y-4 text-center'>
                                     <form className="space-y-4 text-center text-sm xl:text-lg"
                                         onSubmit={handleSubmit}
                                     >
-                                        <div className="radio-item">
+                                        {Object.values(addresses).map((item, i) => (
+                                            <div key={item.id} className="radio-item">
+                                                <input className="hidden peer" onChange={() => handleSubmit('new_address_delivery', item)} name="address_radio" defaultChecked={item.default_state} id={`radio${i}`} type="radio" />
+                                                <label
+                                                    className="flex justify-end items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer relative
+                                                    after:absolute after:rounded-full after:h-[1.5rem] after:w-[1.5rem] after:border-2 after:border-pink-300 after:left-[2rem]
+                                                    before:absolute before:rounded-full before:h-[1.55rem] before:w-[1.55rem] before:bg-pink-300/80 before:opacity-0 before:invisible
+                                                    before:transition-all duration-300 before:ease-in-out before:scale-150 before:left-[2rem] peer-checked:border-pink-300
+                                                    peer-checked:before:opacity-100 peer-checked:before:visible peer-checked:before:scale-100
+                                                    "
+                                                    htmlFor={`radio${i}`}
+                                                >
+                                                    <FaMapMarkerAlt />
+                                                    <span className="border w-3/4 border-black p-2 rounded-3xl ">{item.address}</span>
+                                                </label>
+                                            </div>
+                                        ))}
+                                        {/* <div className="radio-item">
                                             <input className="hidden peer" onChange={handleSubmit} name="radio" id="radio1" type="radio" />
                                             <label
                                                 className="flex justify-end items-center space-x-1 p-5 bg-gray-800/5 border-2 border-gray-700 rounded-lg cursor-pointer relative
@@ -110,7 +142,7 @@ const SettingsBarCart = ({ fetch_route, item, searchParams }) => {
                                                 <FaMapMarkerAlt />
                                                 <span className="border w-3/4 border-black p-2 rounded-3xl ">Республика Крым, Симферополь, Киевская улица, 83</span>
                                             </label>
-                                        </div>
+                                        </div> */}
                                     </form>
                                     <AddNewMehod type={'new_address'} title={'Новый способ доставки'} closeDialogFunc={setOpenDeliveryDialog}>
                                         <NewAddressForm fetch_route={fetch_route} />
@@ -122,7 +154,12 @@ const SettingsBarCart = ({ fetch_route, item, searchParams }) => {
                     </EditDialogForCart>
                     {/* <MdModeEdit className='text-xl relative bottom-1 left-16' /> */}
                 </div>
-                <p className="py-4 flex gap-2"><FaMapMarkerAlt />Республика Крым, Симферополь, Киевская улица, 83</p>
+                <p className="py-4 flex gap-2 ">
+                    <FaMapMarkerAlt />
+                    <span className="w-full xl:w-96 whitespace-nowrap text-ellipsis overflow-hidden">
+                        {curAddress.address ? curAddress.address : 'Адрес не задан'}
+                    </span>
+                </p>
                 <div className='flex items-center gap-2  font-semibold font-serif w-full justify-center'>
                     <span>Доставим к </span>
                     <span>17 июля</span>

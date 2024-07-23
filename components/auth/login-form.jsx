@@ -55,8 +55,14 @@ const LoginForm = ({ fetch_route }) => {
                 const data = await response.json();
                 console.log('response.data', data)
                 if (data?.error) {
-                    form.reset();
-                    setNotifyMes(data.message);
+                    // form.reset();
+                    console.log(data?.message)
+                    Object.entries(data?.message)?.map(([key, value]) => {
+                        console.log(key, 'key', value, 'value')
+                        form.setError(key, { type: 'manual', message: value })
+
+                    })
+                    setNotifyMes('Invalid data! Check data');
                     setStateNotify('error');
                 }
                 if (data?.success) {

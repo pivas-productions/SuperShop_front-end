@@ -17,6 +17,15 @@ const CartPage = async () => {
         }
     });
     const items = await res.json();
+    const res2 = await fetch(`${process.env.REACT_APP_API_URL}/api/addresses/`, {
+        headers: {
+            'Content-type': 'application/json',
+            'Cookie': cookieString
+        },
+        credentials: 'include',
+        cache: 'no-store'
+    });
+    const adresses = await res2.json();
     console.log('items', items)
     if (!(items?.results?.[0]?.items?.length)) {
         return (
@@ -68,7 +77,7 @@ const CartPage = async () => {
                 <section className='flex-1'>
                     <ProductWrapperCart fetch_route={process.env.REACT_APP_API_URL_CLIENT} items={items.results[0].items} />
                 </section>
-                <SettingsBarCart item={items.results[0]}/>
+                <SettingsBarCart fetch_route={process.env.REACT_APP_API_URL_CLIENT} item={items.results[0]} addresses={adresses.results} />
             </div>
         </main>
     )

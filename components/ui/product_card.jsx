@@ -60,8 +60,8 @@ const ProductCardContent = React.forwardRef(({ className, fetch_route, item, ...
             <div className="FeaturedProduct self-stretch  text-black text-lg lg:text-2xl font-medium font-['Inter'] leading-loose">{item.name}</div>
             {/* <div className="DescriptionOfFeaturedProduct self-stretch text-black text-xl font-medium font-['Inter'] leading-loose">{item.description}</div> */}
             <div className="XxYy text-black text-base lg:text-xl font-['Inter'] leading-loose space-x-1 lg:space-x-2 flex flex-wrap justify-center w-full">
-                <span>${item.price}</span>
-                <sup className="line-through text-zinc-400 text-sm lg:text-lg">${item.price}</sup>
+                <span>${item.price_with_discount}</span>
+                {item.price != item.price_with_discount && <sup className="line-through text-zinc-400 text-sm lg:text-lg">${item.price}</sup>}
             </div>
             <AddToCartCard fetch_route={fetch_route} color={item.colors} size={item.sizes} id={item.id} />
         </div>
