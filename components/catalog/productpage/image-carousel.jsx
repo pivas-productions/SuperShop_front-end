@@ -12,7 +12,28 @@ import './image-carousel.css'
 
 import NextJsImage from "./nextjs-image";
 
+const imageSizes = [16, 32, 48, 64, 96, 128, 256, 384];
+const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
+
+function nextImageUrl(src, size) {
+    return `/_next/image?url=${encodeURIComponent(src)}&w=${size}&q=75`;
+}
+
+
 export default function ImageCarousel({ images }) {
+    const slides = images.map(({ src, width, height }) => ({
+        width,
+        height,
+        src: nextImageUrl(src, width),
+        srcSet: [...imageSizes, ...deviceSizes]
+            .filter((size) => size <= width)
+            .map((size) => ({
+                src: nextImageUrl(src, size),
+                width: size,
+                height: Math.round((height / width) * size),
+            })),
+    }));
+    console.log(slides, 'slides')
     const [open, setOpen] = React.useState(false);
     const [index, setIndex] = React.useState(0);
     const [hidden, setHidden] = React.useState(false);
@@ -52,12 +73,13 @@ export default function ImageCarousel({ images }) {
                     spacing: 0,
                     borderRadius: '100%',
                     imageFit: "cover",
+                    width: '100%',
                 }}
                 plugins={[Inline, Thumbnails]}
                 inline={{
                     style: {
                         width: "100%",
-                        // maxWidth: "900px",
+                        maxWidth: "100%",
                         height: "100%",
                         borderRadius: '100%',
 
@@ -67,8 +89,8 @@ export default function ImageCarousel({ images }) {
                     },
                 }}
                 thumbnails={{
-                    hidden: hidden, 
-                    ref: thumbnailsRef 
+                    hidden: hidden,
+                    ref: thumbnailsRef
                 }}
                 render={{ slide: NextJsImage }}
 
@@ -81,13 +103,17 @@ export default function ImageCarousel({ images }) {
                 on={{ view: updateIndex }}
                 animation={{ fade: 0 }}
                 controller={{ closeOnPullDown: true, closeOnBackdropClick: true }}
-                slides={images}
-                
+                slides={slides}
+
                 plugins={[Thumbnails, Zoom]}
+                zoom={{
+                    doubleTapDelay: 300,
+                    doubleClickDelay: 300
+                }}
                 thumbnails={{
                     hidden
                 }}
-                render={{ slide: NextJsImage }}
+            // render={{ slide: NextJsImage }}
             />
         </>
     );

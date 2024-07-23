@@ -11,7 +11,7 @@ const ProductIdPage = async ({ params }) => {
       next: { revalidate: 100 } // 3600
     });
   const items = await res.json();
-  console.log(items.all_photo, 'items.categories')
+  // console.log(items.all_photo, 'items.categories')
   const route = process.env.REACT_APP_API_URL_CLIENT;
   let images = items?.all_photo.reduce((acc, curVal) => {
     acc = [
@@ -19,14 +19,14 @@ const ProductIdPage = async ({ params }) => {
       {
         alt: `${curVal?.photo?.name}`,
         src: `${route + curVal?.photo?.photo}`,
-        width: 896,
-        height: 414,
+        width: 1920,
+        height: 1080,
         imageFit: 'cover',
       }
     ]
     return acc;
   }, [])
-  console.log(images.length, 'images', images)
+  // console.log(images.length, 'images', images)
   if(!(images.length)) {
     images.push(
       {
@@ -38,7 +38,7 @@ const ProductIdPage = async ({ params }) => {
       }
     )
   }
-  // console.log(images, 'images')
+  console.log(images, 'images')
   return (
     <main className='rounded w-screen min-h-screen text-center '>
       <Suspense fallback={<Loading />}>
