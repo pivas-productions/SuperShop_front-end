@@ -127,7 +127,7 @@ const ToolbarCatalog = ({ route }) => {
             <section className="toolbar bg-white  text-2xl lg:text-base">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <div className=" container px-10 xl:px-0 mx-auto flex items-center justify-between py-4">
+                        <div className=" container px-10 2xl:px-0 mx-auto flex items-center justify-between py-4">
                             <div className="flex items-center space-x-4">
                                 <button ref={FiltersButton} onClick={OpenFilters} className="flex items-center space-x-1 text-gray-700">
                                     <FaFilter />

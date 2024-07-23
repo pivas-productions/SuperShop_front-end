@@ -4,7 +4,7 @@ import { ProductCard, ProductCardContent, ProductCardPhoto } from '../ui/product
 
 const montaga = Montaga({ subsets: ['latin'], weight: ['400'] })
 
-export const PopularProducts = ({ items }) => {
+export const PopularProducts = ({ fetch_route, items }) => {
     const route = process.env.REACT_APP_API_URL_CLIENT
     return (
         <>

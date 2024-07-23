@@ -6,7 +6,7 @@ import { CarouselBlaze } from '../ui/carousel-blaze'
 
 const montaga = Montaga({ subsets: ['latin'], weight: ['400'] })
 
-export const Discounts = ({items}) => {
+export const Discounts = ({ fetch_route, items }) => {
     const route = process.env.REACT_APP_API_URL_CLIENT
     return (
         <>

@@ -22,14 +22,15 @@
 }
 ::-webkit-scrollbar-track{ 
   width: 4px;
-  background-color: #650024; 
+  background-color: #666565; 
 }
 ::-webkit-scrollbar-thumb{ 
   width: 20px;
-  background-color: #4834ec;
+  background-color: rgba(255, 255, 255, 0.3);
   border-radius: 20px;
   border: 0px solid #010000; 
 }
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -43,11 +44,20 @@ body {
   overflow-x: hidden;
 }
 html,body{
+  scrollbar-width: thin;
   font-size: 8px;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
 
 }
+@supports not (-webkit-scrollbar: 1px) {
+  /* Примерные стили для стандартных полос прокрутки (возможно, не все браузеры поддерживают эти свойства) */
+  html, body {
+    scrollbar-width: thin; /* Для Firefox */
+    scrollbar-color: #666565 rgba(255, 255, 255, 0.3); /* Для Firefox */
+  }
+}
+
 @media (min-width: 640px) { 
   html,body{
     font-size: 10px;
