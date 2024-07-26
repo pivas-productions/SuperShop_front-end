@@ -154,20 +154,24 @@ const CreateReviews = ({ fetch_route, item_id, item }) => {
                 }
 
                 const send_data = {
-                    ...values,
-                    // item: item_id,
-                    photo: values.images,
+                    // ...values,
+                    item: item_id,
+                    // photo: values.images,
+                    grade: 2,
                     // photo: uploaded_photos,
                     // uploaded_photos: uploaded_photos,
-                    // text: '123',
-                    review: 1
+                    uploaded_photos: values.images,
+                    user: 1,
+                    text: '123',
+                    // review: 1
                 }
                 // delete send_data.images;
 
                 console.log('send_data in createRevies ', send_data)
-                let response = await fetch(`${fetch_route}/api/review_photos/`, {
+                let response = await fetch(`${fetch_route}/api/reviews/`, {
+                    // let response = await fetch(`${fetch_route}/api/review_photos/`, {
                     method: "POST",
-                    body: JSON.stringify(values),
+                    body: send_data,
                     headers: {
                         'Content-type': 'application/json'
                     },

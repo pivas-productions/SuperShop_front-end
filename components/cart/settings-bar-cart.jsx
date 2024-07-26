@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useTransition } from 'react'
 import './settings-bar-cart.css';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { CiCreditCard1 } from 'react-icons/ci';
@@ -19,9 +19,11 @@ const wait = () => new Promise((resolve) => setTimeout(resolve, 500));
 
 const SettingsBarCart = ({ fetch_route, item, addresses, searchParams }) => {
     console.log('item', item)
+    const [isPending, startTransition] = useTransition();
+
     const [openDeliveryDialog, setOpenDeliveryDialog] = React.useState(false);
     const [openPaymentDialog, setOpenPaymentDialog] = React.useState(false);
-    const [curAddress, setCurAddress] = React.useState({...(addresses.filter((item) => item.default_state === true)), type: 'delivery'});
+    const [curAddress, setCurAddress] = React.useState({ ...(addresses.filter((item) => item.default_state === true)), type: 'delivery' });
 
     const handleOpenDeliveryDialog = (isOpen) => {
         setOpenPaymentDialog(false); // Закрыть диалог способа оплаты
@@ -36,18 +38,18 @@ const SettingsBarCart = ({ fetch_route, item, addresses, searchParams }) => {
 
     const handleSubmit = (type, val) => {
         wait().then(() => {
-            if(type === 'new_address_delivery'){
-                setCurAddress({...val, type: 'delivery'})
-                console.log('true)',addresses.filter((item) => item.default_state === true))
-                console.log('val',val)
-                
+            if (type === 'new_address_delivery') {
+                setCurAddress({ ...val, type: 'delivery' })
+                console.log('true)', addresses.filter((item) => item.default_state === true))
+                console.log('val', val)
+
             }
             setOpenDeliveryDialog(false);
             setOpenPaymentDialog(false);
 
         });
     }
-    
+
     const setCurAddressPickupInCart = (val) => {
         setCurAddress(val);
         setOpenDeliveryDialog(false);
@@ -57,6 +59,34 @@ const SettingsBarCart = ({ fetch_route, item, addresses, searchParams }) => {
     // const handleSubmit = () => {
     //     wait().then(() => setOpen(false));
     // }
+
+    const handleCreateOrder = async () => {
+        startTransition(async () => {
+            try {
+                console.log('item.id',item.id)
+                let response = await fetch(`${fetch_route}/api/payments/create/`, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        basket_id: item.id
+                    }),
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    credentials: 'include'
+                })
+                console.log('response',response)
+                if (response.status === 500) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('data',data)
+                window.open(data.yookassa_confirmation_url, '_blank');
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
     return (
         <section className='space-y-12'>
             <div className=" shadow-md border-2 rounded-3xl p-4">
@@ -74,7 +104,7 @@ const SettingsBarCart = ({ fetch_route, item, addresses, searchParams }) => {
                             </TabsList>
                             <TabsContent value={'Pickup'}>
 
-                                <MapWithNoSSR setCurAddressPickupInCart={setCurAddressPickupInCart}/>
+                                <MapWithNoSSR setCurAddressPickupInCart={setCurAddressPickupInCart} />
                             </TabsContent>
                             <TabsContent value={'Delivery'}>
                                 <div className='space-y-4 text-center'>
@@ -272,6 +302,7 @@ const SettingsBarCart = ({ fetch_route, item, addresses, searchParams }) => {
                         </div>
                     </div>
                     <button
+                        onClick={handleCreateOrder}
                         className={
                             "Button relative appearance-none transition-all overflow-hidden p-3 w-full h-full bg-zinc-800 rounded-2xl border border-zinc-800 justify-center items-center " +
                             "gap-2 inline-flex text-neutral-100 leading-none " +
