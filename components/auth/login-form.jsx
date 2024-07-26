@@ -118,7 +118,7 @@ const LoginForm = ({ fetch_route }) => {
                 </div>
                 {notifyMes && <NotifyMessage message={notifyMes} state={stateNotify}></NotifyMessage>}
 
-                <Button type="submit" disabled={isPending || success} className="w-full hover:bg-sky-400">
+                <Button type="submit" disabled={isPending || success} className="w-full ">
                     {"Войти"}
                 </Button>
                 <Button size="sm" variant="link" asChild className="px-0 text-muted-foreground">

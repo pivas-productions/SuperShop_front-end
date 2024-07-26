@@ -114,7 +114,7 @@ const ProductPageWrapper = ({ route, items, images }) => {
                 <span className="w-full">Reviews</span>
               </AccordionTrigger>
               <AccordionContent className={' overflow-hidden'}>
-                <ReviewsWrapper />
+                <ReviewsWrapper fetch_route={route} item_id={items?.id}/>
               </AccordionContent>
             </AccordionItem>
           </AccordionRoot>
