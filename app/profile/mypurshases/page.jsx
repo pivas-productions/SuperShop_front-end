@@ -1,4 +1,5 @@
 import { OrderCard, OrderCardContent, OrderCardItem, OrderCardLinkPhoto } from '@/components/ui/order-card'
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from '@/components/ui/tabs'
 import React, { Suspense } from 'react'
 
 export default async function FavoritePage() {
@@ -21,22 +22,52 @@ export default async function FavoritePage() {
     return (
         <div className="w-full space-y-4 pt-10 flex flex-col px-10 gap-4 bg-rose-200">
             <span className=" text-6xl  font-['Roboto'] ">Мои заказы</span>
-            {Object.values(items).map((order) => {
-                return (
-                    <OrderCard key={order} order_date={order.order_date} order_number={order.order_number} order_cost={order.order_cost}>
-                        <OrderCardContent>
-                            {Object.values(order.item).map((item) => {
-                                return (
-                                    <OrderCardItem key={item.item_id} item={item}>
-                                        <OrderCardLinkPhoto href={"/catalog/" + item.item_category + "/" + item.item_id} src_main={item.item_src} />
-                                    </OrderCardItem>
-                                )
-                            })
-                            }
-                        </OrderCardContent>
-                    </OrderCard>
-                )
-            })}
+            <TabsRoot defaultValue={'active'}>
+                <TabsList >
+                    <TabsTrigger value="active" className="!rounded-tl-none mr-2">
+                        Активные заказы
+                    </TabsTrigger>
+                    <TabsTrigger value="archive" className="!rounded-tl-none ml-2">
+                        Архив заказов
+                    </TabsTrigger>
+                </TabsList>
+                <TabsContent value="active" className="w-full flex-col">
+                    {Object.values(items).map((order) => {
+                        return (
+                            <OrderCard key={order} order_date={order.order_date} order_number={order.order_number} order_cost={order.order_cost}>
+                                <OrderCardContent >
+                                    {Object.values(order.item).map((item) => {
+                                        return (
+                                            <OrderCardItem key={item.item_id} item={item}>
+                                                <OrderCardLinkPhoto href={"/catalog/" + item.item_category + "/" + item.item_id} src_main={item.item_src} />
+                                            </OrderCardItem>
+                                        )
+                                    })
+                                    }
+                                </OrderCardContent>
+                            </OrderCard>
+                        )
+                    })}
+                </TabsContent>
+                <TabsContent value="archive">
+                    {Object.values(items).map((order) => {
+                        return (
+                            <OrderCard key={order} order_date={order.order_date} order_number={order.order_number} order_cost={order.order_cost}>
+                                <OrderCardContent>
+                                    {Object.values(order.item).map((item) => {
+                                        return (
+                                            <OrderCardItem key={item.item_id} item={item}>
+                                                <OrderCardLinkPhoto href={"/catalog/" + item.item_category + "/" + item.item_id} src_main={item.item_src} />
+                                            </OrderCardItem>
+                                        )
+                                    })
+                                    }
+                                </OrderCardContent>
+                            </OrderCard>
+                        )
+                    })}
+                </TabsContent>
+            </TabsRoot>
         </div>
     )
 }

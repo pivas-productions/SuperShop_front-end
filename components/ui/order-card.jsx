@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const OrderCard = React.forwardRef(({ className, children, order_date, order_number, order_cost, ...props }, ref) => {
     return (
-        <div className="bg-white/30 rounded-[30px] pt-4" ref={ref} {...props}>
+        <div className="w-full bg-white/30 rounded-[30px] pt-4" ref={ref} {...props}>
             <div className="flex justify-between items-center px-8 mb-2">
                 <div className='space-y-2'>
                     <div className="text-2xl  font-['Abel']">{order_date}</div>

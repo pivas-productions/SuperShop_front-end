@@ -15,7 +15,7 @@ TabsRoot.displayName = 'TabsRoot';
 const TabsList = React.forwardRef(({className, color, ...props}, forwardedRef) => (
   
     <TabsPrimitive.List
-      className={"flex-shrink-0 w-full flex" + (className ? className : '')}
+      className={"flex-shrink-0 w-full flex " + (className ? className : '')}
       data-accent-color={color}
       {...props}
       asChild={false}
@@ -29,7 +29,7 @@ const TabsTrigger = React.forwardRef(
   ({ children, className, ...props }, forwardedRef) => {
     return (
       <TabsPrimitive.Trigger
-        className={"rounded-tl-lg overflow-hidden data-[state='active']:text-[#BAA7FF] data-[state='active']:border-b data-[state='active']:border-b-[#BAA7FF] hover:text-[#BAA7FF] focus:relative focus:outline-none flex-1 focus:ring-black font-inherit bg-white px-20 py-4 h-45 flex items-center justify-center text-base leading-none text-[#B5B2BC] select-none" + (className ? className : '')}
+        className={"rounded-tl-lg overflow-hidden data-[state='active']:text-[#BAA7FF] data-[state='active']:border-b data-[state='active']:border-b-[#BAA7FF] hover:text-[#BAA7FF] focus:relative focus:outline-none flex-1 focus:ring-black font-inherit bg-white px-20 py-4 h-45 flex items-center justify-center text-base leading-none text-[#B5B2BC] select-none " + (className ? className : '')}
         {...props}
         asChild={false}
         ref={forwardedRef}
@@ -45,7 +45,7 @@ const TabsContent = React.forwardRef(
   ({className, ...props }, forwardedRef) => {
     return (
       <TabsPrimitive.Content
-        className={"hidden data-[state='active']:flex p-2 pt-4 flex-wrap flex-row justify-between items-center gap-4 flex-1 duration-300 transition-all" + (className ? className : '')}
+        className={"hidden data-[state='active']:flex p-2 pt-4 flex-wrap flex-row justify-between items-center gap-4 flex-1 duration-300 transition-all " + (className ? className : '')}
         {...props}
         ref={forwardedRef}
       />
