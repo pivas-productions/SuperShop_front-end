@@ -70,7 +70,7 @@ const ToolButtons = (fetch_route) => {
     };
 
     return (
-        <div className='flex w-11/12 mx-auto justify-between items-center '>
+        <div className='flex w-11/12 rounded-xl justify-between items-center bg-white/30 p-3'>
             <h3 className='toolButtons text-3xl'>
                 Название списка
             </h3>

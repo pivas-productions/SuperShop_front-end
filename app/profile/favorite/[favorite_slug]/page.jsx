@@ -19,9 +19,9 @@ export default async function FavoriteSlugPage({params}) {
             </div>
         )
     return (
-        <main className="min-h-screen pt-28">
+        <main className="w-full min-h-screen space-y-5 pt-20">
             <ToolButtons/>
-            <section className="catalog_main col-span-full grid grid-cols-3 lg:grid-cols-5 mt-4 py-2 px-10 lg:px-5 gap-4 text-center">
+            <section className="catalog_main col-span-full grid grid-cols-3 lg:grid-cols-5 lg:mt-4 py-2 lg:px-5 gap-4 text-center">
                 <ReactQueryProvider>
                 <Suspense fallback={<Loading />}>
                 <CatalogItemsWrapper default_style={'grid'} items={items} catalog_slug={"params.catalog_slug"} route={route} backend_href={process.env.REACT_APP_API_URL_CLIENT} fetch_key={'favorite'} />

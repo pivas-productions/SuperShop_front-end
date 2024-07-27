@@ -57,11 +57,11 @@ const ProfileMain = (fetch_route) => {
     };
 
     return (
-        <div className="Profile pt-10 flex px-10 gap-32 pb-16 bg-rose-200">
-            <div className="General w-full space-y-4">
+        <div className="Profile pt-10 flex text-center lg:text-start  flex-col lg:flex-row lg:px-10 lg:gap-32 pb-16 bg-rose-200">
+            <div className="General w-full space-y-4 lg:space-y-10">
                 <div className=" text-6xl  font-['Roboto']">Мой профиль</div>
-                <div className='Profile data flex flex-col gap-12 place-items-start'>
-                    <div className='flex  text-center items-center gap-44'>
+                <div className='Profile data flex flex-col gap-12 items-center lg:place-items-start'>
+                    <div className='flex flex-col lg:flex-row  text-center items-center gap-10 lg:gap-44'>
                         <div className='relative size-60'>
                             <Image fill src="/435x366.png" alt="" className='rounded-full' />
                         </div>
@@ -74,7 +74,7 @@ const ProfileMain = (fetch_route) => {
                             </div>
                         </div>
                     </div>
-                    <div className='grid grid-cols-2 gap-20'>
+                    <div className='grid grid-rows-2 lg:grid-cols-2 gap-20'>
                         <div className="Name Change Form bg-white/30 rounded-3xl space-y-8">
                             <div className=" text-center text-black text-2xl font-normal font-['Inter'] leading-normal">Имя</div>
                             <Form {...form}>

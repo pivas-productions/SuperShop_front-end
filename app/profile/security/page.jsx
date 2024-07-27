@@ -8,16 +8,16 @@ import { IoIosClose } from "react-icons/io";
 
 export default async function ProfileSecurity() {
     return (
-        <div className="Profile  w-full space-y-4 pt-10 flex flex-col px-10 gap-4 bg-rose-200">
-            <div className=" text-6xl  font-['Roboto'] ">Безопасность</div>
-            <div className="Change password text-center bg-white/30 rounded-[30px] p-8 w-3/4">
+        <div className="Profile  w-full space-y-4 pt-10 flex flex-col lg:px-10 bg-rose-200 pr-2">
+            <h1 className="text-center my-2 lg:text-start text-6xl  font-['Roboto'] ">Безопасность</h1>
+            <div className="Change password text-center bg-white/30 rounded-[30px] p-8 lg:w-3/4">
                 <div className="text-2xl  font-['Inter'] leading-normal">Сменить пароль
                 </div>
-                <div className="w-5/6 rounded-lg p-2 border border-gray-400 flex-col justify-start items-start gap-6 inline-flex">
+                <div className="w-full lg:w-5/6 rounded-lg p-2 border border-gray-400 flex-col justify-start items-start gap-6 inline-flex">
                     <ChangePasswordForm />
                 </div>
             </div>
-            <div className="bg-white/30 rounded-xl p-5 w-3/4">
+            <div className="bg-white/30 rounded-xl p-5 lg:w-3/4">
                 <div className="flex justify-center gap-2">
                     <span className="text-center text-black text-2xl  font-['Inter'] leading-normal">Сеансы и устроиства</span>
                     <div className="flex">
@@ -33,7 +33,7 @@ export default async function ProfileSecurity() {
                         </DropdownMenu>
                     </div>
                 </div>
-                <div className=" bg-white/80 flex justify-between  rounded-xl gap-2 p-2 mt-10">
+                <div className=" bg-white/80 flex justify-between  rounded-xl gap-2 p-2 mt-10 items-center">
                     <div className="">
                         <div className="flex">
                             <div className="bg-white rounded-lg justify-center items-center gap-2 inline-flex">

@@ -3,9 +3,8 @@ import React from 'react'
 
 export default async function ProfilePage() {
   return (
-    <main className="min-h-screen ml-10">  
+    <main className="w-full min-h-screen lg:ml-10">  
         <ProfileMain/>
-        
     </main>
   )
 }
