@@ -1,6 +1,6 @@
 'use client'
 import { useState, useTransition } from "react";
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
@@ -9,6 +9,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { FaTrashAlt } from "react-icons/fa";
 import { TooltipContent, TooltipProvider, TooltipRoot, TooltipTrigger } from "../ui/tooltip";
 import { MdDriveFileRenameOutline } from "react-icons/md";
+import { Button } from "../ui/button";
 
 
 const ToolButtons = (fetch_route) => {
@@ -80,9 +81,9 @@ const ToolButtons = (fetch_route) => {
                         <TooltipProvider delayDuration={500}>
                             <TooltipRoot >
                                 <TooltipTrigger>
-                                    <div onClick={() => setOpenDialog(!openDialog)} className=" bg-white  p-2 flex justify-center hover:shadow-mega-shadow duration-75 hover:-translate-y-2 items-center rounded-3xl hover:scale-110 border-solid border-2 border-black cursor-pointer ">
+                                    <Button onClick={() => setOpenDialog(!openDialog)} className=" bg-white  !p-2 flex justify-center hover:shadow-mega-shadow duration-75 hover:-translate-y-2 items-center !rounded-3xl hover:scale-110 border-solid border-2 border-black cursor-pointer ">
                                         <MdDriveFileRenameOutline />
-                                    </div>
+                                    </Button>
                                 </TooltipTrigger>
                                 <TooltipContent sideOffset={5} className='!bg-white'>
                                     Переименовать список
@@ -90,7 +91,7 @@ const ToolButtons = (fetch_route) => {
                             </TooltipRoot>
                         </TooltipProvider>
                     </DialogTrigger>
-                    <DialogContent variant={'editDialog'}>
+                    <DialogContent variant={'editDialog'} className="z-20">
                         <DialogTitle className="w-full rounded-t-md flex justify-between" >
                             <span className='text-2xl font-semibold'>Переименовать список</span>
                             <DialogClose className={'rounded-full'} />
@@ -111,7 +112,7 @@ const ToolButtons = (fetch_route) => {
                                         </>
                                     </div>
                                     {notifyMes && <NotifyMessage message={notifyMes} state={stateNotify}></NotifyMessage>}
-                                    <Button type="submit" disabled={isPending} className="w-full hover:bg-sky-400">
+                                    <Button type="submit" disabled={isPending} className="w-full ">
                                         {"Подтвердить"}
                                     </Button>
                                 </form>
@@ -122,7 +123,7 @@ const ToolButtons = (fetch_route) => {
                 <TooltipProvider delayDuration={500}>
                     <TooltipRoot >
                         <TooltipTrigger>
-                            <Button danger={true} className=" bg-white  p-2 flex justify-center hover:shadow-mega-shadow duration-75 hover:-translate-y-2 items-center rounded-3xl hover:scale-110 border-solid border-2 border-black cursor-pointer h-fit"
+                            <Button danger={true} className=" bg-white  !p-2 flex justify-center hover:shadow-mega-shadow duration-75 hover:-translate-y-2 items-center !rounded-3xl hover:scale-110 border-solid border-2 border-black cursor-pointer h-fit"
                                 type="primary"
                                 onClick={() => {
                                     Modal.confirm({
@@ -134,7 +135,7 @@ const ToolButtons = (fetch_route) => {
                                                 <Button danger={true} type="primary" onClick={handleOk}>
                                                     Удалить
                                                 </Button>
-                                                <Button onClick={() => Modal.destroyAll()}>
+                                                <Button className="!bg-white" onClick={() => Modal.destroyAll()}>
                                                     Отмена
                                                 </Button>
                                             </div>

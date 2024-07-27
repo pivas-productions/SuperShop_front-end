@@ -91,7 +91,7 @@ const ProfileMain = (fetch_route) => {
                                         </>
                                     </div>
                                     {notifyMes && <NotifyMessage message={notifyMes} state={stateNotify}></NotifyMessage>}
-                                    <Button type="submit" disabled={isPending} className=" hover:bg-sky-400 w-56">
+                                    <Button type="submit" disabled={isPending} className=" w-56">
                                         {"Подтвердить"}
                                     </Button>
                                 </form>
