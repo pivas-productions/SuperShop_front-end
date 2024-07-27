@@ -14,13 +14,13 @@ export const Discounts = ({ fetch_route, items }) => {
                 <div className="Discounts ">
                     <div className="TitleSection h-20 ">
                         <div className="inline-flex items-center justify-center w-full">
-                            <hr className="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-                            <span className={"px-3 text-4xl tracking-widest font-medium text-gray-900 dark:text-black " + montaga.className}>Discounts</span>
-                            <hr className="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                        <hr className="w-32 xl:w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                            <span className={"px-3 text-3xl xl:text-4xl tracking-widest font-medium text-gray-900 dark:text-black " + montaga.className}>Discounts</span>
+                            <hr className="w-32 xl:w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
                         </div>
                     </div>
                 </div>
-                <div className="ProductsList h-96 container mt-4 gap-32">
+                <div className="ProductsList w-full h-96 mt-4 xl:gap-32 mx-auto 2xl:mx-0">
                     <CarouselBlaze slidesToShow={3} loop={true} slideGap='8rem'>
                         {Object.values(items).map((item) => (
                                 <ProductCard seen_style='grid' href={'/catalog/items/'+item.id} key={item.id}>

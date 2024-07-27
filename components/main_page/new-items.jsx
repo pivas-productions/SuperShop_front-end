@@ -13,13 +13,13 @@ export const NewItems = ({ fetch_route, items }) => {
                 <div className="NewItems ">
                     <div className="TitleSection h-20 ">
                         <div className="inline-flex items-center justify-center w-full">
-                            <hr className="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-                            <span className={"px-3 text-4xl tracking-widest font-medium text-gray-900 dark:text-black " + montaga.className}>New items</span>
-                            <hr className="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                        <hr className="w-32 xl:w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                            <span className={"px-3 text-3xl xl:text-4xl tracking-widest font-medium text-gray-900 dark:text-black " + montaga.className}>New items</span>
+                            <hr className="w-32 xl:w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
                         </div>
                     </div>
                 </div>
-                <div className="ProductsList h-96 grid mt-4 gap-32 grid-cols-3 ">
+                <div className="ProductsList h-96 grid mt-4 gap-12 xl:gap-32 grid-cols-3 px-6">
                     {Object.values(items).slice(0, 3).map((item) => {
                         // console.log(item)
                         return (

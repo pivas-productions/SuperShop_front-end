@@ -9,12 +9,16 @@ const CarouselBlaze = React.forwardRef(({ children, className, slidesToShow, loo
     all: {
       slidesToShow: slidesToShow,
       loop: loop,
-      slideGap: slideGap ? slideGap : '1.25rem',
+      slideGap: '3rem',
+    },
+    '(min-width: 1024px)': {
+        slideGap: slideGap ? slideGap : '1.25rem'
+        
     }
   })
   return (
     <>
-      <div className={"blaze-slider h-full flex-grow flex gap-2 px-2 " + (className ? className : '')} ref={carouselRef}  {...props}>
+      <div className={"blaze-slider w-full h-full flex-grow flex gap-2 px-2 " + (className ? className : '')} ref={carouselRef}  {...props}>
         <button className="blaze-prev"><FaLongArrowAltLeft className='w-6 h-6'/></button>
 
         <div className="blaze-container h-full flex-grow">
