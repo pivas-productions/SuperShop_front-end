@@ -15,13 +15,18 @@ module.exports = {
         "main-bg-to-white": "linear-gradient(to bottom, transparent 2%, rgb(var(--background-end-rgb)) 0%, rgb(255, 255, 255) 99% )"
       },
       colors: {
-        'button-bg': '#C0392B',
+        'button-bg': 'rgba(231, 69, 130,0.8)',
         'button-text': '#FFFFFF',
         'text-color-primary': '#000000',
         'text-color-additation': '#333333',
         'yellow': {
           500: '#FFC107', // ваш желтый цвет
         },
+      },
+      textShadow: {
+        sm: '0 1px 2px var(--tw-shadow-color)',
+        DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+        lg: '0 8px 16px var(--tw-shadow-color)',
       },
       boxShadow: {
         "mega-shadow": "0px 5px 10px 0 rgba(0,0,0,0.5)"
@@ -125,6 +130,16 @@ module.exports = {
           }),
         },
         { values: theme('transitionDuration') }
+      )
+    }),
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') }
       )
     }),
   ],

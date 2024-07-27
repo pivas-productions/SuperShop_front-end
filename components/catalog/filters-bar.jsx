@@ -48,12 +48,12 @@ const FiltersBar = ({ ClosedDialog }) => {
 
     }else{
         if(searchParams?.get('min_price')){
-            defValue.price = [searchParams?.get('min_price'), 1000];
+            defValue.price = [searchParams?.get('min_price'), 999999];
 
         }else if(searchParams?.get('max_price'))
             defValue.price = [0, searchParams?.get('max_price')];
         else
-            defValue.price = [0, 1000];
+            defValue.price = [0, 999999];
     }
 
     if (vremCategoryType) {
@@ -74,7 +74,7 @@ const FiltersBar = ({ ClosedDialog }) => {
     const onSubmit = useCallback((values) => {
         // console.log(values)
         startTransition(() => {
-            const defaultprice = [0, 1000];
+            const defaultprice = [0, 999999];
             const params = new URLSearchParams(searchParams);
 
             if (values.withDiscount) {
@@ -179,7 +179,7 @@ const FiltersBar = ({ ClosedDialog }) => {
                                 <FormItem className='text-center !space-y-6 space-x-6'>
                                     <FormLabel className='!text-lg'>Price Adjust</FormLabel>
                                     <FormControl>
-                                        <Slider {...field} value={field.value} max={1000} disabled={isPending} range draggableTrack={true} tooltip={{ open: true }} />
+                                        <Slider {...field} value={field.value} max={999999} disabled={isPending} range draggableTrack={true} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

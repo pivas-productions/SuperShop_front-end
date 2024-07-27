@@ -1,3 +1,4 @@
+'use client'
 import NotifyMessage from '@/components/messages/notify-message'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -46,7 +47,7 @@ const vrem_item = {
     }
 }
 
-const CreateReviews = ({ item }) => {
+const CreateReviews = ({ fetch_route, item_id, item }) => {
     const [notifyMes, setNotifyMes] = useState("");
     const [stateNotify, setStateNotify] = useState("");
     const [success, setSuccess] = useState(false);
@@ -69,7 +70,7 @@ const CreateReviews = ({ item }) => {
         const totalSize = [...files, ...newFiles].reduce((acc, file) => acc + file.size, 0);
 
         if (totalSize <= 2097152) {
-            console.log(files.length + newFiles.length <= 5,'in onDrop', totalSize)
+            console.log(files.length + newFiles.length <= 5, 'in onDrop', totalSize)
             if (files.length + newFiles.length <= 5) {
                 const updatedFiles = [...files, ...newFiles];
                 setFiles(updatedFiles);
@@ -128,7 +129,7 @@ const CreateReviews = ({ item }) => {
     const form = useForm({
         // resolver: zodResolver(ProfileSchema),
         defaultValues: {
-            rate: '',
+            grade: '',
             advantages: '',
             disadvantages: '',
             comments: '',
@@ -140,26 +141,50 @@ const CreateReviews = ({ item }) => {
         console.log(values, 'create review')
         startTransition(async () => {
             try {
-                form.clearErrors()
-                const send_data = {
-                    ...values
-                }
-                console.log('send_data', send_data)
-                // let response = await fetch(`${fetch_route}/api/bastkets/add`, {
-                //     method: "POST",
-                //     body: JSON.stringify(values),
-                //     headers: {
-                //         'Content-type': 'application/json'
-                //     }
-                // credentials: 'include'
+                form.clearErrors();
+
+                const uploaded_photos = new FormData();
+                // files.forEach((file, i) => {
+                //     uploaded_photos.append('file' + i, file)
                 // });
-                // console.log(response.status, response.status == 500)
+                uploaded_photos.append('file' + 1, files[0])
+
+                for (var pair of uploaded_photos.entries()) {
+                    console.log(pair[1])
+                }
+
+                const send_data = {
+                    // ...values,
+                    item: item_id,
+                    // photo: values.images,
+                    grade: 2,
+                    // photo: uploaded_photos,
+                    // uploaded_photos: uploaded_photos,
+                    uploaded_photos: values.images,
+                    user: 1,
+                    text: '123',
+                    // review: 1
+                }
+                // delete send_data.images;
+
+                console.log('send_data in createRevies ', send_data)
+                let response = await fetch(`${fetch_route}/api/reviews/`, {
+                    // let response = await fetch(`${fetch_route}/api/review_photos/`, {
+                    method: "POST",
+                    body: send_data,
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    credentials: 'include'
+                });
+                console.log(response.status, response.status == 500)
+                console.log('response',response)
                 // const data = await response.json();
                 // console.log('response.data', data)
-                // if (response.status === 500) {
-                // console.log('i`m error')
-                // throw new Error(`HTTP error! status: ${response.status}`);
-                // }
+                if (response.status === 500) {
+                console.log('i`m error')
+                throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 // if (data?.error) {
                 //     // form.reset();
                 //     console.log(data?.message)
@@ -207,7 +232,7 @@ const CreateReviews = ({ item }) => {
                         </div>
                         <Form {...form}>
                             <form className='space-y-8 w-full p-2 max-h-[60vh] overflow-y-auto smooth-scroll'>
-                                <FormField control={form.control} name="rate" render={({ field }) => (
+                                <FormField control={form.control} name="grade" render={({ field }) => (
                                     <FormItem className='!space-y-0 flex justify-around items-center gap-4 w-full bg-black/5 rounded-2xl p-2'>
                                         <FormLabel className='!text-lg'>Оценка</FormLabel>
                                         <FormControl >

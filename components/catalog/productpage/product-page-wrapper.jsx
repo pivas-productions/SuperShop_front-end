@@ -28,13 +28,13 @@ const ProductPageWrapper = ({ route, items, images }) => {
 
         <section className='mainContent w-full mt-4 lg:mt-0'>
           <div className="mainInfo flex flex-col xl:flex-row  gap-4">
-            <div className="ImageBlock h-[40vh] lg:h-[95vh] flex-grow">
-            <div className="absolute z-50">
-              <div className="mx-auto z-50 absolute lg:static container justify-start items-center inline-flex gap-2">
-                <LinkBack />
-                <Breadcrumps />
+            <div className="ImageBlock h-[40vh] lg:h-[95vh] flex-grow xl:w-96">
+              <div className="absolute z-50">
+                <div className="mx-auto z-50 absolute lg:static container justify-start items-center inline-flex gap-2">
+                  <LinkBack />
+                  <Breadcrumps />
+                </div>
               </div>
-            </div>
               <ImageCarousel images={images} />
             </div>
             <div className=" flex-col w-full xl:w-fit xl:items-start lg:self-start mt-12 gap-6 flex">
@@ -114,7 +114,7 @@ const ProductPageWrapper = ({ route, items, images }) => {
                 <span className="w-full">Reviews</span>
               </AccordionTrigger>
               <AccordionContent className={' overflow-hidden'}>
-                <ReviewsWrapper />
+                <ReviewsWrapper fetch_route={route} item_id={items?.id}/>
               </AccordionContent>
             </AccordionItem>
           </AccordionRoot>

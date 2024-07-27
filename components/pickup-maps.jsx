@@ -37,7 +37,7 @@ const activeIcon = new L.Icon({
 });
 
 
-const MapPickup = () => {
+const MapPickup = ({setCurAddressPickupInCart}) => {
     const [locations, setLocations] = useState([]);
     const [searchResult, setSearchResult] = useState(null);
     const [activeMarker, setActiveMarker] = useState(null); // Состояние для активного маркера
@@ -118,6 +118,15 @@ const MapPickup = () => {
     }
 
     const handleSubmit = () => {
+        console.log('activeMarker submited',activeMarker)
+        const curAddr = {
+            address: activeMarker.address,
+            lat: activeMarker.latitude,
+            lon: activeMarker.longitude,
+            name: activeMarker.name,
+            type: 'pickup'
+        }
+        setCurAddressPickupInCart(curAddr)
         console.log('submited')
     }
 
