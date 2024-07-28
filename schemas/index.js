@@ -15,7 +15,7 @@ export const NewPasswordSchema = z
         path: ["passwordConfirmation"],
     });
 
-    export const ChangePasswordSchema = z
+export const ChangePasswordSchema = z
     .object({
         old_password: z.string().min(6, {
             message: "Please enter a new password containing at least 6 characters",
@@ -68,3 +68,15 @@ export const RegisterSchema = z
         message: "Password mismatch.",
         path: ["passwordConfirmation"],
     });
+
+
+export const ReviewSchema = z
+    .object({
+        grade: z.number().min(1, {
+            message: "The grade cannot be below 1.",
+        }),
+        advantages: z.optional(z.string()),
+        disadvantages: z.optional(z.string()),
+        comments: z.optional(z.string()),
+        // images: z.optional(z.array()),
+    })

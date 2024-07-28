@@ -1,24 +1,40 @@
 import CarouselWithOpenFullscreen from '@/components/carousel-with-open-fullscreen'
 import { ReviewCard, ReviewCardContent, ReviewCardHeader, ReviewCardPhoto } from '@/components/ui/review-card'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import RateProgressBar from './rate-progress-bar'
 import CreateReviews from './create-reviews'
 
 const ReviewsWrapper = ({ fetch_route, item_id }) => {
-    const items = {
-        photo: [
-            {
-                name: 'INCANTO milan inspiration bianco1',
-                // photo: '/media/item/main_pic.webp'
-                photo: '/hover_image.jpg'
-            },
-            {
-                name: 'INCANTO milan inspiration bianco2',
-                photo: '/hover_image.jpg'
-                // photo: '/media/item/two_pic.webp'
-            }
-        ]
-    }
+    const [items, setItems] = useState(null);
+    useEffect(() => {
+        fetch(fetch_route + '/api/reviews/?item=' + item_id, { cache: 'no-store' })
+
+        .then(response => response.json())
+        .then(data => {
+            console.log('data.results',data.results)
+            setItems(data.results)
+        })
+        .catch(error => {
+            console.error('Error fetching catalog data:', error);
+        });;
+    }, [setItems, fetch_route, item_id])
+    
+    // const item = await fetch_res.json();
+
+    // const items = {
+    //     photo: [
+    //         {
+    //             name: 'INCANTO milan inspiration bianco1',
+    //             // photo: '/media/item/main_pic.webp'
+    //             photo: '/hover_image.jpg'
+    //         },
+    //         {
+    //             name: 'INCANTO milan inspiration bianco2',
+    //             photo: '/hover_image.jpg'
+    //             // photo: '/media/item/two_pic.webp'
+    //         }
+    //     ]
+    // }
     return (
         <>
             <div className="ReviewWrapper flex flex-col lg:flex-row gap-6">
@@ -34,7 +50,18 @@ const ReviewsWrapper = ({ fetch_route, item_id }) => {
                         ]} />
                     </div>
                     <section className="space-y-6">
-                        <ReviewCard >
+                        {items && Object.values(items).map((item, indx) => (
+                            <ReviewCard key={indx}>
+                            <ReviewCardHeader src_avatar={'/hover_image.jpg'} />
+                            <ReviewCardContent item={item} />
+                            {item.photos.length ? 
+                                <ReviewCardPhoto items={item.photos} route={process.env.REACT_APP_API_URL_CLIENT} />
+                                :
+                                ''
+                            }
+                        </ReviewCard>
+                        ))}
+                        {/* <ReviewCard >
                             <ReviewCardHeader src_avatar={'/hover_image.jpg'} />
                             <ReviewCardContent />
                             <ReviewCardPhoto items={items} route={process.env.REACT_APP_API_URL_CLIENT} />
@@ -43,7 +70,7 @@ const ReviewsWrapper = ({ fetch_route, item_id }) => {
                             <ReviewCardHeader src_avatar={'/hover_image.jpg'} />
                             <ReviewCardContent />
                             <ReviewCardPhoto items={items} route={process.env.REACT_APP_API_URL_CLIENT} />
-                        </ReviewCard>
+                        </ReviewCard> */}
                     </section>
                 </div>
                 <div className="rigthSide order-1 lg:order-2">

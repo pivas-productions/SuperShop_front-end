@@ -4,6 +4,8 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, Dia
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { RateUI } from '@/components/ui/rate'
+import { ReviewSchema } from '@/schemas'
+import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import React, { useMemo, useState, useTransition } from 'react'
 import { useDropzone } from 'react-dropzone'
@@ -127,9 +129,9 @@ const CreateReviews = ({ fetch_route, item_id, item }) => {
     ]);
 
     const form = useForm({
-        // resolver: zodResolver(ProfileSchema),
+        resolver: zodResolver(ReviewSchema),
         defaultValues: {
-            grade: '',
+            grade: 0,
             advantages: '',
             disadvantages: '',
             comments: '',
@@ -142,48 +144,56 @@ const CreateReviews = ({ fetch_route, item_id, item }) => {
         startTransition(async () => {
             try {
                 form.clearErrors();
+                const send_data = new FormData();
 
-                const uploaded_photos = new FormData();
-                // files.forEach((file, i) => {
-                //     uploaded_photos.append('file' + i, file)
-                // });
-                uploaded_photos.append('file' + 1, files[0])
+                // const uploaded_photos = new FormData();
+                files.forEach((file) => {
+                    console.log('file', file)
+                    send_data.append('uploaded_photos', file)
+                });
 
-                for (var pair of uploaded_photos.entries()) {
-                    console.log(pair[1])
-                }
+                // for (var pair of send_data.entries()) {
+                //     console.log(pair[0], 'pair', pair[1])
+                // }
 
-                const send_data = {
-                    // ...values,
-                    item: item_id,
-                    // photo: values.images,
-                    grade: 2,
-                    // photo: uploaded_photos,
-                    // uploaded_photos: uploaded_photos,
-                    uploaded_photos: values.images,
-                    user: 1,
-                    text: '123',
-                    // review: 1
-                }
+                // const send_data = {
+                //     // ...values,
+                //     item: item_id,
+                //     // photo: values.images,
+                //     grade: 2,
+                //     // photo: uploaded_photos,
+                //     uploaded_photos: [uploaded_photos],
+                //     // uploaded_photos: [ values.images?.[0]],
+                //     text: '123',
+                //     // review: 1
+                // }
+
+                // send_data.append('uploaded_photos', uploaded_photos);
+                send_data.append('grade', Number(values.grade));
+                send_data.append('item', item_id);
+                send_data.append('advantages', values.advantages);
+                send_data.append('disadvantages', values.disadvantages);
+                send_data.append('comments', values.comments);
                 // delete send_data.images;
-
+                for (var pair of send_data.entries()) {
+                    console.log('two ', pair[0], 'pair', pair[1])
+                }
                 console.log('send_data in createRevies ', send_data)
                 let response = await fetch(`${fetch_route}/api/reviews/`, {
                     // let response = await fetch(`${fetch_route}/api/review_photos/`, {
                     method: "POST",
-                    body: send_data,
-                    headers: {
-                        'Content-type': 'application/json'
-                    },
+                    body: send_data, //JSON.stringify(send_data),
                     credentials: 'include'
                 });
                 console.log(response.status, response.status == 500)
-                console.log('response',response)
+                console.log('response', response)
+                const data = await response.json();
+                console.log('data', data)
                 // const data = await response.json();
                 // console.log('response.data', data)
                 if (response.status === 500) {
-                console.log('i`m error')
-                throw new Error(`HTTP error! status: ${response.status}`);
+                    console.log('i`m error')
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 // if (data?.error) {
                 //     // form.reset();

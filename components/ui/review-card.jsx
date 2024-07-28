@@ -6,7 +6,7 @@ import { RateUI } from "./rate";
 import CarouselWithOpenFullscreen from "../carousel-with-open-fullscreen";
 
 
-const reviewCardVariants = cva("ProductCard flex-col cursor-default justify-start items-start gap-6 flex rounded-lg", {
+const reviewCardVariants = cva("ReviewCard flex-col cursor-default justify-start items-start gap-6 flex rounded-lg", {
     variants: {
         variant: {
             default: "bg-white text-black shadow-lg shadow-inner transition-colors duration-700"
@@ -65,30 +65,44 @@ const ReviewCardContent = React.forwardRef(({ className, item, ...props }, ref) 
     `;
     return (
         <div className={"ReviewContent min-h-24 space-y-2 flex-col justify-center items-start gap-1 flex py-2 px-14 " + className} ref={ref} {...props}>
-            <div className="Advantages space-y-2">
+            {item?.advantages && <div className="Advantages space-y-2">
                 <p className="font-bold w-fit">Advantages</p>
                 <p className="whitespace-pre-wrap w-fit">
-                    {text.trim().replace(/^\s+/gm, '')}
+                    {/* {text.trim().replace(/^\s+/gm, '')} */}
+                    {item?.advantages}
                 </p>
-            </div>
-            <div className="Disadvantages space-y-2">
+            </div>}
+            {item?.disadvantages && <div className="Disadvantages space-y-2">
                 <p className="font-bold w-fit">Disadvantages</p>
                 <p className="whitespace-pre-wrap w-fit">
-                    {`без неожиданностей`.replace(/^\s+/gm)}
-                </p>
-            </div>
+                    {/* {`без неожиданностей`.replace(/^\s+/gm)} */}
+                    {item?.disadvantages}
 
-            <div className="comments py-2">
-                <p className="whitespace-pre-wrap">
-                    Очень классный товар, покупаю уже 5 раз, всем доволен и кайфую
                 </p>
-            </div>
+            </div>}
+
+            {item?.comments && <div className="comments py-2">
+                <p className="whitespace-pre-wrap">
+                    {item?.comments}
+                </p>
+            </div>}
         </div>
     );
 });
 ReviewCardContent.displayName = "ReviewCardContent";
 
 const ReviewCardPhoto = React.forwardRef(({ className, items, route, cover, ...props }, ref) => {
+    console.log('items')
+    console.log('items', items)
+    const items_edited = items.reduce(([acc, val, ind]) => {
+        console.log('val', val)
+        acc += {
+            src: val?.photo,
+            alt: 'ImageReview' + ind
+        }
+        return acc;
+    }, [])
+    console.log('items_edited', items_edited)
     return (
         <div className={"ReviewCardPhoto group relative w-full h-36 flex gap-2 px-2 " + (className ? className : '')} ref={ref} {...props}>
             <CarouselWithOpenFullscreen slidesToShow={3} loop={false} items={[{ src: '/hover_image.jpg', alt: 'Image 1' },
