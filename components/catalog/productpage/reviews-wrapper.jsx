@@ -52,7 +52,7 @@ const ReviewsWrapper = ({ fetch_route, item_id }) => {
                     <section className="space-y-6">
                         {items && Object.values(items).map((item, indx) => (
                             <ReviewCard key={indx}>
-                            <ReviewCardHeader src_avatar={'/hover_image.jpg'} />
+                            <ReviewCardHeader rate={item.grade} src_avatar={'/hover_image.jpg'} />
                             <ReviewCardContent item={item} />
                             {item.photos.length ? 
                                 <ReviewCardPhoto items={item.photos} route={process.env.REACT_APP_API_URL_CLIENT} />
@@ -61,16 +61,7 @@ const ReviewsWrapper = ({ fetch_route, item_id }) => {
                             }
                         </ReviewCard>
                         ))}
-                        {/* <ReviewCard >
-                            <ReviewCardHeader src_avatar={'/hover_image.jpg'} />
-                            <ReviewCardContent />
-                            <ReviewCardPhoto items={items} route={process.env.REACT_APP_API_URL_CLIENT} />
-                        </ReviewCard>
-                        <ReviewCard >
-                            <ReviewCardHeader src_avatar={'/hover_image.jpg'} />
-                            <ReviewCardContent />
-                            <ReviewCardPhoto items={items} route={process.env.REACT_APP_API_URL_CLIENT} />
-                        </ReviewCard> */}
+                        
                     </section>
                 </div>
                 <div className="rigthSide order-1 lg:order-2">

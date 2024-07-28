@@ -31,7 +31,7 @@ const ReviewCard = React.forwardRef(({ className, variant, size, seen_style, chi
 });
 ReviewCard.displayName = "ReviewCard";
 
-const ReviewCardHeader = React.forwardRef(({ className, src_avatar, ...props }, ref) => {
+const ReviewCardHeader = React.forwardRef(({ className, src_avatar, rate, ...props }, ref) => {
     return (
         <div className={"CardHeader w-full h-1/5 px-4 py-2 flex justify-between items-center" + (className ? className : '')} ref={ref} {...props}>
             <div className="userBlock flex items-center gap-4">
@@ -51,7 +51,7 @@ const ReviewCardHeader = React.forwardRef(({ className, src_avatar, ...props }, 
                 <span>
                     26.04.2024
                 </span>
-                <RateUI disabled defaultValue={4} />
+                <RateUI disabled defaultValue={rate} />
             </div>
         </div>
     );
@@ -92,27 +92,18 @@ const ReviewCardContent = React.forwardRef(({ className, item, ...props }, ref) 
 ReviewCardContent.displayName = "ReviewCardContent";
 
 const ReviewCardPhoto = React.forwardRef(({ className, items, route, cover, ...props }, ref) => {
-    console.log('items')
-    console.log('items', items)
-    const items_edited = items.reduce(([acc, val, ind]) => {
-        console.log('val', val)
-        acc += {
+    const items_edited = items.reduce((acc, val, ind) => {
+        acc.push({
             src: val?.photo,
             alt: 'ImageReview' + ind
-        }
+        })
         return acc;
     }, [])
-    console.log('items_edited', items_edited)
     return (
         <div className={"ReviewCardPhoto group relative w-full h-36 flex gap-2 px-2 " + (className ? className : '')} ref={ref} {...props}>
-            <CarouselWithOpenFullscreen slidesToShow={3} loop={false} items={[{ src: '/hover_image.jpg', alt: 'Image 1' },
-            { src: '/for_all_items.jpg', alt: 'Image 2' },
-            { src: '/hover_image.jpg', alt: 'Image 3' },
-            { src: '/435x366.png', alt: 'Image 4' },
-            { src: '/main_page/main_photo.jpg', alt: 'Image 5' },
-            { src: '/for_all_items.jpg', alt: 'Image 6' },
-
-            ]} />
+            <CarouselWithOpenFullscreen slidesToShow={3} loop={false} items={
+                items_edited
+            } />
         </div>
     );
 });
