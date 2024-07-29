@@ -6,13 +6,13 @@ export const NewPasswordSchema = z
         password: z.string().min(6, {
             message: "Please enter a new password containing at least 6 characters",
         }),
-        passwordConfirmation: z.string().min(6, {
+        password_confirm: z.string().min(6, {
             message: "Please confirm your password using at least 6 characters.",
         }),
     })
-    .refine((data) => data.password === data.passwordConfirmation, {
+    .refine((data) => data.password === data.password_confirm, {
         message: "Password mismatch.",
-        path: ["passwordConfirmation"],
+        path: ["password_confirm"],
     });
 
 export const ChangePasswordSchema = z
@@ -35,6 +35,7 @@ export const ResetSchema = z.object({
     telNo: z.string().refine((data) => validator.isMobilePhone(data), {
         message: "Invalid Phone number"
     }),
+    code: z.optional(z.string()),
 });
 
 

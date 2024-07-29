@@ -11,10 +11,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 // import { newPassword } from '@/actions/new-password'
 import { useRouter } from 'next/navigation'
 import NotifyMessage from "../messages/notify-message";
-const NewPasswordForm = () => {
+const NewPasswordForm = ({ fetch_route }) => {
     const router = useRouter()
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
+    const [success, setSuccess] = useState(false);
     const [notifyMes, setNotifyMes] = useState("");
     const [stateNotify, setStateNotify] = useState("");
     const [isPending, startTransition] = useTransition();
@@ -22,30 +23,69 @@ const NewPasswordForm = () => {
         resolver: zodResolver(NewPasswordSchema),
         defaultValues: {
             password: "",
-            passwordConfirmation: "",
+            password_confirm: "",
         },
         mode: 'onTouched'
     });
     const onSubmit = (values) => {
-        startTransition(() => {
-            newPassword(values, token).then((data) => {
-            //     if(data?.error){
-            //         setNotifyMes(data.error);
-            //         setStateNotify('error');
-            //     }
-            //     if(data?.success){
-            //         setNotifyMes(data.success);
-            //         setStateNotify('success');
-                    // setTimeout(() => {
-                    //     router.push('/auth/login');
-                    // }, 5000)
-            //     }
-            });
+        startTransition(async () => {
+            try {
+                console.log('values', values)
+                values = {
+                    ...values,
+                    token: token
+                }
+                let response = await fetch(`${fetch_route}/api/new-password/`, {
+                    method: "POST",
+                    body: JSON.stringify(values),
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    credentials: 'include'
+                })
+
+                if (response.status === 500) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                console.log('response', response)
+                console.log('response.headers', response.headers.get('Set-Cookie'))
+                const data = await response.json();
+                console.log('response.data', data)
+                if (data?.error) {
+                    // form.reset();
+                    console.log(data?.message)
+                    Object.entries(data?.message)?.map(([key, value]) => {
+                        console.log(key, 'key', value, 'value')
+                        form.setError(key, { type: 'manual', message: value })
+
+                    })
+                    setNotifyMes('Invalid data! Check data');
+                    setStateNotify('error');
+                }
+                if (data?.success) {
+                    console.log('success')
+                    form.reset();
+                    setSuccess(true)
+                    setNotifyMes('Пароль успешно изменен! Переход к форме для входа');
+                    setStateNotify('success');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                // Обработка ошибки
+                setNotifyMes('Registration failed! Error on server');
+                setStateNotify('error');
+            }
         });
         form.reset();
         setNotifyMes("");
         setStateNotify("");
     };
+
+    if (success) {
+        setTimeout(() => {
+            window.location.href = '/auth/login'
+        }, 500)
+    }
     return (
         <CardWrapper headerTitle="Password recovery" headerLabel="Enter a new password">
             <Form {...form}>
@@ -54,22 +94,22 @@ const NewPasswordForm = () => {
 
                         <FormField control={form.control} name="password" render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Password</FormLabel>
+                                <FormLabel>New Password</FormLabel>
                                 <FormControl>
-                                    <PasswordInput {...field} disabled={isPending} type="password" placeholder="******"/>
+                                    <PasswordInput {...field} disabled={isPending} type="password" placeholder="******" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
-                        )}/>
-                        <FormField control={form.control} name="passwordConfirmation" render={({ field }) => (
+                        )} />
+                        <FormField control={form.control} name="password_confirm" render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Confirm the password</FormLabel>
                                 <FormControl>
-                                    <PasswordInput {...field} disabled={isPending} type="password" placeholder="******"/>
+                                    <PasswordInput {...field} disabled={isPending} type="password" placeholder="******" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
-                        )}/>
+                        )} />
                     </div>
                     {notifyMes && <NotifyMessage message={notifyMes} state={stateNotify}></NotifyMessage>}
 
