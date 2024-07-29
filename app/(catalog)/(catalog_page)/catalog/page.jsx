@@ -3,10 +3,17 @@ import CatalogItemsWrapper from '@/components/catalog/catalog-items-wrapper';
 import NoData from '@/components/no-data';
 import React from 'react'
 
-const CatalogMainPage = async () => {
-    const route = `${process.env.REACT_APP_API_URL_CLIENT}/api/items?populate=general_photos,colors_sizes&format=json`;
-    
-    const items = await getItems({ pageParam: 1, catalog_slug: "allitems", route: process.env.REACT_APP_API_URL + `/api/items?populate=general_photos,colors_sizes&format=json` });
+const CatalogMainPage = async ({ searchParams }) => {
+    let route = `${process.env.REACT_APP_API_URL_CLIENT}/api/items?populate=general_photos,colors_sizes&format=json`;
+    let routeServer = process.env.REACT_APP_API_URL + `/api/items?populate=general_photos,colors_sizes&format=json`;
+    if(searchParams){
+  
+      Object.entries(searchParams).map(([key, value]) => {
+        route += `&${key}=${value}`;
+        routeServer += `&${key}=${value}`;
+      })
+    }
+    const items = await getItems({ pageParam: 1, catalog_slug: "allitems", route: routeServer });
 
     if (items.length === 0)
       return (

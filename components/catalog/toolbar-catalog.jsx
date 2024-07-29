@@ -39,7 +39,7 @@ const ToolbarCatalog = ({ route }) => {
         for (const [key, value] of searchParams.entries()) {
             url_search += `&${key}=${value}`;
         }
-        fetch(`${route}/api/${category_route}/items?format=json` + url_search, {
+        fetch(`${route}/api/${category_route.length === 0 ? '' : category_route + '/'}items?format=json` + url_search, {
             next: { revalidate: 100 } // 3600
         })
             .then(response => response.json())
@@ -193,7 +193,7 @@ const ToolbarCatalog = ({ route }) => {
                     </form>
                 </Form>
             </section>
-            {filtersView && <FiltersBar ClosedDialog={closedDialog} />}
+            {filtersView && <FiltersBar fetch_route={route} ClosedDialog={closedDialog} />}
         </>
     );
 };

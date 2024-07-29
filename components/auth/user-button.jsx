@@ -16,8 +16,8 @@ const UserButton = () => {
     useEffect(() => {
         setState(session); // Force re-render on session state change
     }, [session]);
-    console.log(pathname, 'pathname')
-    console.log(session, 'session in userButton')
+    // console.log(pathname, 'pathname')
+    // console.log(session, 'session in userButton')
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger className=" hover:shadow-black hover:shadow-inner">

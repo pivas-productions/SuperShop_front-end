@@ -14,7 +14,7 @@ const AddToCartCard = ({ fetch_route, color = [], size = [], id }) => {
     const router = useRouter()
     const pathname = usePathname();
     
-    console.log(color, 'color', size, 'size', id)
+    // console.log(color, 'color', size, 'size', id)
     const addToCart = (e) => {
         e.preventDefault()
         console.log('add to cart', id, color?.[0], size?.[0])

@@ -12,11 +12,12 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 // ['анальные стимуляторы', 'вагинальные шарики', 'вакуумный стимулятор', 'вибратор', 'вибратор-кролик', 'вибратор-мини', 'вибробелье', 'вибромассажер', 'вибропули', 'виброяйца', 'возбуждающая соль для ванн', 'возбуждающие ароматы', 'возбуждающие гели и бальзамы', 'зажимы', 'лубрикаты и смазки', 'масла для эротического массажа', 'мастурбатор', 'менструальные чаши', 'наручники и поножи', 'отчиститель для интимных игрушек', 'плети, стеки и кнуты', 'презервативы', 'ремни и протупеи', 'стимуляторы', 'страпон', 'съедобная косметика', 'тренажер кегеля', 'украшения для тела', 'фаллоимитатор', 'феромоны', 'эрекционное кольцо', 'эротические кляпы', 'эротические маски и повязки', 'эротические свечи', 'эротические наборы', 'эротические подарочные наборы', 'эротическое белье']
 const vremCategoryType = ['anal stimulator', 'Vaginal balls', 'vacuum stimulator', 'vibrator', 'vibrator-coal', 'vibrator-mini', 'vibroblet', 'vibromasier', 'vibro-lane', 'vibro-yield', 'exciting baths for baths', 'Exciting aromas', 'exciting gels and balms', 'clamps', 'lubricates and lubricants', 'oil for erotic massage', 'masturbator', 'menstrual bowls', 'handcuffs and chisels', 'refined to intimate toys', 'Waps, stacks and whips', 'condoms', 'belts and producers', 'stimulants', 'strapon', 'edible cosmetics', 'Kegel Trainer', 'Decorations for the Body', 'Fallomitator', 'Feromens', 'Erective ring', 'erotic gags', 'erotic masks and dressings', 'erotic candles', 'erotic sets', 'erotic gift sets', 'erotic linen']
 
-const FiltersBar = ({ ClosedDialog }) => {
+const FiltersBar = ({ fetch_route, ClosedDialog }) => {
     const searchParams = useSearchParams();
     const { replace } = useRouter();
     const pathname = usePathname();
 
+    const [maxPriceVal, setMaxPriceVal] = useState(0)
     const [countSearch, setCountSearch] = useState(false)
     const [categoryTypeList, setCategoryTypeList] = useState(vremCategoryType.slice(0, 5))
     const [openShowAll, setOpenShowAll] = useState({
@@ -31,29 +32,29 @@ const FiltersBar = ({ ClosedDialog }) => {
         // inStock: false,
         // price: [0, 1000]
     }
-    if(searchParams?.get('with_discount')){
+    if (searchParams?.get('with_discount')) {
 
         defValue.withDiscount = true;
-    }else{
+    } else {
         defValue.withDiscount = false;
     }
-    if(searchParams?.get('in_stock')){
+    if (searchParams?.get('in_stock')) {
         defValue.inStock = true;
 
-    }else{
+    } else {
         defValue.inStock = false;
     }
-    if(searchParams?.get('min_price') && searchParams?.get('max_price')){
+    if (searchParams?.get('min_price') && searchParams?.get('max_price')) {
         defValue.price = [searchParams?.get('min_price'), searchParams?.get('max_price')];
 
-    }else{
-        if(searchParams?.get('min_price')){
-            defValue.price = [searchParams?.get('min_price'), 999999];
+    } else {
+        if (searchParams?.get('min_price')) {
+            defValue.price = [searchParams?.get('min_price'), maxPriceVal];
 
-        }else if(searchParams?.get('max_price'))
+        } else if (searchParams?.get('max_price'))
             defValue.price = [0, searchParams?.get('max_price')];
         else
-            defValue.price = [0, 999999];
+            defValue.price = [0, maxPriceVal];
     }
 
     if (vremCategoryType) {
@@ -70,11 +71,29 @@ const FiltersBar = ({ ClosedDialog }) => {
     });
     const watchedFields = form.watch();
 
-    
+    useEffect(() => {
+        const params = new URLSearchParams(searchParams);
+        console.log('pathname', pathname.replace('/catalog', ''))
+        console.log(`${fetch_route}/api${pathname.replace('/catalog', '').length ? '/categories' + pathname.replace('/catalog', '') + '/' : '/'}items/max_price/?${params}`)
+        fetch(`${fetch_route}/api${pathname.replace('/catalog', '').length ? '/categories' + pathname.replace('/catalog', '') + '/' : '/'}items/max_price/?${params}`, {
+            cache: 'no-store'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('data', data)
+
+                setMaxPriceVal(data?.max_price > 0 ? data.max_price : 0);
+                form.setValue('price', [0,  data?.max_price > 0 ? data.max_price : 0])
+                console.log('data price setted', data?.max_price > 0 ? data.max_price : 0)
+                
+            });
+
+    }, [fetch_route, searchParams, pathname, form])
+
     const onSubmit = useCallback((values) => {
         // console.log(values)
         startTransition(() => {
-            const defaultprice = [0, 999999];
+            const defaultprice = [0, maxPriceVal];
             const params = new URLSearchParams(searchParams);
 
             if (values.withDiscount) {
@@ -95,7 +114,6 @@ const FiltersBar = ({ ClosedDialog }) => {
                     params.set('min_price', values.price[0]);
                 else {
                     params.delete('min_price');
-
                 }
 
                 if (defaultprice[1] != values.price[1])
@@ -108,11 +126,10 @@ const FiltersBar = ({ ClosedDialog }) => {
                 params.delete('min_price');
                 params.delete('max_price');
             }
-            
 
             replace(`${pathname}?${params.toString()}`);
         });
-    }, [pathname, replace, searchParams]);
+    }, [pathname, replace, searchParams, maxPriceVal]);
 
     useEffect(() => {
         // Автоматически отправляем форму при изменении любого поля
@@ -179,7 +196,7 @@ const FiltersBar = ({ ClosedDialog }) => {
                                 <FormItem className='text-center !space-y-6 space-x-6'>
                                     <FormLabel className='!text-lg'>Price Adjust</FormLabel>
                                     <FormControl>
-                                        <Slider {...field} value={field.value} max={999999} disabled={isPending} range draggableTrack={true} />
+                                        <Slider {...field} value={field.value} max={maxPriceVal} disabled={isPending} range draggableTrack={true} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

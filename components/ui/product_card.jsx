@@ -54,7 +54,7 @@ const ProductCardPhoto = React.forwardRef(({ className, src_main, src_hover, ...
 ProductCardPhoto.displayName = "ProductCardPhoto";
 
 const ProductCardContent = React.forwardRef(({ className, fetch_route, item, ...props }, ref) => {
-    console.log(item, 'item')
+    // console.log(item, 'item')
     return (
         <div className={"Copy self-stretch h-24 flex-col justify-center items-start gap-1 xl:gap-2 flex py-2 lg:p-2" + (className ? className : "")} ref={ref} {...props}>
             <div className="FeaturedProduct self-stretch  text-black text-lg lg:text-2xl font-medium font-['Inter'] leading-loose">{item.name}</div>
