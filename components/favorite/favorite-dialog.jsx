@@ -65,7 +65,7 @@ export const FavoriteDialog = ({fetch_route}) => {
                     <FaPlus className="text-3xl" />
                 </div>
             </DialogTrigger>
-            <DialogContent variant={'editDialog'}>
+            <DialogContent variant={'editDialog'} className="z-20">
                 <DialogTitle className="w-full rounded-t-md flex justify-between" >
                     <span className='text-2xl font-semibold'>Новый список</span>
                     <DialogClose className={'rounded-full'} />

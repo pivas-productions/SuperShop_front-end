@@ -64,7 +64,7 @@ OrderCardItem.displayName = "OrderCardItem";
 const OrderCardLinkPhoto = React.forwardRef(({ className, href, src_main, ...props }, ref) => {
     return (
         <Link href={href} className={"cursor-pointer" + (className ? className : "")} ref={ref} {...props} >
-            <Image width={200} height={100} className="m-2 Image transition-all w-36 h-36 rounded-lg" src={src_main} alt="" />
+            <Image width={200} height={100} className="m-2 Image transition-all w-36 h-36 rounded-lg" src={src_main ? src_main : "/no_photo.jpg"} alt="" />
         </Link>
     );
 });
