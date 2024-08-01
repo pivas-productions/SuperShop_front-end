@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import RateProgressBar from './rate-progress-bar'
 import CreateReviews from './create-reviews'
 
-const ReviewsWrapper = ({ fetch_route, item_id }) => {
+const ReviewsWrapper = ({ fetch_route, defRating, item_id }) => {
     const [items, setItems] = useState(null);
     const [allphotos, setAllPhotos] = useState(null);
     useEffect(() => {
@@ -82,7 +82,7 @@ const ReviewsWrapper = ({ fetch_route, item_id }) => {
                     </section>
                 </div>
                 <div className="rigthSide order-1 lg:order-2">
-                    <RateProgressBar avgRate={4.7} maxRate={5} />
+                    <RateProgressBar avgRate={defRating} maxRate={5} />
                 </div>
             </div>
         </>

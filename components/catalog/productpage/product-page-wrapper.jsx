@@ -3,7 +3,6 @@ import React, { useRef } from 'react'
 import Breadcrumps from './breadcrumps'
 import { LinkBack } from '@/components/ui/back-link'
 import ImageCarousel from './image-carousel'
-import Link from 'next/link';
 import { FaStar } from 'react-icons/fa';
 import { AccordionContent, AccordionItem, AccordionRoot, AccordionTrigger } from '@/components/ui/accordion';
 import ProductPageForm from './product-page-form';
@@ -21,7 +20,7 @@ const ProductPageWrapper = ({ route, items, images }) => {
       reviewsTrigger.current?.click();
   };
 
-  // console.log(items, 'items in product page wrapper')
+  console.log(items, 'items in product page wrapper')
   return (
     <>
       <div className="w-full px-4 2xl:px-12 py-20 md:py-16 lg:mt-8 flex-col justify-start items-start gap-6 inline-flex">
@@ -45,7 +44,7 @@ const ProductPageWrapper = ({ route, items, images }) => {
               <div className="w-full justify-around items-center inline-flex ">
                 <button onClick={GoToReviews} className="Mark flex items-center align-middle gap-1">
                   <FaStar className='w-5 h-5' fill='orange' />
-                  <span>4.5</span>
+                  <span>{items?.rating}</span>
                   <span className='ml-4 underline'>38 отзывов</span>
                 </button>
                 <div className="blockbutton inline-flex gap-2">
@@ -114,7 +113,7 @@ const ProductPageWrapper = ({ route, items, images }) => {
                 <span className="w-full">Reviews</span>
               </AccordionTrigger>
               <AccordionContent className={' overflow-hidden'}>
-                <ReviewsWrapper fetch_route={route} item_id={items?.id}/>
+                <ReviewsWrapper fetch_route={route} defRating={items?.rating} item_id={items?.id}/>
               </AccordionContent>
             </AccordionItem>
           </AccordionRoot>

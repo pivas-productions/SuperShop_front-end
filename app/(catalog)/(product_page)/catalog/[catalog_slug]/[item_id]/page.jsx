@@ -38,7 +38,7 @@ const ProductIdPage = async ({ params }) => {
       }
     )
   }
-  console.log(images, 'images')
+  // console.log(images, 'images')
   return (
     <main className='rounded w-screen min-h-screen text-center '>
       <Suspense fallback={<Loading />}>
