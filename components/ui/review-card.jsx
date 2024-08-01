@@ -31,7 +31,7 @@ const ReviewCard = React.forwardRef(({ className, variant, size, seen_style, chi
 });
 ReviewCard.displayName = "ReviewCard";
 
-const ReviewCardHeader = React.forwardRef(({ className, src_avatar, rate, ...props }, ref) => {
+const ReviewCardHeader = React.forwardRef(({ className, src_avatar, username, rate, createdAt, ...props }, ref) => {
     return (
         <div className={"CardHeader w-full h-1/5 px-4 py-2 flex justify-between items-center" + (className ? className : '')} ref={ref} {...props}>
             <div className="userBlock flex items-center gap-4">
@@ -45,11 +45,11 @@ const ReviewCardHeader = React.forwardRef(({ className, src_avatar, rate, ...pro
                         /> :
                         <FaUser className="h-8 w-8" />}
                 </span>
-                <span className="text-lg">UserName</span>
+                <span className="text-lg">{username}</span>
             </div>
             <div className="rightBlock space-x-4 text-center flex items-center">
                 <span>
-                    26.04.2024
+                    {(new Date(createdAt)).toLocaleDateString()}
                 </span>
                 <RateUI disabled defaultValue={rate} />
             </div>

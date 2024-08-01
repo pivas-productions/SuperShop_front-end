@@ -195,23 +195,15 @@ const CreateReviews = ({ fetch_route, item_id, item }) => {
                     console.log('i`m error')
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                // if (data?.error) {
-                //     // form.reset();
-                //     console.log(data?.message)
-                //     Object.entries(data?.message)?.map(([key, value]) => {
-                //         console.log(key, 'key', value, 'value')
-                //         form.setError(key, { type: 'manual', message: value })
+                if (response.status === 201) {
+                    form.reset();
+                    setNotifyMes('Отзыв успешно создан!');
+                    setStateNotify('success');
+                    setSuccess(true);
+                    location.reload();
 
-                //     })
-                //     setNotifyMes('Invalid data! Check data');
-                //     setStateNotify('error');
-                // }
-                // if (data?.success) {
-                //     form.reset();
-                //     setNotifyMes('Вы зарегистрированы! Переход на страницу авторизации...');
-                //     setStateNotify('success');
-                //     setSuccess(true)
-                // }
+                }
+                
             } catch (error) {
                 // Обработка ошибки
                 setNotifyMes('Registration failed! Error on server');
